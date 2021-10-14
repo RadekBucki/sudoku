@@ -3,18 +3,16 @@ import java.util.Random;
 public class SudokuBoard {
     private int[][] board = new int[9][9];
 
+    public SudokuBoard() {
+        fillBoard();
+    }
+
     public void fillBoard() {
         placeNumbers();
-        for (int i = 0;i < 9;i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
 
     public int getBoardFieldValue(int x,int y) {
-        return board[x-1][y-1];
+        return board[x][y];
     }
 
     private boolean placeNumbers() {
