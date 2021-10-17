@@ -4,6 +4,5 @@ public class Main {
         Greeter greeter = new Greeter();
         System.out.println(greeter.greet("world!"));
         SudokuBoard board = new SudokuBoard();
-        board.fillBoard();
     }
 }
