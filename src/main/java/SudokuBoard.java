@@ -19,17 +19,14 @@ public class SudokuBoard {
         int row = -1;
         int col = -1;
         boolean found = false;
-        for (int i = 0;i < 9;i++) {
+        outer: for (int i = 0;i < 9;i++) {
             for (int j = 0;j < 9;j++) {
                 if (board[i][j] == 0) {
                     row = i;
                     col = j;
                     found = true;
-                    break;
+                    break outer;
                 }
-            }
-            if (found) {
-                break;
             }
         }
         if (!found) {

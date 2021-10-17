@@ -23,10 +23,11 @@ class SudokuBoardTest {
         SudokuBoard board1 = new SudokuBoard();
         SudokuBoard board2 = new SudokuBoard();
         boolean isDifference = false;
-        for (int i = 0; i < 9; i++) {
+        outer: for (int i = 0; i < 9; i++) {
             for (int j = 0 ; j < 9; j++) {
-                if (board1.getBoardFieldValue(i,j) == board2.getBoardFieldValue(i,j)) {
+                if (board1.getBoardFieldValue(i,j) != board2.getBoardFieldValue(i,j)) {
                     isDifference = true;
+                    break outer;
                 }
             }
         }
