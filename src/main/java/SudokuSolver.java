@@ -1,3 +1,3 @@
 public interface SudokuSolver {
-    public void sudokuSolver(SudokuBoard board);
+    public void solve(SudokuBoard board);
 }

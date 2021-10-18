@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class BacktrackingSudokuSolver {
+public class BacktrackingSudokuSolver implements SudokuSolver {
     public void solve(SudokuBoard board) {
         placeNumbers(board);
     }
