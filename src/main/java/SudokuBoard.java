@@ -4,68 +4,36 @@ public class SudokuBoard {
     private int[][] board = new int[9][9];
 
     public SudokuBoard() {
-        fillBoard();
+        solveGame();
     }
 
-    public void fillBoard() {
-        placeNumbers();
+    public int get(int x, int y) {
+        if (x >= 0 && x <= 8 && y >= 0 && y <= 8) {
+            return board[x][y];
+        }
+        return -1;
     }
 
-    public int getBoardFieldValue(int x,int y) {
-        return board[x][y];
+    public void set(int x, int y, int value) {
+        if (x >= 0 && x <= 8 && y >= 0 && y <= 8 && value >= 0 && value <= 9) {
+            board[x][y] = value;
+        }
     }
 
-    private boolean placeNumbers() {
-        int row = -1;
-        int col = -1;
-        boolean found = false;
-        outer: for (int i = 0;i < 9;i++) {
-            for (int j = 0;j < 9;j++) {
-                if (board[i][j] == 0) {
-                    row = i;
-                    col = j;
-                    found = true;
-                    break outer;
-                }
-            }
-        }
-        if (!found) {
-            return true;
-        }
-        int[] numbers = {1,2,3,4,5,6,7,8,9};
-        //Fisher–Yates shuffle
-        Random random = new Random();
-        int temp;
-        int index;
-        for (int i = numbers.length - 1; i > 0; i--) {
-            index = random.nextInt(i + 1);
-            temp = numbers[i];
-            numbers[i] = numbers[index];
-            numbers[index] = temp;
-        }
-        for (int generated : numbers) {
-            if (check(row, col, generated)) {
-                board[row][col] = generated;
-                if (placeNumbers()) {
-                    return true;
-                } else {
-                    board[row][col] = 0;
-                }
-            }
-        }
-        return false;
+    public void solveGame() {
+        (new BacktrackingSudokuSolver()).solve(this);
     }
 
-    private boolean check(int row,int col,int generated) {
+    public boolean check(int row,int col,int generated) {
         //Check row
         for (int j = 0;j < 9;j++) {
-            if (board[row][j] == generated) {
+            if (get(row,j) == generated) {
                 return false;
             }
         }
         //Check column
         for (int j = 0;j < 9;j++) {
-            if (board[j][col] == generated) {
+            if (get(j,col) == generated) {
                 return false;
             }
         }
@@ -74,11 +42,13 @@ public class SudokuBoard {
         int boxColFirst = col - col % 3;
         for (int i = boxRowFirst;i < boxRowFirst + 3;i++) {
             for (int j = boxColFirst;j < boxColFirst + 3;j++) {
-                if (board[i][j] == generated) {
+                if (get(i,j) == generated) {
                     return false;
                 }
             }
         }
         return true;
     }
+
+
 }
