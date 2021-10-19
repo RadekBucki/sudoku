@@ -34,7 +34,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             numbers[index] = temp;
         }
         for (int generated : numbers) {
-            if (check(board,row, col, generated)) {
+            if (board.check(board,row, col, generated)) {
                 board.set(row,col,generated);
                 if (placeNumbers(board)) {
                     return true;
@@ -44,31 +44,5 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             }
         }
         return false;
-    }
-
-    private boolean check(SudokuBoard board,int row,int col,int generated) {
-        //Check row
-        for (int j = 0;j < 9;j++) {
-            if (board.get(row,j) == generated) {
-                return false;
-            }
-        }
-        //Check column
-        for (int j = 0;j < 9;j++) {
-            if (board.get(j,col) == generated) {
-                return false;
-            }
-        }
-        //Check square
-        int boxRowFirst = row - row % 3;
-        int boxColFirst = col - col % 3;
-        for (int i = boxRowFirst;i < boxRowFirst + 3;i++) {
-            for (int j = boxColFirst;j < boxColFirst + 3;j++) {
-                if (board.get(i,j) == generated) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

@@ -34,6 +34,28 @@ class SudokuBoardTest {
         assertTrue(isDifference);
     }
 
+    @Test
+    void setterPositiveTest() {
+        SudokuBoard board1 = new SudokuBoard();
+        board1.set(0,0,2);
+        int changed = board1.get(0,0);
+        assertEquals(changed,2);
+        board1.set(0,0,3);
+        changed = board1.get(0,0);
+        assertEquals(changed,3);
+    }
+
+    @Test
+    void setterNegativeTests() {
+        SudokuBoard board3 = new SudokuBoard();
+        board3.set(0,0,-1);
+        assertNotEquals(-1,board3.get(0,0));
+        board3.set(0,0,10);
+        assertNotEquals(10,board3.get(0,0));
+        board3.set(9,9,1);
+        assertNotEquals(1,board3.get(9,9));
+    }
+
     boolean checkBoxDuplicates(SudokuBoard board, int rowStart, int colStart) {
         int[] array = new int[9];
         int arrayIndex = 0;
