@@ -54,6 +54,14 @@ class SudokuBoardTest {
         assertNotEquals(10,board3.get(0,0));
         board3.set(9,9,1);
         assertNotEquals(1,board3.get(9,9));
+        board3.set(8,9,1);
+        assertNotEquals(1,board3.get(8,9));
+        board3.set(9,8,1);
+        assertNotEquals(1,board3.get(9,8));
+        board3.set(8,-1,1);
+        assertNotEquals(1,board3.get(8,-1));
+        board3.set(-1,8,1);
+        assertNotEquals(1,board3.get(-1,8));
     }
 
     boolean checkBoxDuplicates(SudokuBoard board, int rowStart, int colStart) {
