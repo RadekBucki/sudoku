@@ -24,16 +24,16 @@ public class SudokuBoard {
         (new BacktrackingSudokuSolver()).solve(this);
     }
 
-    public boolean check(SudokuBoard board,int row,int col,int generated) {
+    public boolean check(int row,int col,int generated) {
         //Check row
         for (int j = 0;j < 9;j++) {
-            if (board.get(row,j) == generated) {
+            if (get(row,j) == generated) {
                 return false;
             }
         }
         //Check column
         for (int j = 0;j < 9;j++) {
-            if (board.get(j,col) == generated) {
+            if (get(j,col) == generated) {
                 return false;
             }
         }
@@ -42,7 +42,7 @@ public class SudokuBoard {
         int boxColFirst = col - col % 3;
         for (int i = boxRowFirst;i < boxRowFirst + 3;i++) {
             for (int j = boxColFirst;j < boxColFirst + 3;j++) {
-                if (board.get(i,j) == generated) {
+                if (get(i,j) == generated) {
                     return false;
                 }
             }
