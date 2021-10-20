@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class SudokuBoard {
     private int[][] board = new int[9][9];
 
@@ -49,6 +47,4 @@ public class SudokuBoard {
         }
         return true;
     }
-
-
 }
