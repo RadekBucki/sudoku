@@ -1,7 +1,9 @@
 public class SudokuBoard {
     private int[][] board = new int[9][9];
+    private SudokuSolver sudokuSolver;
 
     public SudokuBoard() {
+        sudokuSolver = new BacktrackingSudokuSolver();
         solveGame();
     }
 
@@ -19,7 +21,7 @@ public class SudokuBoard {
     }
 
     public void solveGame() {
-        (new BacktrackingSudokuSolver()).solve(this);
+        sudokuSolver.solve(this);
     }
 
     public boolean check(int row,int col,int generated) {
