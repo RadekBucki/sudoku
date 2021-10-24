@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuBoardTest {
 
     @Test
-    void fillBoardCheckTest() {
+    void solveGameCheckTest() {
         SudokuBoard board = new SudokuBoard();
         for(int i = 0; i < 9; i++) {
             assertFalse(checkRowDuplicates(board, i));
@@ -19,7 +19,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void fillBoardRandomizeTest() {
+    void solveGameRandomizeTest() {
         SudokuBoard board1 = new SudokuBoard();
         SudokuBoard board2 = new SudokuBoard();
         boolean isDifference = false;
