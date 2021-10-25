@@ -2,8 +2,8 @@ public class SudokuBoard {
     private int[][] board = new int[9][9];
     private SudokuSolver sudokuSolver;
 
-    public SudokuBoard() {
-        sudokuSolver = new BacktrackingSudokuSolver();
+    public SudokuBoard(SudokuSolver solver) {
+        sudokuSolver = solver;
         solveGame();
     }
 
