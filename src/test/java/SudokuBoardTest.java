@@ -6,7 +6,7 @@ class SudokuBoardTest {
 
     @Test
     void solveGameCheckTest() {
-        SudokuBoard board = new SudokuBoard();
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         for(int i = 0; i < 9; i++) {
             assertFalse(checkRowDuplicates(board, i));
             assertFalse(checkColDuplicates(board, i));
@@ -20,8 +20,8 @@ class SudokuBoardTest {
 
     @Test
     void solveGameRandomizeTest() {
-        SudokuBoard board1 = new SudokuBoard();
-        SudokuBoard board2 = new SudokuBoard();
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
         boolean isDifference = false;
         outer: for (int i = 0; i < 9; i++) {
             for (int j = 0 ; j < 9; j++) {
@@ -36,7 +36,7 @@ class SudokuBoardTest {
 
     @Test
     void setterPositiveTest() {
-        SudokuBoard board1 = new SudokuBoard();
+        SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
         board1.set(0,0,2);
         int changed = board1.get(0,0);
         assertEquals(changed,2);
@@ -47,7 +47,7 @@ class SudokuBoardTest {
 
     @Test
     void setterNegativeTests() {
-        SudokuBoard board3 = new SudokuBoard();
+        SudokuBoard board3 = new SudokuBoard(new BacktrackingSudokuSolver());
         board3.set(0,0,-1);
         assertNotEquals(-1,board3.get(0,0));
         board3.set(0,0,10);

@@ -2,13 +2,13 @@ public class SudokuBoard {
     private SudokuField[][] board = new SudokuField[9][9];
     private SudokuSolver sudokuSolver;
 
-    public SudokuBoard() {
+    public SudokuBoard(SudokuSolver solver) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = new SudokuField();
             }
         }
-        sudokuSolver = new BacktrackingSudokuSolver();
+        sudokuSolver = solver;
         solveGame();
     }
 
