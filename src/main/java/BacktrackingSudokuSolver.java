@@ -34,7 +34,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
             numbers[index] = temp;
         }
         for (int generated : numbers) {
-            if (board.check(row, col, generated)) {
+            if (board.checkBoard(row, col, generated)) {
                 board.set(row,col,generated);
                 if (placeNumbers(board)) {
                     return true;
