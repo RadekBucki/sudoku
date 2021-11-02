@@ -1,11 +1,25 @@
 public class SudokuBoard {
     private SudokuField[][] board = new SudokuField[9][9];
+    private SudokuRow[] rows = new SudokuRow[9];
+    private SudokuColumn[] columns = new SudokuColumn[9];
+    private SudokuBox[][] boxes = new SudokuBox[3][3];
     private SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver solver) {
         for (int i = 0; i < 9; i++) {
+            rows[i] = new SudokuRow();
+            columns[i] = new SudokuColumn();
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boxes[i][j] = new SudokuBox();
+            }
+        }
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                board[i][j] = new SudokuField();
+                int boxRow = (i - i % 3) / 3;
+                int boxCol = (j - j % 3) / 3;
+                board[i][j] = new SudokuField(rows[i],columns[j],boxes[boxRow][boxCol]);
             }
         }
         sudokuSolver = solver;

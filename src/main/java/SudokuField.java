@@ -4,8 +4,11 @@ public class SudokuField {
     private SudokuRow row;
     private SudokuBox box;
 
-    public SudokuField() {
+    public SudokuField(SudokuRow row,SudokuColumn column,SudokuBox box) {
         this.value = 0;
+        this.row = row;
+        this.box = box;
+        this.column = column;
     }
 
     public int getFieldValue() {
