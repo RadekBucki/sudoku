@@ -1,5 +1,8 @@
 public class SudokuField {
-    int value;
+    private int value;
+    private SudokuColumn column;
+    private SudokuRow row;
+    private SudokuBox box;
 
     public SudokuField() {
         this.value = 0;
