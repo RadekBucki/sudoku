@@ -1,3 +1,5 @@
+package sudoku;
+
 public class SudokuField {
     private int value;
 

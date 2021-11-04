@@ -1,3 +1,5 @@
+import sudoku.SudokuField;
+import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,7 +10,7 @@ class SudokuGroupTest {
     void verifyPositiveTest() {
         SudokuField[] testValues = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
-            testValues[i]=new SudokuField(i+1);
+            testValues[i] = new SudokuField(i + 1);
         }
         SudokuRow sudokuGroup = new SudokuRow(testValues);
         assertTrue(sudokuGroup.verify());
@@ -18,7 +20,7 @@ class SudokuGroupTest {
     void verifyNegativeTest() {
         SudokuField[] testValues = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
-            testValues[i]=new SudokuField(1);
+            testValues[i] = new SudokuField(1);
         }
         SudokuRow sudokuGroup = new SudokuRow(testValues);
         assertFalse(sudokuGroup.verify());
