@@ -1,4 +1,7 @@
+package sudoku.solver;
+
 import java.util.Random;
+import sudoku.SudokuBoard;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
     public void solve(SudokuBoard board) {
@@ -9,9 +12,10 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
         int row = -1;
         int col = -1;
         boolean found = false;
-        outer: for (int i = 0;i < 9;i++) {
-            for (int j = 0;j < 9;j++) {
-                if (board.get(i,j) == 0) {
+
+outer:  for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.get(i, j) == 0) {
                     row = i;
                     col = j;
                     found = true;
@@ -22,7 +26,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
         if (!found) {
             return true;
         }
-        int[] numbers = {1,2,3,4,5,6,7,8,9};
+        int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         //Fisher–Yates shuffle
         Random random = new Random();
         int temp;
@@ -35,11 +39,11 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
         }
         for (int generated : numbers) {
             if (board.check(row, col, generated)) {
-                board.set(row,col,generated);
+                board.set(row, col, generated);
                 if (placeNumbers(board)) {
                     return true;
                 } else {
-                    board.set(row,col,0);
+                    board.set(row, col, 0);
                 }
             }
         }

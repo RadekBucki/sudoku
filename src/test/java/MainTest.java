@@ -6,6 +6,6 @@ public class MainTest {
     void testMain() {
         Main main = new Main();
         String[] args = {};
-        main.main(args);
+        Main.main(args);
     }
 }
