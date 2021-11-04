@@ -15,4 +15,8 @@ public abstract class SudokuGroup {
         }
         return true;
     }
+
+    public SudokuField getField(int index) {
+        return values[index];
+    }
 }

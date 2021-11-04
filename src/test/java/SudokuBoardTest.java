@@ -64,6 +64,41 @@ class SudokuBoardTest {
         assertNotEquals(1,board3.get(-1,8));
     }
 
+    @Test
+    void getRowTest() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        for (int i = 0; i < 9; i++) {
+            SudokuRow row = board.getRow(i);
+            for (int j = 0; j < 9; j++) {
+                assertEquals(board.get(i,j),row.getField(j).getFieldValue());
+            }
+        }
+    }
+
+    @Test
+    void getColumnTest() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        for (int i = 0; i < 9; i++) {
+            SudokuColumn column = board.getColumn(i);
+            for (int j = 0; j < 9; j++) {
+                assertEquals(board.get(i,j),column.getField(j).getFieldValue());
+            }
+        }
+    }
+
+    @Test
+    void getBoxTest() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                SudokuBox box = board.getBox(i,j);
+                for (int k = 0; k < 9; k++) {
+                        assertEquals(board.get(i * 3 + k / 3, j * 3 + k % 3),box.getField(k).getFieldValue());
+                }
+            }
+        }
+    }
+
     boolean checkBoxDuplicates(SudokuBoard board, int rowStart, int colStart) {
         int[] array = new int[9];
         int arrayIndex = 0;

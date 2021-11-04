@@ -52,7 +52,36 @@ public class SudokuBoard {
         sudokuSolver.solve(this);
     }
 
-    public boolean checkBoard(int row, int col, int generated) {
+    private boolean checkBoard() {
+        for (int i = 0; i < 9; i++) {
+            if (!(rows[i].verify() && columns[i].verify())) {
+                return false;
+            }
+        }
+
+        for (SudokuBox[] boxRow : boxes) {
+            for (SudokuBox box : boxRow) {
+                if (!box.verify()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public SudokuRow getRow(int y) {
+        return rows[y];
+    }
+
+    public SudokuColumn getColumn(int x) {
+        return columns[x];
+    }
+
+    public SudokuBox getBox(int x, int y) {
+        return boxes[x][y];
+    }
+
+    public boolean check(int row, int col, int generated) {
         //Check row
         for (int j = 0; j < 9; j++) {
             if (get(row, j) == generated) {
