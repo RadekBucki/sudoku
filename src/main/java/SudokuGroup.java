@@ -1,5 +1,5 @@
 public abstract class SudokuGroup {
-    private SudokuField[] values = new SudokuField[9];
+    private SudokuField[] values;
 
     public SudokuGroup(SudokuField[] values) {
         this.values = values;
@@ -8,7 +8,7 @@ public abstract class SudokuGroup {
     public boolean verify() {
         for (int i = 0; i < values.length; i++) {
             for (int j = i + 1;j < values.length;j++) {
-                if (values[i] == values[j]) {
+                if (values[i].getFieldValue() == values[j].getFieldValue()) {
                     return false;
                 }
             }
