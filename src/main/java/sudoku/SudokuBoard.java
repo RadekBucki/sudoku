@@ -18,11 +18,12 @@ public class SudokuBoard {
                 board[i][j] = new SudokuField();
             }
         }
-        // Create rows and columns
         for (int i = 0; i < 9; i++) {
-            rows[i] = new SudokuRow(board[i]);
             SudokuField[] column = new SudokuField[9];
-            System.arraycopy(board[i], 0, column, 0, 9);
+            for (int j = 0; j < 9; j++) {
+                column[j] = board[j][i];
+            }
+            rows[i] = new SudokuRow(board[i]);
             columns[i] = new SudokuColumn(column);
         }
         // Create boxes

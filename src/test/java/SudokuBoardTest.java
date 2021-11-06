@@ -87,7 +87,7 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             SudokuColumn column = board.getColumn(i);
             for (int j = 0; j < 9; j++) {
-                assertEquals(board.get(i, j), column.getField(j).getFieldValue());
+                assertEquals(board.get(j, i), column.getField(j).getFieldValue());
             }
         }
     }
