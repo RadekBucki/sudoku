@@ -64,7 +64,7 @@ class SudokuBoardTest {
         assertEquals(3, boardNotSolved.get(0, 0));
     }
 
-    public static Stream<Arguments> setterOutOfRangesNegativeTestsDependencyProvider() {
+    public static Stream<Arguments> setterOutOfRangesNegativeTestsDataProvider() {
         return Stream.of(
             Arguments.of(0,0,-1),
             Arguments.of(0,0,10),
@@ -78,13 +78,13 @@ class SudokuBoardTest {
 
     @ParameterizedTest
     @DisplayName("Setter out of ranges negative tests")
-    @MethodSource("setterOutOfRangesNegativeTestsDependencyProvider")
+    @MethodSource("setterOutOfRangesNegativeTestsDataProvider")
     void setterOutOfRangesNegativeTests(int x, int y, int value) {
         board1.set(x, y, value);
         assertNotEquals(value, board1.get(x, y));
     }
 
-    public static Stream<Arguments> setterSameValueInGroupsNegativeTestsDependencyProvider() {
+    public static Stream<Arguments> setterSameValueInGroupsNegativeTestsDataProvider() {
         return Stream.of(
             Arguments.of(0,1,1),
             Arguments.of(1,0,1),
@@ -94,7 +94,7 @@ class SudokuBoardTest {
 
     @ParameterizedTest
     @DisplayName("Setter same value in groups negative tests")
-    @MethodSource("setterSameValueInGroupsNegativeTestsDependencyProvider")
+    @MethodSource("setterSameValueInGroupsNegativeTestsDataProvider")
     void setterSameValueInGroupsNegativeTests(int x, int y, int value) {
         boardNotSolved.set(0, 0, 1);
         boardNotSolved.set(x, y, value);
