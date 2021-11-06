@@ -12,6 +12,7 @@ class SudokuBoardTest {
     @Test
     void solveGameCheckTest() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
         for (int i = 0; i < 9; i++) {
             assertFalse(checkRowDuplicates(board, i));
             assertFalse(checkColDuplicates(board, i));
@@ -26,7 +27,9 @@ class SudokuBoardTest {
     @Test
     void solveGameRandomizeTest() {
         SudokuBoard board1 = new SudokuBoard(new BacktrackingSudokuSolver());
+        board1.solveGame();
         SudokuBoard board2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        board2.solveGame();
         boolean isDifference = false;
         outer:
         for (int i = 0; i < 9; i++) {
@@ -68,11 +71,23 @@ class SudokuBoardTest {
         assertNotEquals(1, board3.get(8, -1));
         board3.set(-1, 8, 1);
         assertNotEquals(1, board3.get(-1, 8));
+        board3.set(0, 0, 1);
+        board3.set(0, 1, 1);
+        assertNotEquals(1, board3.get(0, 1));
+        SudokuBoard board4 = new SudokuBoard(new BacktrackingSudokuSolver());
+        board4.set(0, 0, 1);
+        board4.set(1, 0, 1);
+        assertNotEquals(1, board4.get(1, 0));
+        SudokuBoard board5 = new SudokuBoard(new BacktrackingSudokuSolver());
+        board5.set(0, 0, 1);
+        board5.set(1, 1, 1);
+        assertNotEquals(1, board5.get(1, 1));
     }
 
     @Test
     void getRowTest() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
         for (int i = 0; i < 9; i++) {
             SudokuRow row = board.getRow(i);
             for (int j = 0; j < 9; j++) {
@@ -84,6 +99,7 @@ class SudokuBoardTest {
     @Test
     void getColumnTest() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
         for (int i = 0; i < 9; i++) {
             SudokuColumn column = board.getColumn(i);
             for (int j = 0; j < 9; j++) {
@@ -95,6 +111,7 @@ class SudokuBoardTest {
     @Test
     void getBoxTest() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 SudokuBox box = board.getBox(i, j);

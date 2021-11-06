@@ -1,11 +1,13 @@
 package sudoku;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
 import sudoku.solver.SudokuSolver;
 
-public class SudokuBoard {
+public class SudokuBoard implements PropertyChangeListener {
     private SudokuField[][] board = new SudokuField[9][9];
     private SudokuRow[] rows = new SudokuRow[9];
     private SudokuColumn[] columns = new SudokuColumn[9];
@@ -16,6 +18,7 @@ public class SudokuBoard {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = new SudokuField();
+                board[i][j].setListener(this);
             }
         }
         for (int i = 0; i < 9; i++) {
@@ -40,7 +43,14 @@ public class SudokuBoard {
             }
         }
         sudokuSolver = solver;
-        solveGame();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (!checkBoard()) {
+            SudokuField field = (SudokuField) evt.getSource();
+            field.setFieldValue((Integer) evt.getOldValue());
+        }
     }
 
     public int get(int x, int y) {

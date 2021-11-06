@@ -12,7 +12,8 @@ public abstract class SudokuGroup {
     public boolean verify() {
         for (int i = 0; i < values.length; i++) {
             for (int j = i + 1; j < values.length; j++) {
-                if (values[i].getFieldValue() == values[j].getFieldValue()) {
+                if (values[i].getFieldValue() == values[j].getFieldValue()
+                        && values[i].getFieldValue() != 0) {
                     return false;
                 }
             }
