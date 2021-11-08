@@ -26,6 +26,8 @@ public class SudokuField {
     public void setFieldValue(int value) {
         int oldValue = this.value;
         this.value = value;
-        pcs.firePropertyChange("value",oldValue,value);
+        if(oldValue!=value){
+            pcs.firePropertyChange("value",oldValue,value);
+        }
     }
 }

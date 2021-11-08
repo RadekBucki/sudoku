@@ -54,7 +54,7 @@ class SudokuBoardTest {
         }
         assertTrue(isDifference);
     }
-
+    
     @Test
     @DisplayName("Setter positive test")
     void setterPositiveTest() {
@@ -107,7 +107,7 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             SudokuRow row = board1.getRow(i);
             for (int j = 0; j < 9; j++) {
-                assertEquals(board1.get(i, j), row.getField(j).getFieldValue());
+                assertEquals(board1.get(i, j), row.getField(j));
             }
         }
     }
@@ -118,7 +118,7 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             SudokuColumn column = board1.getColumn(i);
             for (int j = 0; j < 9; j++) {
-                assertEquals(board1.get(j, i), column.getField(j).getFieldValue());
+                assertEquals(board1.get(j, i), column.getField(j));
             }
         }
     }
@@ -130,7 +130,7 @@ class SudokuBoardTest {
             for (int j = 0; j < 3; j++) {
                 SudokuBox box = board1.getBox(i, j);
                 for (int k = 0; k < 9; k++) {
-                    assertEquals(board1.get(i * 3 + k / 3, j * 3 + k % 3), box.getField(k).getFieldValue());
+                    assertEquals(board1.get(i * 3 + k / 3, j * 3 + k % 3), box.getField(k));
                 }
             }
         }

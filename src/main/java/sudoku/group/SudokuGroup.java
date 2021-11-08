@@ -21,7 +21,7 @@ public abstract class SudokuGroup {
         return true;
     }
 
-    public SudokuField getField(int index) {
-        return values[index];
+    public int getField(int index) {
+        return values[index].getFieldValue();
     }
 }
