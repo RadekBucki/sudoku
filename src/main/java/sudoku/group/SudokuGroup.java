@@ -10,7 +10,10 @@ public abstract class SudokuGroup {
     }
 
     public SudokuGroup(SudokuGroup sudokuGroup) {
-        this.values = sudokuGroup.values;
+        this.values = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            values[i] = new SudokuField(sudokuGroup.values[i]);
+        }
     }
 
     public boolean verify() {
