@@ -88,15 +88,27 @@ public class SudokuBoard implements PropertyChangeListener {
     }
 
     public SudokuRow getRow(int y) {
-        return rows[y];
+        SudokuField[] values = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            values[i] = new SudokuField(rows[y].getField(i));
+        }
+        return new SudokuRow(values);
     }
 
     public SudokuColumn getColumn(int x) {
-        return columns[x];
+        SudokuField[] values = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            values[i] = new SudokuField(columns[x].getField(i));
+        }
+        return new SudokuColumn(values);
     }
 
     public SudokuBox getBox(int x, int y) {
-        return boxes[x][y];
+        SudokuField[] values = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            values[i] = new SudokuField(boxes[x][y].getField(i));
+        }
+        return new SudokuBox(values);
     }
 
     public boolean check(int row, int col, int generated) {
