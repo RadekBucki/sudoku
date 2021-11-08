@@ -5,6 +5,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
@@ -19,10 +21,7 @@ public class SudokuBoard implements PropertyChangeListener {
     private SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver solver) {
-        board = Arrays.asList(Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
-                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
-                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
-                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]));
+        board = Stream.generate(() -> Arrays.asList(new SudokuField[9])).limit(9).collect(Collectors.toList());
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board.get(i).set(j,new SudokuField());
