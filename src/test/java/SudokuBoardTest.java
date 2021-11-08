@@ -62,6 +62,8 @@ class SudokuBoardTest {
         assertEquals(2, boardNotSolved.get(0, 0));
         boardNotSolved.set(0, 0, 3);
         assertEquals(3, boardNotSolved.get(0, 0));
+        boardNotSolved.set(0, 0, 3);
+        assertEquals(3, boardNotSolved.get(0, 0));
     }
 
     public static Stream<Arguments> setterOutOfRangesNegativeTestsDataProvider() {
