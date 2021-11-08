@@ -2,31 +2,39 @@ package sudoku;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
 import sudoku.solver.SudokuSolver;
 
 public class SudokuBoard implements PropertyChangeListener {
-    private SudokuField[][] board = new SudokuField[9][9];
+    private List<List<SudokuField>> board;
     private SudokuRow[] rows = new SudokuRow[9];
     private SudokuColumn[] columns = new SudokuColumn[9];
     private SudokuBox[][] boxes = new SudokuBox[3][3];
     private SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver solver) {
+        board = Arrays.asList(Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
+                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
+                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),
+                Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]),Arrays.asList(new SudokuField[9]));
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                board[i][j] = new SudokuField();
-                board[i][j].setListener(this);
+                board.get(i).set(j,new SudokuField());
+                board.get(i).get(j).setListener(this);
             }
         }
         for (int i = 0; i < 9; i++) {
             SudokuField[] column = new SudokuField[9];
             for (int j = 0; j < 9; j++) {
-                column[j] = board[j][i];
+                column[j] = board.get(j).get(i);
             }
-            rows[i] = new SudokuRow(board[i]);
+            rows[i] = new SudokuRow(board.get(i).toArray(new SudokuField[9]));
             columns[i] = new SudokuColumn(column);
         }
         // Create boxes
@@ -36,7 +44,7 @@ public class SudokuBoard implements PropertyChangeListener {
                 // Get box fields
                 for (int k = i * 3; k < i * 3 + 3; k++) {
                     for (int l = j * 3; l < j * 3 + 3; l++) {
-                        box[k % 3 * 3 + l % 3] = board[k][l];
+                        box[k % 3 * 3 + l % 3] = board.get(k).get(l);
                     }
                 }
                 boxes[i][j] = new SudokuBox(box);
@@ -55,14 +63,14 @@ public class SudokuBoard implements PropertyChangeListener {
 
     public int get(int x, int y) {
         if (x >= 0 && x <= 8 && y >= 0 && y <= 8) {
-            return board[x][y].getFieldValue();
+            return board.get(x).get(y).getFieldValue();
         }
         return -1;
     }
 
     public void set(int x, int y, int value) {
         if (x >= 0 && x <= 8 && y >= 0 && y <= 8 && value >= 0 && value <= 9) {
-            (board[x][y]).setFieldValue(value);
+            (board.get(x).get(y)).setFieldValue(value);
         }
     }
 
