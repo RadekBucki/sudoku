@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestTemplate;
 import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ class SudokuGroupTest {
     }
 
     @Test
-    @DisplayName("Verify negatve test")
+    @DisplayName("Verify negative test")
     void verifyNegativeTest() {
         for (int i = 0; i < 9; i++) {
             testValues[i] = new SudokuField(1);
