@@ -7,10 +7,19 @@ import java.util.stream.Stream;
 import sudoku.SudokuBoard;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
+    /**
+     * Method which solves SudokuBoard.
+     * @param board SodokuBoard which should be solved
+     */
     public void solve(SudokuBoard board) {
         placeNumbers(board);
     }
 
+    /**
+     * Recursive method which solves SudokuBoard.
+     * @param board SodokuBoard which should be solved
+     * @return boolean - information about status of solving
+     */
     private boolean placeNumbers(SudokuBoard board) {
         int row = -1;
         int col = -1;

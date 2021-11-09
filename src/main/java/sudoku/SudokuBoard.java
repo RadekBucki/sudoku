@@ -5,9 +5,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
+import sudoku.group.SudokuGroup;
 import sudoku.group.SudokuRow;
 import sudoku.solver.SudokuSolver;
 
@@ -18,6 +18,10 @@ public class SudokuBoard implements PropertyChangeListener {
     private List<SudokuBox> boxes = Arrays.asList(new SudokuBox[9]);
     private SudokuSolver sudokuSolver;
 
+    /**
+     * Constructor.
+     * @param solver implementation of interface SudokuSolver
+     */
     public SudokuBoard(SudokuSolver solver) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -46,6 +50,10 @@ public class SudokuBoard implements PropertyChangeListener {
         sudokuSolver = solver;
     }
 
+    /**
+     * Implementation of Listener pattern.
+     * @param evt event get from listened objects
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (!checkBoard()) {
@@ -54,6 +62,12 @@ public class SudokuBoard implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Getter of concrete field value in board.
+     * @param x row coordinate in board 2D array
+     * @param y column coordinate in board 2D array
+     * @return int field value
+     */
     public int get(int x, int y) {
         if (x >= 0 && x <= 8 && y >= 0 && y <= 8) {
             return board[x][y].getFieldValue();
@@ -61,16 +75,29 @@ public class SudokuBoard implements PropertyChangeListener {
         return -1;
     }
 
+    /**
+     * Setter of concrete field value in board.
+     * @param x row coordinate in board 2D array
+     * @param y column coordinate in board 2D array
+     * @param value value which should be set
+     */
     public void set(int x, int y, int value) {
         if (x >= 0 && x <= 8 && y >= 0 && y <= 8 && value >= 0 && value <= 9) {
             (board[x][y]).setFieldValue(value);
         }
     }
 
+    /**
+     * Method which calls sudokuSolver method solve.
+     */
     public void solveGame() {
         sudokuSolver.solve(this);
     }
 
+    /**
+     * Method checks unique of values in rows, boxes and columns.
+     * @return boolean
+     */
     private boolean checkBoard() {
         for (int i = 0; i < 9; i++) {
             if (!(rows.get(i).verify() && columns.get(i).verify() && boxes.get(i).verify())) {
@@ -80,23 +107,53 @@ public class SudokuBoard implements PropertyChangeListener {
         return true;
     }
 
+    /**
+     * Method returns SudokuRow with concrete coordinate.
+     * @param y row coordinate
+     * @return SudokuRow
+     */
     public SudokuRow getRow(int y) {
         return new SudokuRow(rows.get(y));
     }
 
+    /**
+     * Getter of SudokuColumn with concrete coordinate.
+     * @param x column coordinate
+     * @return SudokuColumn
+     */
     public SudokuColumn getColumn(int x) {
         return new SudokuColumn(columns.get(x));
     }
 
+    /**
+     * Getter of SudokuBox with concrete coordinates.
+     * @param x row coordinate
+     * @param y column coordinate
+     * @return SudokuBox
+     */
     public SudokuBox getBox(int x, int y) {
         return new SudokuBox(boxes.get(x * 3 + y));
     }
 
+    /**
+     * Method checks if a value can be inserted into a given coordinates.
+     * @param row row coordinate
+     * @param col column coordinate
+     * @param generated tested value
+     * @return boolean
+     */
     public boolean check(int row, int col, int generated) {
-        //Check row, column, box
-        List<Integer> listRow = Arrays.stream(rows.get(row).getFields()).boxed().collect(Collectors.toList());
-        List<Integer> listCol = Arrays.stream(columns.get(col).getFields()).boxed().collect(Collectors.toList());
-        List<Integer> listBox = Arrays.stream(getBox(row / 3,col / 3).getFields()).boxed().collect(Collectors.toList());
-        return !listRow.contains(generated) && !listCol.contains(generated) && !listBox.contains(generated);
+        return !getListOfIntegersFromSudokuGroup(rows.get(row)).contains(generated)
+                && !getListOfIntegersFromSudokuGroup(columns.get(col)).contains(generated)
+                && !getListOfIntegersFromSudokuGroup(getBox(row / 3,col / 3)).contains(generated);
+    }
+
+    /**
+     * Method returns List of SudokuGroup SudokuFields values.
+     * @param group SudokuGroup which values should be returned
+     * @return List of Integers
+     */
+    private List<Integer> getListOfIntegersFromSudokuGroup(SudokuGroup group) {
+        return Arrays.stream(group.getFields()).boxed().collect(Collectors.toList());
     }
 }
