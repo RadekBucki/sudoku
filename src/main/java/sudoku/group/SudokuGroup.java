@@ -1,5 +1,6 @@
 package sudoku.group;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import sudoku.SudokuField;
@@ -32,5 +33,13 @@ public abstract class SudokuGroup {
 
     public int getField(int index) {
         return values.get(index).getFieldValue();
+    }
+
+    public int[] getFields() {
+        int[] fields = new int[9];
+        for (int i = 0; i < 9; i++) {
+            fields[i] = values.get(i).getFieldValue();
+        }
+        return fields;
     }
 }

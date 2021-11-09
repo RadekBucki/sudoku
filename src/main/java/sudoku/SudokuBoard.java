@@ -4,6 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
@@ -93,28 +95,10 @@ public class SudokuBoard implements PropertyChangeListener {
     }
 
     public boolean check(int row, int col, int generated) {
-        //Check row
-        for (int j = 0; j < 9; j++) {
-            if (get(row, j) == generated) {
-                return false;
-            }
-        }
-        //Check column
-        for (int j = 0; j < 9; j++) {
-            if (get(j, col) == generated) {
-                return false;
-            }
-        }
-        //Check square
-        int boxRowFirst = row - row % 3;
-        int boxColFirst = col - col % 3;
-        for (int i = boxRowFirst; i < boxRowFirst + 3; i++) {
-            for (int j = boxColFirst; j < boxColFirst + 3; j++) {
-                if (get(i, j) == generated) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        //Check row, column, box
+        List<Integer> listRow = Arrays.stream(rows.get(row).getFields()).boxed().collect(Collectors.toList());
+        List<Integer> listCol = Arrays.stream(columns.get(col).getFields()).boxed().collect(Collectors.toList());
+        List<Integer> listBox = Arrays.stream(getBox(row / 3,col / 3).getFields()).boxed().collect(Collectors.toList());
+        return !listRow.contains(generated) && !listCol.contains(generated) && !listBox.contains(generated);
     }
 }
