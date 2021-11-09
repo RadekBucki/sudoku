@@ -12,9 +12,9 @@ public abstract class SudokuGroup {
     }
 
     public SudokuGroup(SudokuGroup sudokuGroup) {
-        this.values = new SudokuField[9];
+        this.values = Arrays.asList(new SudokuField[9]);
         for (int i = 0; i < 9; i++) {
-            values[i] = new SudokuField(sudokuGroup.values[i]);
+            values.set(i, new SudokuField(sudokuGroup.values.get(i)));
         }
     }
 
