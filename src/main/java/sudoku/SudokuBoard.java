@@ -13,12 +13,9 @@ import sudoku.solver.SudokuSolver;
 
 public class SudokuBoard implements PropertyChangeListener {
     private SudokuField[][] board = new SudokuField[9][9];
-    private List<SudokuRow> rows = Stream.generate(()
-            -> new SudokuRow(new SudokuField[9])).limit(9).collect(Collectors.toList());
-    private List<SudokuColumn> columns = Stream.generate(()
-            -> new SudokuColumn(new SudokuField[9])).limit(9).collect(Collectors.toList());
-    private List<List<SudokuBox>> boxes = Stream.generate(()
-            -> Arrays.asList(new SudokuBox[3])).limit(3).collect(Collectors.toList());
+    private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
+    private List<SudokuColumn> columns = Arrays.asList(new SudokuColumn[9]);
+    private List<SudokuBox> boxes = Arrays.asList(new SudokuBox[9]);
     private SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver solver) {
@@ -28,6 +25,7 @@ public class SudokuBoard implements PropertyChangeListener {
                 board[i][j].setListener(this);
             }
         }
+        // Create columns and rows
         for (int i = 0; i < 9; i++) {
             SudokuField[] column = new SudokuField[9];
             for (int j = 0; j < 9; j++) {
@@ -37,17 +35,15 @@ public class SudokuBoard implements PropertyChangeListener {
             columns.set(i, new SudokuColumn(column));
         }
         // Create boxes
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                SudokuField[] box = new SudokuField[9];
-                // Get box fields
-                for (int k = i * 3; k < i * 3 + 3; k++) {
-                    for (int l = j * 3; l < j * 3 + 3; l++) {
-                        box[k % 3 * 3 + l % 3] = board[k][l];
-                    }
+        for (int i = 0; i < 9; i++) {
+            SudokuField[] box = new SudokuField[9];
+            int j = 0;
+            for (int k = (i / 3) * 3; k < (i / 3) * 3 + 3; k++) {
+                for (int l = (i % 3) * 3; l < (i % 3) * 3 + 3; l++) {
+                    box[j++] = board[k][l];
                 }
-                boxes.get(i).set(j,new SudokuBox(box));
             }
+            boxes.set(i,new SudokuBox(box));
         }
         sudokuSolver = solver;
     }
@@ -79,15 +75,8 @@ public class SudokuBoard implements PropertyChangeListener {
 
     private boolean checkBoard() {
         for (int i = 0; i < 9; i++) {
-            if (!(rows.get(i).verify() && columns.get(i).verify())) {
+            if (!(rows.get(i).verify() && columns.get(i).verify() && boxes.get(i).verify())) {
                 return false;
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (!boxes.get(i).get(j).verify()) {
-                    return false;
-                }
             }
         }
         return true;
@@ -102,7 +91,7 @@ public class SudokuBoard implements PropertyChangeListener {
     }
 
     public SudokuBox getBox(int x, int y) {
-        return boxes.get(x).get(y);
+        return boxes.get(x * 3 + y);
     }
 
     public boolean check(int row, int col, int generated) {
