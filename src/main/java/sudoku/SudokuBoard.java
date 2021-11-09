@@ -4,8 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
