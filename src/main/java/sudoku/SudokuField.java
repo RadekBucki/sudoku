@@ -11,6 +11,11 @@ public class SudokuField {
         this.value = 0;
     }
 
+    public SudokuField(SudokuField sudokuField) {
+        this.value = sudokuField.value;
+        this.pcs = new PropertyChangeSupport(sudokuField.pcs);
+    }
+
     public void setListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener("value",listener);
     }

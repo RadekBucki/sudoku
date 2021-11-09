@@ -11,6 +11,13 @@ public abstract class SudokuGroup {
         this.values = Arrays.asList(values);
     }
 
+    public SudokuGroup(SudokuGroup sudokuGroup) {
+        this.values = new SudokuField[9];
+        for (int i = 0; i < 9; i++) {
+            values[i] = new SudokuField(sudokuGroup.values[i]);
+        }
+    }
+
     public boolean verify() {
         for (int i = 0; i < values.size(); i++) {
             for (int j = i + 1; j < values.size(); j++) {
