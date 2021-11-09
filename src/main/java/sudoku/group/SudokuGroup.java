@@ -1,26 +1,28 @@
 package sudoku.group;
 
+import java.util.Arrays;
+import java.util.List;
 import sudoku.SudokuField;
 
 public abstract class SudokuGroup {
-    private SudokuField[] values;
+    private List<SudokuField> values;
 
     public SudokuGroup(SudokuField[] values) {
-        this.values = values;
+        this.values = Arrays.asList(values);
     }
 
     public SudokuGroup(SudokuGroup sudokuGroup) {
-        this.values = new SudokuField[9];
+        this.values = Arrays.asList(new SudokuField[9]);
         for (int i = 0; i < 9; i++) {
-            values[i] = new SudokuField(sudokuGroup.values[i]);
+            values.set(i, new SudokuField(sudokuGroup.values.get(i)));
         }
     }
 
     public boolean verify() {
-        for (int i = 0; i < values.length; i++) {
-            for (int j = i + 1; j < values.length; j++) {
-                if (values[i].getFieldValue() == values[j].getFieldValue()
-                        && values[i].getFieldValue() != 0) {
+        for (int i = 0; i < values.size(); i++) {
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(i).getFieldValue() == values.get(j).getFieldValue()
+                        && values.get(i).getFieldValue() != 0) {
                     return false;
                 }
             }
@@ -29,6 +31,6 @@ public abstract class SudokuGroup {
     }
 
     public int getField(int index) {
-        return values[index].getFieldValue();
+        return values.get(index).getFieldValue();
     }
 }
