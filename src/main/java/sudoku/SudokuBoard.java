@@ -23,7 +23,7 @@ public class SudokuBoard implements PropertyChangeListener {
                 board[i][j].setListener(this);
             }
         }
-        // Create columns and rows
+        // Create columns, rows and boxes
         for (int i = 0; i < 9; i++) {
             SudokuField[] column = new SudokuField[9];
             for (int j = 0; j < 9; j++) {
@@ -31,9 +31,7 @@ public class SudokuBoard implements PropertyChangeListener {
             }
             rows.set(i, new SudokuRow(board[i]));
             columns.set(i, new SudokuColumn(column));
-        }
-        // Create boxes
-        for (int i = 0; i < 9; i++) {
+
             SudokuField[] box = new SudokuField[9];
             int j = 0;
             for (int k = (i / 3) * 3; k < (i / 3) * 3 + 3; k++) {
