@@ -4,14 +4,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class SudokuField {
-    private int value;
+    private int value = 0;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
      * Constructor with default value = 0.
      */
     public SudokuField() {
-        this.value = 0;
     }
 
     /**

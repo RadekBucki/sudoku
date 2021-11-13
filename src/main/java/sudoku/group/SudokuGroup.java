@@ -5,14 +5,16 @@ import java.util.List;
 import sudoku.SudokuField;
 
 public abstract class SudokuGroup {
-    private List<SudokuField> values;
+    private List<SudokuField> values = Arrays.asList(new SudokuField[9]);
 
     /**
      * Constructor with parameter values.
      * @param values array of values which should be set
      */
     public SudokuGroup(SudokuField[] values) {
-        this.values = Arrays.asList(values);
+        for (int i = 0; i < 9; i++) {
+            this.values.set(i,values[i]);
+        }
     }
 
     /**
@@ -20,7 +22,6 @@ public abstract class SudokuGroup {
      * @param sudokuGroup object of the same instance which should be copied
      */
     public SudokuGroup(SudokuGroup sudokuGroup) {
-        this.values = Arrays.asList(new SudokuField[9]);
         for (int i = 0; i < 9; i++) {
             values.set(i, new SudokuField(sudokuGroup.values.get(i)));
         }
