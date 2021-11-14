@@ -6,7 +6,7 @@ public class MainTest {
     @Test
     @DisplayName("Test Main")
     void testMain() {
-        Main main = new Main();
+        new Main();
         String[] args = {};
         Main.main(args);
     }

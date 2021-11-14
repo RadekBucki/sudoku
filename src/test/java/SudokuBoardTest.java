@@ -54,12 +54,14 @@ class SudokuBoardTest {
         }
         assertTrue(isDifference);
     }
-
+    
     @Test
     @DisplayName("Setter positive test")
     void setterPositiveTest() {
         boardNotSolved.set(0, 0, 2);
         assertEquals(2, boardNotSolved.get(0, 0));
+        boardNotSolved.set(0, 0, 3);
+        assertEquals(3, boardNotSolved.get(0, 0));
         boardNotSolved.set(0, 0, 3);
         assertEquals(3, boardNotSolved.get(0, 0));
     }
@@ -107,7 +109,7 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             SudokuRow row = board1.getRow(i);
             for (int j = 0; j < 9; j++) {
-                assertEquals(board1.get(i, j), row.getField(j).getFieldValue());
+                assertEquals(board1.get(i, j), row.getField(j));
             }
         }
     }
@@ -118,7 +120,7 @@ class SudokuBoardTest {
         for (int i = 0; i < 9; i++) {
             SudokuColumn column = board1.getColumn(i);
             for (int j = 0; j < 9; j++) {
-                assertEquals(board1.get(j, i), column.getField(j).getFieldValue());
+                assertEquals(board1.get(j, i), column.getField(j));
             }
         }
     }
@@ -130,12 +132,19 @@ class SudokuBoardTest {
             for (int j = 0; j < 3; j++) {
                 SudokuBox box = board1.getBox(i, j);
                 for (int k = 0; k < 9; k++) {
-                    assertEquals(board1.get(i * 3 + k / 3, j * 3 + k % 3), box.getField(k).getFieldValue());
+                    assertEquals(board1.get(i * 3 + k / 3, j * 3 + k % 3), box.getField(k));
                 }
             }
         }
     }
 
+    /**
+     * Method checks for Duplicates in box.
+     * @param board board which box should be checked
+     * @param rowStart start row coordinate of box
+     * @param colStart start column coordinate of box
+     * @return boolean - status of existing duplicates in box
+     */
     boolean checkBoxDuplicates(SudokuBoard board, int rowStart, int colStart) {
         int[] array = new int[9];
         int arrayIndex = 0;
@@ -147,6 +156,12 @@ class SudokuBoardTest {
         return checkDuplicates(array);
     }
 
+    /**
+     * Method checks for Duplicates in row.
+     * @param board board which row should be checked
+     * @param rowNumber row coordinate
+     * @return boolean - status of existing duplicates in row
+     */
     boolean checkRowDuplicates(SudokuBoard board, int rowNumber) {
         int[] array = new int[9];
         int arrayIndex = 0;
@@ -156,6 +171,12 @@ class SudokuBoardTest {
         return checkDuplicates(array);
     }
 
+    /**
+     * Method checks for Duplicates in column.
+     * @param board board which column should be checked
+     * @param colNumber column coordinate
+     * @return boolean - status of existing duplicates in column
+     */
     boolean checkColDuplicates(SudokuBoard board, int colNumber) {
         int[] array = new int[9];
         int arrayIndex = 0;
@@ -165,6 +186,11 @@ class SudokuBoardTest {
         return checkDuplicates(array);
     }
 
+    /**
+     * Method checks for Duplicates in array
+     * @param array array which should be checked
+     * @return boolean - status of existing duplicates in row
+     */
     boolean checkDuplicates(int[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = i + 1; j < array.length; j++) {

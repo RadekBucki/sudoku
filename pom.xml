@@ -8,6 +8,15 @@
     <artifactId>Sudoku</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>LICENSE.txt</url>
+            <distribution>repo</distribution>
+            <comments>License allows private and commercial usage. Software source code may be distributed, copied, changed by any other person without any limitations. The authors do not provide any warranty for the software.</comments>
+        </license>
+    </licenses>
+
     <developers>
         <developer>
             <id>236507</id>
