@@ -1,8 +1,10 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import sudoku.SudokuBoard;
 import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
+import sudoku.solver.BacktrackingSudokuSolver;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,5 +35,23 @@ class SudokuGroupTest {
         }
         SudokuRow sudokuGroup = new SudokuRow(testValues);
         assertFalse(sudokuGroup.verify());
+    }
+
+    @Test
+    @DisplayName("toStringTest")
+    void toStringTest() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
+        for (int i = 0; i < 9; i++) {
+            String toString = "\n[";
+            for (int j = 0; j < 9; j++) {
+                toString += board.get(i,j);
+                if(j != 8) {
+                    toString += ", ";
+                }
+            }
+            toString += "]";
+            assertEquals(toString,board.getRow(i).toString());
+        }
     }
 }

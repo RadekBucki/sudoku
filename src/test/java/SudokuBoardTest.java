@@ -138,6 +138,27 @@ class SudokuBoardTest {
         }
     }
 
+    @Test
+    @DisplayName("toStringTest")
+    void toStringTest() {
+        String toString = "[\n";
+        for (int i = 0; i < 9; i++) {
+            toString += "[";
+            for (int j = 0; j < 9; j++) {
+                toString += board1.get(i,j);
+                if(j != 8) {
+                    toString += ", ";
+                }
+            }
+            toString += "]";
+            if(i != 8) {
+                toString += ", \n";
+            }
+        }
+        toString += "]";
+        assertEquals(board1.toString(),toString);
+    }
+
     /**
      * Method checks for Duplicates in box.
      * @param board board which box should be checked
