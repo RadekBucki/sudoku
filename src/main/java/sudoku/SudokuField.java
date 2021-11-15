@@ -57,4 +57,9 @@ public class SudokuField {
             pcs.firePropertyChange("value",oldValue,value);
         }
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(value);
+    }
 }

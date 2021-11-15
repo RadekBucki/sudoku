@@ -2,6 +2,7 @@ package sudoku.group;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import sudoku.SudokuField;
 
 public abstract class SudokuGroup {
@@ -9,16 +10,18 @@ public abstract class SudokuGroup {
 
     /**
      * Constructor with parameter values.
+     *
      * @param values array of values which should be set
      */
     public SudokuGroup(SudokuField[] values) {
         for (int i = 0; i < 9; i++) {
-            this.values.set(i,values[i]);
+            this.values.set(i, values[i]);
         }
     }
 
     /**
      * Copy constructor.
+     *
      * @param sudokuGroup object of the same instance which should be copied
      */
     public SudokuGroup(SudokuGroup sudokuGroup) {
@@ -29,6 +32,7 @@ public abstract class SudokuGroup {
 
     /**
      * Method checks unique of values.
+     *
      * @return boolean - status of the unique values
      */
     public boolean verify() {
@@ -45,6 +49,7 @@ public abstract class SudokuGroup {
 
     /**
      * Getter of SudokuField value.
+     *
      * @param index position of SudokuField
      * @return int value of SudokuField
      */
@@ -54,6 +59,7 @@ public abstract class SudokuGroup {
 
     /**
      * Getter of fields values.
+     *
      * @return int array of SudokuFields values
      */
     public int[] getFields() {
@@ -62,5 +68,27 @@ public abstract class SudokuGroup {
             fields[i] = values.get(i).getFieldValue();
         }
         return fields;
+    }
+
+    @Override
+    public String toString() {
+        return "\n" + values;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SudokuGroup that = (SudokuGroup) o;
+        return Objects.equals(values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(values);
     }
 }

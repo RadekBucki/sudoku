@@ -156,4 +156,9 @@ public class SudokuBoard implements PropertyChangeListener {
     private List<Integer> getListOfIntegersFromSudokuGroup(SudokuGroup group) {
         return Arrays.stream(group.getFields()).boxed().collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "" + rows.toString();
+    }
 }
