@@ -11,5 +11,7 @@ public class Main {
         System.out.println(greeter.greet("world!"));
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
+        System.out.println(sudoku.getRow(0).toString());
+        System.out.println(sudoku.toString());
     }
 }

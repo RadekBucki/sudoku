@@ -1,5 +1,7 @@
 package sudoku;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -60,6 +62,25 @@ public class SudokuField {
 
     @Override
     public String toString() {
-        return Integer.toString(value);
+        return MoreObjects.toStringHelper(this)
+                .add("value", value)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SudokuField that = (SudokuField) o;
+        return value == that.value && Objects.equal(pcs, that.pcs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value, pcs);
     }
 }

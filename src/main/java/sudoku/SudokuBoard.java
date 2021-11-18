@@ -1,5 +1,7 @@
 package sudoku;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
@@ -159,6 +161,27 @@ public class SudokuBoard implements PropertyChangeListener {
 
     @Override
     public String toString() {
-        return "" + rows.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("board", board)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SudokuBoard that = (SudokuBoard) o;
+        return Objects.equal(board, that.board) && Objects.equal(rows, that.rows)
+                && Objects.equal(columns, that.columns) && Objects.equal(boxes, that.boxes)
+                && Objects.equal(sudokuSolver, that.sudokuSolver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(board, rows, columns, boxes, sudokuSolver);
     }
 }

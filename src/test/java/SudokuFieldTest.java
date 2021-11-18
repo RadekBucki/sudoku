@@ -9,6 +9,7 @@ public class SudokuFieldTest {
     @DisplayName("toStringTest")
     void toStringTest() {
         SudokuField field = new SudokuField(2);
-        assertEquals(Integer.toString(field.getFieldValue()),field.toString());
+        System.out.println(field.toString());
+        assertEquals("SudokuField{value=" + field.getFieldValue() + "}",field.toString());
     }
 }

@@ -1,8 +1,9 @@
 package sudoku.group;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import sudoku.SudokuField;
 
 public abstract class SudokuGroup {
@@ -72,7 +73,9 @@ public abstract class SudokuGroup {
 
     @Override
     public String toString() {
-        return "\n" + values;
+        return MoreObjects.toStringHelper(this)
+                .add("values", values)
+                .toString();
     }
 
     @Override
@@ -84,11 +87,11 @@ public abstract class SudokuGroup {
             return false;
         }
         SudokuGroup that = (SudokuGroup) o;
-        return Objects.equals(values, that.values);
+        return Objects.equal(values, that.values);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(values);
+        return Objects.hashCode(values);
     }
 }

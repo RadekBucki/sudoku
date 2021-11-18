@@ -5,11 +5,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.SudokuBoard;
+import sudoku.SudokuField;
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
 import sudoku.solver.BacktrackingSudokuSolver;
+
 import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
@@ -54,7 +57,7 @@ class SudokuBoardTest {
         }
         assertTrue(isDifference);
     }
-    
+
     @Test
     @DisplayName("Setter positive test")
     void setterPositiveTest() {
@@ -68,13 +71,13 @@ class SudokuBoardTest {
 
     public static Stream<Arguments> setterOutOfRangesNegativeTestsDataProvider() {
         return Stream.of(
-            Arguments.of(0,0,-1),
-            Arguments.of(0,0,10),
-            Arguments.of(9,9,1),
-            Arguments.of(8,9,1),
-            Arguments.of(9,8,1),
-            Arguments.of(8,-1,1),
-            Arguments.of(-1,8,1)
+                Arguments.of(0, 0, -1),
+                Arguments.of(0, 0, 10),
+                Arguments.of(9, 9, 1),
+                Arguments.of(8, 9, 1),
+                Arguments.of(9, 8, 1),
+                Arguments.of(8, -1, 1),
+                Arguments.of(-1, 8, 1)
         );
     }
 
@@ -88,9 +91,9 @@ class SudokuBoardTest {
 
     public static Stream<Arguments> setterSameValueInGroupsNegativeTestsDataProvider() {
         return Stream.of(
-            Arguments.of(0,1,1),
-            Arguments.of(1,0,1),
-            Arguments.of(1,1,1)
+                Arguments.of(0, 1, 1),
+                Arguments.of(1, 0, 1),
+                Arguments.of(1, 1, 1)
         );
     }
 
@@ -113,7 +116,7 @@ class SudokuBoardTest {
             }
         }
     }
-    
+
     @Test
     @DisplayName("Get column test")
     void getColumnTest() {
@@ -141,27 +144,28 @@ class SudokuBoardTest {
     @Test
     @DisplayName("toStringTest")
     void toStringTest() {
-        String toString = "[\n";
+        String toString = "SudokuBoard{board=[";
         for (int i = 0; i < 9; i++) {
             toString += "[";
             for (int j = 0; j < 9; j++) {
-                toString += board1.get(i,j);
-                if(j != 8) {
+                toString += new SudokuField(board1.get(i, j));
+                if (j != 8) {
                     toString += ", ";
                 }
             }
             toString += "]";
-            if(i != 8) {
-                toString += ", \n";
+            if (i != 8) {
+                toString += ", ";
             }
         }
-        toString += "]";
-        assertEquals(board1.toString(),toString);
+        toString += "]}";
+        assertEquals(board1.toString(), toString);
     }
 
     /**
      * Method checks for Duplicates in box.
-     * @param board board which box should be checked
+     *
+     * @param board    board which box should be checked
      * @param rowStart start row coordinate of box
      * @param colStart start column coordinate of box
      * @return boolean - status of existing duplicates in box
@@ -179,7 +183,8 @@ class SudokuBoardTest {
 
     /**
      * Method checks for Duplicates in row.
-     * @param board board which row should be checked
+     *
+     * @param board     board which row should be checked
      * @param rowNumber row coordinate
      * @return boolean - status of existing duplicates in row
      */
@@ -194,7 +199,8 @@ class SudokuBoardTest {
 
     /**
      * Method checks for Duplicates in column.
-     * @param board board which column should be checked
+     *
+     * @param board     board which column should be checked
      * @param colNumber column coordinate
      * @return boolean - status of existing duplicates in column
      */
@@ -209,6 +215,7 @@ class SudokuBoardTest {
 
     /**
      * Method checks for Duplicates in array
+     *
      * @param array array which should be checked
      * @return boolean - status of existing duplicates in row
      */
