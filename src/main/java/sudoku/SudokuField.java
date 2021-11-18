@@ -76,11 +76,11 @@ public class SudokuField {
             return false;
         }
         SudokuField that = (SudokuField) o;
-        return value == that.value && Objects.equal(pcs, that.pcs);
+        return value == that.value;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(value, pcs);
+        return Objects.hashCode(value);
     }
 }
