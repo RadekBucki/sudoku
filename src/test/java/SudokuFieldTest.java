@@ -21,6 +21,7 @@ public class SudokuFieldTest {
         assertTrue(field1.equals(field2));
         assertEquals(field1.hashCode(),field2.hashCode());
         assertTrue(field1.equals(field1));
+        assertEquals(field1.hashCode(),field1.hashCode());
     }
 
     @Test
@@ -33,6 +34,7 @@ public class SudokuFieldTest {
         assertFalse(field1.equals(null));
         SudokuRow row = new SudokuRow(new SudokuField[9]);
         assertFalse(field1.equals(row));
+        assertNotEquals(field1.hashCode(),row.hashCode());
 
     }
 }
