@@ -170,6 +170,9 @@ class SudokuBoardTest {
         assertTrue(boardNotSolved.equals(boardNotSolved2));
         assertTrue(boardNotSolved.equals(boardNotSolved));
         assertEquals(boardNotSolved.hashCode(), boardNotSolved2.hashCode());
+        boardNotSolved.set(0,0,9);
+        assertFalse(boardNotSolved.equals(boardNotSolved2));
+        assertNotEquals(boardNotSolved.hashCode(), boardNotSolved2.hashCode());
     }
 
     @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions", "EqualsBetweenInconvertibleTypes"})
