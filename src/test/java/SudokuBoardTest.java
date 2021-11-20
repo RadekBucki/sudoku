@@ -163,6 +163,7 @@ class SudokuBoardTest {
         assertEquals(board1.toString(), toString.toString());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "EqualsWithItself"})
     @Test
     @DisplayName("Equals and Hashcode test")
     void equalsAndHashcodeTest() {
@@ -171,6 +172,7 @@ class SudokuBoardTest {
         assertEquals(boardNotSolved.hashCode(), boardNotSolved2.hashCode());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
     @DisplayName("Equals and Hashcode test negative")
     void equalsAndHashcodeTestNegative() {

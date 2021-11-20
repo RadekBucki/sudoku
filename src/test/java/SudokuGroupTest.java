@@ -63,6 +63,7 @@ class SudokuGroupTest {
         assertEquals(toStringBox.toString(), board.getBox(0, 0).toString());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "EqualsWithItself"})
     @Test
     @DisplayName("Equals and Hashcode test")
     void equalsAndHashcodeTest() {
@@ -73,6 +74,7 @@ class SudokuGroupTest {
         assertEquals(sudokuGroup1.hashCode(), sudokuGroup2.hashCode());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
     @DisplayName("Equals and Hashcode test negative")
     void equalsAndHashcodeTestNegative() {

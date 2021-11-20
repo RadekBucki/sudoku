@@ -13,6 +13,7 @@ public class SudokuFieldTest {
         assertEquals("SudokuField{value=" + field.getFieldValue() + "}",field.toString());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "EqualsWithItself"})
     @Test
     @DisplayName("Equals and Hashcode test")
     void equalsAndHashcodeTest() {
@@ -24,6 +25,7 @@ public class SudokuFieldTest {
         assertEquals(field1.hashCode(),field1.hashCode());
     }
 
+    @SuppressWarnings({"SimplifiableAssertion", "ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
     @DisplayName("Equals and Hashcode test negative")
     void equalsAndHashcodeTestNegative() {

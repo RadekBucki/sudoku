@@ -10,7 +10,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     /**
      * Method which solves SudokuBoard.
      *
-     * @param board SodokuBoard which should be solved
+     * @param board SudokuBoard which should be solved
      */
     public void solve(SudokuBoard board) {
         placeNumbers(board);
@@ -19,7 +19,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     /**
      * Recursive method which solves SudokuBoard.
      *
-     * @param board SodokuBoard which should be solved
+     * @param board SudokuBoard which should be solved
      * @return boolean - information about status of solving
      */
     private boolean placeNumbers(SudokuBoard board) {
