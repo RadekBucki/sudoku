@@ -184,8 +184,7 @@ public class SudokuBoard implements PropertyChangeListener {
             return false;
         }
         SudokuBoard that = (SudokuBoard) o;
-        return Arrays.deepEquals(board, that.board) && Objects.equal(rows, that.rows)
-                && Objects.equal(columns, that.columns) && Objects.equal(boxes, that.boxes);
+        return Objects.equal(rows, that.rows);
     }
 
     /**
@@ -194,6 +193,6 @@ public class SudokuBoard implements PropertyChangeListener {
      */
     @Override
     public int hashCode() {
-        return Objects.hashCode(rows, columns, boxes);
+        return Objects.hashCode(rows);
     }
 }
