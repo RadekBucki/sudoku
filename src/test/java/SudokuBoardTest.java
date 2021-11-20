@@ -145,22 +145,22 @@ class SudokuBoardTest {
     @Test
     @DisplayName("toStringTest")
     void toStringTest() {
-        String toString = "SudokuBoard{board=[";
+        StringBuilder toString = new StringBuilder("SudokuBoard{board=[");
         for (int i = 0; i < 9; i++) {
-            toString += "[";
+            toString.append("[");
             for (int j = 0; j < 9; j++) {
-                toString += new SudokuField(board1.get(i, j));
+                toString.append(new SudokuField(board1.get(i, j)));
                 if (j != 8) {
-                    toString += ", ";
+                    toString.append(", ");
                 }
             }
-            toString += "]";
+            toString.append("]");
             if (i != 8) {
-                toString += ", ";
+                toString.append(", ");
             }
         }
-        toString += "]}";
-        assertEquals(board1.toString(), toString);
+        toString.append("]}");
+        assertEquals(board1.toString(), toString.toString());
     }
 
     @Test

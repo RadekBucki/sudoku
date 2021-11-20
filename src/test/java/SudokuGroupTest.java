@@ -42,25 +42,25 @@ class SudokuGroupTest {
     void toStringTest() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
-        String toStringCol = "SudokuColumn{values=[";
-        String toStringRow = "SudokuRow{values=[";
-        String toStringBox = "SudokuBox{values=[";
+        StringBuilder toStringCol = new StringBuilder("SudokuColumn{values=[");
+        StringBuilder toStringRow = new StringBuilder("SudokuRow{values=[");
+        StringBuilder toStringBox = new StringBuilder("SudokuBox{values=[");
         for (int i = 0; i < 9; i++) {
-            toStringRow += new SudokuField(board.get(0, i));
-            toStringCol += new SudokuField(board.get(i, 0));
-            toStringBox += new SudokuField(board.get(i / 3, i % 3));
+            toStringRow.append(new SudokuField(board.get(0, i)));
+            toStringCol.append(new SudokuField(board.get(i, 0)));
+            toStringBox.append(new SudokuField(board.get(i / 3, i % 3)));
             if (i != 8) {
-                toStringRow += ", ";
-                toStringCol += ", ";
-                toStringBox += ", ";
+                toStringRow.append(", ");
+                toStringCol.append(", ");
+                toStringBox.append(", ");
             }
         }
-        toStringRow += "]}";
-        toStringCol += "]}";
-        toStringBox += "]}";
-        assertEquals(toStringRow, board.getRow(0).toString());
-        assertEquals(toStringCol, board.getColumn(0).toString());
-        assertEquals(toStringBox, board.getBox(0, 0).toString());
+        toStringRow.append("]}");
+        toStringCol.append("]}");
+        toStringBox.append("]}");
+        assertEquals(toStringRow.toString(), board.getRow(0).toString());
+        assertEquals(toStringCol.toString(), board.getColumn(0).toString());
+        assertEquals(toStringBox.toString(), board.getBox(0, 0).toString());
     }
 
     @Test
@@ -69,6 +69,7 @@ class SudokuGroupTest {
         SudokuRow sudokuGroup1 = new SudokuRow(testValues);
         SudokuRow sudokuGroup2 = new SudokuRow(testValues);
         assertTrue(sudokuGroup1.equals(sudokuGroup2));
+        assertTrue(sudokuGroup1.equals(sudokuGroup1));
         assertEquals(sudokuGroup1.hashCode(), sudokuGroup2.hashCode());
     }
 
