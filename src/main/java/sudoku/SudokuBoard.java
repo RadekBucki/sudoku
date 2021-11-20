@@ -175,13 +175,12 @@ public class SudokuBoard implements PropertyChangeListener {
             return false;
         }
         SudokuBoard that = (SudokuBoard) o;
-        return Objects.equal(board, that.board) && Objects.equal(rows, that.rows)
-                && Objects.equal(columns, that.columns) && Objects.equal(boxes, that.boxes)
-                && Objects.equal(sudokuSolver, that.sudokuSolver);
+        return Arrays.deepEquals(board, that.board) && Objects.equal(rows, that.rows)
+                && Objects.equal(columns, that.columns) && Objects.equal(boxes, that.boxes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(board, rows, columns, boxes, sudokuSolver);
+        return Objects.hashCode(rows, columns, boxes);
     }
 }

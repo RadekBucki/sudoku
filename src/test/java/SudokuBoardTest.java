@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {
 
-    private SudokuBoard board1, board2, boardNotSolved;
+    private SudokuBoard board1, board2, boardNotSolved, boardNotSolved2;
 
     @BeforeEach
     void setUp() {
@@ -26,6 +26,7 @@ class SudokuBoardTest {
         board2 = new SudokuBoard(new BacktrackingSudokuSolver());
         board2.solveGame();
         boardNotSolved = new SudokuBoard(new BacktrackingSudokuSolver());
+        boardNotSolved2 = new SudokuBoard(new BacktrackingSudokuSolver());
     }
 
     @Test
@@ -160,6 +161,31 @@ class SudokuBoardTest {
         }
         toString += "]}";
         assertEquals(board1.toString(), toString);
+    }
+
+    @Test
+    @DisplayName("Equals and Hashcode test")
+    void equalsAndHashcodeTest() {
+        assertTrue(boardNotSolved.equals(boardNotSolved2));
+        assertTrue(boardNotSolved.equals(boardNotSolved));
+        assertEquals(boardNotSolved.hashCode(), boardNotSolved2.hashCode());
+    }
+
+    @Test
+    @DisplayName("Equals and Hashcode test negative")
+    void equalsAndHashcodeTestNegative() {
+        assertFalse(board1.equals(board2));
+        assertNotEquals(board1.hashCode(), board2.hashCode());
+        assertFalse(board1.equals(null));
+        SudokuRow row = new SudokuRow(new SudokuField[9]);
+        assertFalse(board1.equals(row));
+        assertNotEquals(board1.hashCode(), row.hashCode());
+    }
+
+    @Test
+    @DisplayName("Equals and hashCode cohesion test")
+    void equalsAndHashCodeCohesionTest() {
+        assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
     }
 
     /**
