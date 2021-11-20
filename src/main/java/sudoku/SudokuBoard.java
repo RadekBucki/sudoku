@@ -159,6 +159,10 @@ public class SudokuBoard implements PropertyChangeListener {
         return Arrays.stream(group.getFields()).boxed().collect(Collectors.toList());
     }
 
+    /**
+     * Override of method returns string representation of this object.
+     * @return string
+     */
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -166,6 +170,11 @@ public class SudokuBoard implements PropertyChangeListener {
                 .toString();
     }
 
+    /**
+     * Method returns information whether the objects are the same.
+     * @param o tested object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -179,6 +188,10 @@ public class SudokuBoard implements PropertyChangeListener {
                 && Objects.equal(columns, that.columns) && Objects.equal(boxes, that.boxes);
     }
 
+    /**
+     * Method returns the hash code.
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(rows, columns, boxes);
