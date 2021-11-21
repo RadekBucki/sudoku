@@ -37,6 +37,15 @@ public class SudokuFieldTest {
         SudokuRow row = new SudokuRow(new SudokuField[9]);
         assertFalse(field1.equals(row));
         assertNotEquals(field1.hashCode(),row.hashCode());
+    }
 
+    @Test
+    @DisplayName("Equals and hashCode cohesion test")
+    void equalsAndHashCodeCohesionTest() {
+        SudokuField field1 = new SudokuField(2);
+        SudokuField field2 = new SudokuField(2);
+        assertEquals(field1.equals(field2), field1.hashCode() == field2.hashCode());
+        field2.setFieldValue(3);
+        assertEquals(field1.equals(field2), field1.hashCode() == field2.hashCode());
     }
 }

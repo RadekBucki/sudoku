@@ -96,5 +96,8 @@ class SudokuGroupTest {
         SudokuRow sudokuGroup1 = new SudokuRow(testValues);
         SudokuRow sudokuGroup2 = new SudokuRow(testValues);
         assertEquals(sudokuGroup1.equals(sudokuGroup2), sudokuGroup1.hashCode() == sudokuGroup2.hashCode());
+        testValues[0]=new SudokuField(9);
+        SudokuRow sudokuGroup3 = new SudokuRow(testValues);
+        assertEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
     }
 }
