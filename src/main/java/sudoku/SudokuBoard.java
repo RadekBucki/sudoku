@@ -1,5 +1,7 @@
 package sudoku;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
@@ -155,5 +157,42 @@ public class SudokuBoard implements PropertyChangeListener {
      */
     private List<Integer> getListOfIntegersFromSudokuGroup(SudokuGroup group) {
         return Arrays.stream(group.getFields()).boxed().collect(Collectors.toList());
+    }
+
+    /**
+     * Override of method returns string representation of this object.
+     * @return string
+     */
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("board", board)
+                .toString();
+    }
+
+    /**
+     * Method returns information whether the objects are the same.
+     * @param o tested object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SudokuBoard that = (SudokuBoard) o;
+        return Objects.equal(rows, that.rows);
+    }
+
+    /**
+     * Method returns the hash code.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(rows);
     }
 }

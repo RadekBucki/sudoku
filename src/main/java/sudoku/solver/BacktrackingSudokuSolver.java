@@ -9,7 +9,8 @@ import sudoku.SudokuBoard;
 public class BacktrackingSudokuSolver implements SudokuSolver {
     /**
      * Method which solves SudokuBoard.
-     * @param board SodokuBoard which should be solved
+     *
+     * @param board SudokuBoard which should be solved
      */
     public void solve(SudokuBoard board) {
         placeNumbers(board);
@@ -17,7 +18,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
 
     /**
      * Recursive method which solves SudokuBoard.
-     * @param board SodokuBoard which should be solved
+     *
+     * @param board SudokuBoard which should be solved
      * @return boolean - information about status of solving
      */
     private boolean placeNumbers(SudokuBoard board) {
@@ -25,7 +27,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
         int col = -1;
         boolean found = false;
 
-outer:  for (int i = 0; i < 9; i++) {
+        outer:
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board.get(i, j) == 0) {
                     row = i;
@@ -38,7 +41,7 @@ outer:  for (int i = 0; i < 9; i++) {
         if (!found) {
             return true;
         }
-        List<Integer> numbers = Stream.iterate(1,n -> n + 1).limit(9).collect(Collectors.toList());
+        List<Integer> numbers = Stream.iterate(1, n -> n + 1).limit(9).collect(Collectors.toList());
         Collections.shuffle(numbers);
         for (int generated : numbers) {
             if (board.check(row, col, generated)) {

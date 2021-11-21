@@ -1,5 +1,7 @@
 package sudoku;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -56,5 +58,42 @@ public class SudokuField {
         if (oldValue != value) {
             pcs.firePropertyChange("value",oldValue,value);
         }
+    }
+
+    /**
+     * Override of method returns string representation of this object.
+     * @return string
+     */
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("value", value)
+                .toString();
+    }
+
+    /**
+     * Method returns information whether the objects are the same.
+     * @param o tested object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SudokuField that = (SudokuField) o;
+        return value == that.value;
+    }
+
+    /**
+     * Method returns the hash code.
+     * @return int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }
