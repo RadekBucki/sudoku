@@ -11,10 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuGroupTest {
 
     SudokuField[] testValues;
+    SudokuRow sudokuGroup1, sudokuGroup2;
 
     @BeforeEach
     void init() {
         testValues = new SudokuField[9];
+        sudokuGroup1 = new SudokuRow(testValues);
+        sudokuGroup2 = new SudokuRow(testValues);
     }
 
     @Test
@@ -67,8 +70,6 @@ class SudokuGroupTest {
     @Test
     @DisplayName("Equals and Hashcode test")
     void equalsAndHashcodeTest() {
-        SudokuRow sudokuGroup1 = new SudokuRow(testValues);
-        SudokuRow sudokuGroup2 = new SudokuRow(testValues);
         assertTrue(sudokuGroup1.equals(sudokuGroup2));
         assertTrue(sudokuGroup1.equals(sudokuGroup1));
         assertEquals(sudokuGroup1.hashCode(), sudokuGroup2.hashCode());
@@ -78,7 +79,6 @@ class SudokuGroupTest {
     @Test
     @DisplayName("Equals and Hashcode test negative")
     void equalsAndHashcodeTestNegative() {
-        SudokuRow sudokuGroup1 = new SudokuRow(testValues);
         SudokuField[] fields = new SudokuField[9];
         fields[0] = new SudokuField(5);
         SudokuRow sudokuGroup2 = new SudokuRow(fields);
@@ -93,10 +93,8 @@ class SudokuGroupTest {
     @Test
     @DisplayName("Equals and hashCode cohesion test")
     void equalsAndHashCodeCohesionTest() {
-        SudokuRow sudokuGroup1 = new SudokuRow(testValues);
-        SudokuRow sudokuGroup2 = new SudokuRow(testValues);
         assertEquals(sudokuGroup1.equals(sudokuGroup2), sudokuGroup1.hashCode() == sudokuGroup2.hashCode());
-        testValues[0]=new SudokuField(9);
+        testValues[0] = new SudokuField(9);
         SudokuRow sudokuGroup3 = new SudokuRow(testValues);
         assertEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
     }
