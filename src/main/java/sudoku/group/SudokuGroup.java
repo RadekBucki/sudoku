@@ -2,11 +2,12 @@ package sudoku.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import sudoku.SudokuField;
 
-public abstract class SudokuGroup {
+public abstract class SudokuGroup implements Serializable {
     private List<SudokuField> values = Arrays.asList(new SudokuField[9]);
 
     /**
