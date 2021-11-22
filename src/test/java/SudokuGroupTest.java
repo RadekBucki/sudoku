@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import sudoku.SudokuBoard;
 import sudoku.SudokuField;
+import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
 import sudoku.solver.BacktrackingSudokuSolver;
@@ -93,9 +94,10 @@ class SudokuGroupTest {
     @Test
     @DisplayName("Equals and hashCode cohesion test")
     void equalsAndHashCodeCohesionTest() {
+        assertTrue(sudokuGroup1.equals(sudokuGroup2));
         assertEquals(sudokuGroup1.equals(sudokuGroup2), sudokuGroup1.hashCode() == sudokuGroup2.hashCode());
-        testValues[0] = new SudokuField(9);
-        SudokuRow sudokuGroup3 = new SudokuRow(testValues);
-        assertEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
+        SudokuColumn sudokuGroup3 = new SudokuColumn(testValues);
+        assertFalse(sudokuGroup1.equals(sudokuGroup3));
+        assertNotEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
     }
 }
