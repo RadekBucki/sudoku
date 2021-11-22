@@ -52,6 +52,11 @@ public class SudokuBoard implements PropertyChangeListener {
         sudokuSolver = solver;
     }
 
+    public SudokuBoard(SudokuField[][] board, SudokuSolver sudokuSolver) {
+        this.board = board;
+        this.sudokuSolver = sudokuSolver;
+    }
+
     /**
      * Implementation of Listener pattern.
      * @param evt event get from listened objects
