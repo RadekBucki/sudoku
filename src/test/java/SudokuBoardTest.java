@@ -190,8 +190,7 @@ class SudokuBoardTest {
     @Test
     @DisplayName("Equals and hashCode cohesion test")
     void equalsAndHashCodeCohesionTest() {
-        assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
-        boardNotSolved.set(0,0,9);
+        assertTrue(boardNotSolved.equals(boardNotSolved2));
         assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
     }
 
