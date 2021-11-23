@@ -24,10 +24,21 @@ class FileSudokuBoardDaoTest {
     }
 
     @Test
-    @DisplayName("readExceptionTest")
+    @DisplayName("Write exception Test")
     void readExceptionTest() {
         FileSudokuBoardDao dao = new FileSudokuBoardDao("notexist");
-        Exception exception = assertThrows(FileNotFoundException.class, dao::read);
+        Exception exception = assertThrows(RuntimeException.class, dao::read);
+        assertNotNull(exception);
+    }
+
+    @Test
+    @DisplayName("Write exception test")
+    void writeExceptionTest() {
+        FileSudokuBoardDao dao = new FileSudokuBoardDao("?");
+        Exception exception = assertThrows(
+                RuntimeException.class,
+                () -> dao.write(new SudokuBoard(new BacktrackingSudokuSolver()))
+        );
         assertNotNull(exception);
     }
 }

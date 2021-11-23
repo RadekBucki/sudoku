@@ -1,6 +1,5 @@
 package dao;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,19 +15,30 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public SudokuBoard read() throws IOException, ClassNotFoundException {
-        File f = new File(fileName);
-        FileInputStream fis = new FileInputStream(f);
-        ObjectInputStream reader = new ObjectInputStream(fis);
-        return (SudokuBoard) reader.readObject();
+    public SudokuBoard read() {
+        SudokuBoard sudokuBoard;
+        try (
+            ObjectInputStream reader = new ObjectInputStream(
+                new FileInputStream(fileName)
+            )
+        ) {
+            sudokuBoard = (SudokuBoard) reader.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return sudokuBoard;
     }
 
     @Override
-    public void write(SudokuBoard obj) throws IOException {
-        FileOutputStream fos = new FileOutputStream(fileName);
-        ObjectOutputStream writer = new ObjectOutputStream(fos);
-        writer.writeObject(obj);
-        writer.close();
-        fos.close();
+    public void write(SudokuBoard obj) {
+        try (
+            ObjectOutputStream writer = new ObjectOutputStream(
+                new FileOutputStream(fileName)
+            )
+        ) {
+            writer.writeObject(obj);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
