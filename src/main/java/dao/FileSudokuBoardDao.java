@@ -11,7 +11,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     private String fileName;
 
     public FileSudokuBoardDao(String fileName) {
-        this.fileName = fileName + ".ser";
+        this.fileName = fileName + ".bin";
     }
 
     @Override
