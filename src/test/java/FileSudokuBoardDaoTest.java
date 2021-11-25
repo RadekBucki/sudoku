@@ -32,9 +32,8 @@ class FileSudokuBoardDaoTest {
     @Test
     @DisplayName("importExportTest")
     void importExportTest() {
-        Dao<SudokuBoard> dao = factory.getFileDao("dao");
         SudokuBoard importedBoard = null;
-        try {
+        try(Dao<SudokuBoard> dao = factory.getFileDao("dao")) {
             dao.write(board);
             importedBoard = dao.read();
         } catch (Exception e) {
@@ -46,19 +45,25 @@ class FileSudokuBoardDaoTest {
     @Test
     @DisplayName("Write exception Test")
     void readExceptionTest() {
-        Dao<SudokuBoard> dao = factory.getFileDao("notexist");
-        Exception exception = assertThrows(RuntimeException.class, dao::read);
-        assertNotNull(exception);
+        try(Dao<SudokuBoard> dao = factory.getFileDao("notexist")) {
+            Exception exception = assertThrows(RuntimeException.class, dao::read);
+            assertNotNull(exception);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @DisplayName("Write exception test")
     void writeExceptionTest() {
-        Dao<SudokuBoard> dao = factory.getFileDao("?");
-        Exception exception = assertThrows(
-                RuntimeException.class,
-                () -> dao.write(board)
-        );
-        assertNotNull(exception);
+        try(Dao<SudokuBoard> dao = factory.getFileDao("?")) {
+            Exception exception = assertThrows(
+                    RuntimeException.class,
+                    () -> dao.write(board)
+            );
+            assertNotNull(exception);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

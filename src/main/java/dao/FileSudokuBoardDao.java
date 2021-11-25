@@ -12,6 +12,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     public FileSudokuBoardDao(String fileName) {
         this.fileName = fileName + ".bin";
+
     }
 
     @Override
@@ -41,4 +42,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void close() throws Exception {}
 }
