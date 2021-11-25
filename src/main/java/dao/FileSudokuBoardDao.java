@@ -9,6 +9,8 @@ import sudoku.SudokuBoard;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     private String fileName;
+    ObjectOutputStream writer;
+    ObjectInputStream reader;
 
     public FileSudokuBoardDao(String fileName) {
         this.fileName = fileName + ".bin";
@@ -17,11 +19,10 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     @Override
     public SudokuBoard read() {
         SudokuBoard sudokuBoard;
-        try (
-            ObjectInputStream reader = new ObjectInputStream(
-                new FileInputStream(fileName)
-            )
-        ) {
+        try {
+            reader = new ObjectInputStream(
+                    new FileInputStream(fileName)
+            );
             sudokuBoard = (SudokuBoard) reader.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -31,14 +32,23 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
 
     @Override
     public void write(SudokuBoard obj) {
-        try (
-            ObjectOutputStream writer = new ObjectOutputStream(
-                new FileOutputStream(fileName)
-            )
-        ) {
+        try {
+            writer = new ObjectOutputStream(
+                    new FileOutputStream(fileName)
+            );
             writer.writeObject(obj);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (writer != null) {
+            writer.close();
+        }
+        if (reader != null) {
+            reader.close();
         }
     }
 }
