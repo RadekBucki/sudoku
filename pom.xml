@@ -11,6 +11,7 @@
     <modules>
         <module>Model</module>
         <module>View</module>
+        <module>AggregationModule</module>
     </modules>
 
     <licenses>
