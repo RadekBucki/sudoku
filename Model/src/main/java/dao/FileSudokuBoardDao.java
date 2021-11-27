@@ -10,11 +10,21 @@ import sudoku.SudokuBoard;
 public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     private String fileName;
 
+    /**
+     * Constructor.
+     * @param fileName name of the file
+     */
     public FileSudokuBoardDao(String fileName) {
-        this.fileName = fileName + ".bin";
-
+        this.fileName = fileName;
+        if (!fileName.endsWith(".bin")) {
+            this.fileName += ".bin";
+        }
     }
 
+    /**
+     * Method loading written SudokuBoard object.
+     * @return SudokuBoard
+     */
     @Override
     public SudokuBoard read() {
         SudokuBoard sudokuBoard;
@@ -30,6 +40,10 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         return sudokuBoard;
     }
 
+    /**
+     * Save SudokuBoard object to file.
+     * @param obj object type SudokuBoard which should be saved to file
+     */
     @Override
     public void write(SudokuBoard obj) {
         try (

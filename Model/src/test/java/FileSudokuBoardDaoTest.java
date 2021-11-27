@@ -66,4 +66,14 @@ class FileSudokuBoardDaoTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    @DisplayName("constructorTest")
+    void constructorTest() {
+        try(Dao<SudokuBoard> dao = factory.getFileDao("testWithExtension.bin")) {
+            assertTrue(dao instanceof FileSudokuBoardDao);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
