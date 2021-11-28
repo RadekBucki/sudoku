@@ -11,6 +11,7 @@
     <modules>
         <module>Model</module>
         <module>View</module>
+        <module>Aggregation</module>
     </modules>
 
     <licenses>
@@ -207,7 +208,7 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>checkstyle</report>
+                            <report>checkstyle-aggregate</report>
                         </reports>
                     </reportSet>
                 </reportSets>
