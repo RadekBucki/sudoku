@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import sudoku.group.SudokuGroup;
 import sudoku.group.SudokuRow;
 import sudoku.solver.SudokuSolver;
 
-public class SudokuBoard implements PropertyChangeListener {
+public class SudokuBoard implements PropertyChangeListener, Serializable {
     private SudokuField[][] board = new SudokuField[9][9];
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
     private List<SudokuColumn> columns = Arrays.asList(new SudokuColumn[9]);

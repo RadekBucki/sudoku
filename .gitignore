@@ -1,2 +1,8 @@
 target/
 .idea/
+View/target/
+Model/target/
+site/
+View/site/
+Model/site/
+*.bin
