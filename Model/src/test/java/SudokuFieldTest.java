@@ -53,4 +53,13 @@ public class SudokuFieldTest {
         field2.setFieldValue(3);
         assertEquals(field1.equals(field2), field1.hashCode() == field2.hashCode());
     }
+
+    @Test
+    @DisplayName("Compare To Test")
+    void compareToTest() {
+        assertEquals(field1.compareTo(field2),0);
+        field1.setFieldValue(4);
+        assertEquals(field1.compareTo(field2),2);
+        assertEquals(field2.compareTo(field1),-2);
+    }
 }
