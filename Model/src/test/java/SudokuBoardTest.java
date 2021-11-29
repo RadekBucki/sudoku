@@ -195,6 +195,13 @@ class SudokuBoardTest {
         assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
     }
 
+    @Test
+    @DisplayName("Clone test")
+    void cloneTest() throws CloneNotSupportedException {
+        SudokuBoard newSudokuBoard = (SudokuBoard) board1.clone();
+        assertTrue(board1.equals(newSudokuBoard));
+    }
+
     /**
      * Method checks for Duplicates in box.
      *

@@ -14,7 +14,7 @@ import sudoku.group.SudokuGroup;
 import sudoku.group.SudokuRow;
 import sudoku.solver.SudokuSolver;
 
-public class SudokuBoard implements PropertyChangeListener, Serializable {
+public class SudokuBoard implements PropertyChangeListener, Serializable, Cloneable {
     private SudokuField[][] board = new SudokuField[9][9];
     private List<SudokuRow> rows = Arrays.asList(new SudokuRow[9]);
     private List<SudokuColumn> columns = Arrays.asList(new SudokuColumn[9]);
@@ -195,5 +195,20 @@ public class SudokuBoard implements PropertyChangeListener, Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(rows);
+    }
+
+    /**
+     * Returns deep copy of SudokuBoard.
+     * @return SudokuBoard
+     */
+    @Override
+    public SudokuBoard clone() throws CloneNotSupportedException {
+        SudokuBoard clone = (SudokuBoard) super.clone();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                clone.set(i, j, this.get(i, j));
+            }
+        }
+        return clone;
     }
 }

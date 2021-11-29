@@ -98,4 +98,12 @@ class SudokuGroupTest {
         SudokuRow sudokuGroup3 = new SudokuRow(testValues);
         assertEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
     }
+
+    @Test
+    @DisplayName("Clone test")
+    void cloneTest() throws CloneNotSupportedException {
+        SudokuRow sudokuGroup = (new SudokuBoard(new BacktrackingSudokuSolver())).getRow(0);
+        SudokuRow newRow = (SudokuRow) sudokuGroup.clone();
+        assertTrue(sudokuGroup.equals(newRow));
+    }
 }
