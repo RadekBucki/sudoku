@@ -179,7 +179,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.1</version>
+            <version>12</version>
         </dependency>
 
         <dependency>
@@ -203,7 +203,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.0.1</version>
+            <version>11.0.2</version>
         </dependency>
 
     </dependencies>
