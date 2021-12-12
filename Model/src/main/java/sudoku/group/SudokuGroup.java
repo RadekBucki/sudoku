@@ -109,6 +109,10 @@ public abstract class SudokuGroup implements Serializable, Cloneable {
         return Objects.hashCode(values);
     }
 
+    /**
+     * Returns deep copy of SudokuGroup.
+     * @return SudokuGroup
+     */
     @Override
     public SudokuGroup clone() throws CloneNotSupportedException {
         SudokuGroup clone = (SudokuGroup) super.clone();
