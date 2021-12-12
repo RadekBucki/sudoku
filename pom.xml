@@ -68,21 +68,6 @@
                 <version>5.8.1</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>31.0.1-jre</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava-base</artifactId>
-                <version>r03</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-graphics</artifactId>
-                <version>16</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 

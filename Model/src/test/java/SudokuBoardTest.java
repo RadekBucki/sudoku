@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.Repository;
 import sudoku.SudokuBoard;
 import sudoku.SudokuField;
 import sudoku.group.SudokuBox;
@@ -198,8 +199,13 @@ class SudokuBoardTest {
     @Test
     @DisplayName("Clone test")
     void cloneTest() throws CloneNotSupportedException {
-        SudokuBoard newSudokuBoard = (SudokuBoard) board1.clone();
-        assertTrue(board1.equals(newSudokuBoard));
+        Repository prototypeCreate = new Repository(board1);
+        SudokuBoard boardProt = prototypeCreate.createInstance();
+        boardProt.solveGame();
+        SudokuBoard newSudokuBoard = boardProt.clone();
+        assertTrue(boardProt.equals(newSudokuBoard));
+        boardProt.set(1,1,0);
+        assertFalse(boardProt.equals(newSudokuBoard));
     }
 
     /**

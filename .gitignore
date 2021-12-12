@@ -6,3 +6,7 @@ site/
 View/site/
 Model/site/
 *.bin
+/SudokuGameProject.iml
+/View/ViewProject.iml
+/Model/ModelProject.iml
+/Aggregation/AggregationModule.iml

@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainFormController {
@@ -31,8 +30,6 @@ public class MainFormController {
             Stage stage = new Stage();
             stage.setScene(new Scene(board.load()));
             stage.setTitle("TurboSudoku");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(stage.getOwner());
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

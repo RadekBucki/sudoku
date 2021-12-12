@@ -59,15 +59,19 @@ public class SudokuFieldTest {
     @DisplayName("Compare To Test")
     void compareToTest() {
         assertEquals(field1.compareTo(field2),0);
+        assertDoesNotThrow(()->{field1.compareTo(field2);});
         field1.setFieldValue(4);
         assertEquals(field1.compareTo(field2),2);
         assertEquals(field2.compareTo(field1),-2);
+        assertThrows(NullPointerException.class,()->{field1.compareTo(null);});
     }
 
     @Test
     @DisplayName("Clone test")
     void cloneTest() throws CloneNotSupportedException {
-        SudokuField newField = (SudokuField) field1.clone();
+        SudokuField newField = field1.clone();
         assertTrue(field1.equals(newField));
+        field1.setFieldValue(5);
+        assertFalse(field1.equals(newField));
     }
 }

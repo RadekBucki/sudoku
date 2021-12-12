@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -204,10 +205,31 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     @Override
     public SudokuBoard clone() throws CloneNotSupportedException {
         SudokuBoard clone = (SudokuBoard) super.clone();
+        clone.board = new SudokuField[9][9];
+        clone.rows = new ArrayList<>(rows);
+        clone.columns = new ArrayList<>(columns);
+        clone.boxes = new ArrayList<>(boxes);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                clone.set(i, j, this.get(i, j));
+                clone.board[i][j] = board[i][j].clone();
             }
+        }
+        for (int i = 0; i < 9; i++) {
+            SudokuField[] column = new SudokuField[9];
+            for (int j = 0; j < 9; j++) {
+                column[j] = clone.board[j][i];
+            }
+            clone.rows.set(i, new SudokuRow(clone.board[i]));
+            clone.columns.set(i, new SudokuColumn(column));
+
+            SudokuField[] box = new SudokuField[9];
+            int j = 0;
+            for (int k = (i / 3) * 3; k < (i / 3) * 3 + 3; k++) {
+                for (int l = (i % 3) * 3; l < (i % 3) * 3 + 3; l++) {
+                    box[j++] = clone.board[k][l].clone();
+                }
+            }
+            clone.boxes.set(i,new SudokuBox(box));
         }
         return clone;
     }
