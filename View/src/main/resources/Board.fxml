@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox fx:id="board" layoutX="94.0" layoutY="91.0" prefHeight="720.0" prefWidth="720.0">
+         <children>
+            <HBox fx:id="row1" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row2" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row3" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row4" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row5" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row6" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row7" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row8" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="row9" prefHeight="80.0" prefWidth="717.0">
+               <children>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button layoutX="613.0" layoutY="813.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0"
+              style="-fx-font-size: 36;" text="Sprawdź" />
+      <Line endX="726.0" endY="247.0" layoutX="87.0" layoutY="84.0" startX="5.9999847412109375" startY="246.99998474121094" />
+      <Line endX="6.0" endY="487.0" layoutX="87.0" layoutY="84.0" startX="726.0000610351562" startY="487.0" />
+      <Line endX="246.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="245.99998474121094" startY="721.0" />
+      <Line endX="486.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="486.00006103515625" startY="721.0" />
+      <Line endX="726.0" endY="7.0" layoutX="87.0" layoutY="85.0" startX="6.0" startY="7.0" />
+      <Line endX="6.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="6.5" startY="726.5" />
+      <Line endX="7.0" endY="726.0" layoutX="87.0" layoutY="85.0" startX="727.0" startY="726.0" />
+      <Line endX="726.0" endY="7.0" layoutX="87.0" layoutY="85.0" startX="726.0" startY="726.5" />
+      <Text layoutX="3.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TurboSudoku" textAlignment="CENTER" wrappingWidth="873.0">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
