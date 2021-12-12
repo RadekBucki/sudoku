@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import sudoku.SudokuBoard;
 import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
 
@@ -52,5 +53,25 @@ public class SudokuFieldTest {
         assertEquals(field1.equals(field2), field1.hashCode() == field2.hashCode());
         field2.setFieldValue(3);
         assertEquals(field1.equals(field2), field1.hashCode() == field2.hashCode());
+    }
+
+    @Test
+    @DisplayName("Compare To Test")
+    void compareToTest() {
+        assertEquals(field1.compareTo(field2),0);
+        assertDoesNotThrow(()->{field1.compareTo(field2);});
+        field1.setFieldValue(4);
+        assertEquals(field1.compareTo(field2),2);
+        assertEquals(field2.compareTo(field1),-2);
+        assertThrows(NullPointerException.class,()->{field1.compareTo(null);});
+    }
+
+    @Test
+    @DisplayName("Clone test")
+    void cloneTest() throws CloneNotSupportedException {
+        SudokuField newField = field1.clone();
+        assertTrue(field1.equals(newField));
+        field1.setFieldValue(5);
+        assertFalse(field1.equals(newField));
     }
 }

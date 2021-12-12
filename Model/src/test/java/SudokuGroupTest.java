@@ -6,6 +6,8 @@ import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
 import sudoku.solver.BacktrackingSudokuSolver;
 
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuGroupTest {
@@ -97,5 +99,18 @@ class SudokuGroupTest {
         testValues[0] = new SudokuField(9);
         SudokuRow sudokuGroup3 = new SudokuRow(testValues);
         assertEquals(sudokuGroup1.equals(sudokuGroup3), sudokuGroup1.hashCode() == sudokuGroup3.hashCode());
+    }
+
+    @Test
+    @DisplayName("Clone test")
+    void cloneTest() throws CloneNotSupportedException {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
+        SudokuRow sudokuGroup = board.getRow(0);
+        SudokuRow newRow = (SudokuRow) sudokuGroup.clone();
+        assertTrue(sudokuGroup.equals(newRow));
+        board.set(0,0,0);
+        assertNotEquals(board.getRow(0).getField(0),newRow.getField(0));
+        assertFalse(newRow.equals(board.getRow(0)));
     }
 }

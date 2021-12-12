@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import sudoku.Repository;
 import sudoku.SudokuBoard;
 import sudoku.SudokuField;
 import sudoku.group.SudokuBox;
@@ -193,6 +194,18 @@ class SudokuBoardTest {
         assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
         boardNotSolved.set(0,0,9);
         assertEquals(boardNotSolved.equals(boardNotSolved2), boardNotSolved.hashCode() == boardNotSolved2.hashCode());
+    }
+
+    @Test
+    @DisplayName("Clone test")
+    void cloneTest() throws CloneNotSupportedException {
+        Repository prototypeCreate = new Repository(board1);
+        SudokuBoard boardProt = prototypeCreate.createInstance();
+        boardProt.solveGame();
+        SudokuBoard newSudokuBoard = boardProt.clone();
+        assertTrue(boardProt.equals(newSudokuBoard));
+        boardProt.set(1,1,0);
+        assertFalse(boardProt.equals(newSudokuBoard));
     }
 
     /**
