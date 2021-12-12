@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import sudoku.SudokuField;
 
-public abstract class SudokuGroup implements Serializable {
+public abstract class SudokuGroup implements Serializable, Cloneable {
     private List<SudokuField> values = Arrays.asList(new SudokuField[9]);
 
     /**
@@ -107,5 +107,18 @@ public abstract class SudokuGroup implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(values);
+    }
+
+    /**
+     * Returns deep copy of SudokuGroup.
+     * @return SudokuGroup
+     */
+    @Override
+    public SudokuGroup clone() throws CloneNotSupportedException {
+        SudokuGroup clone = (SudokuGroup) super.clone();
+        for (int i = 0; i < 9; i++) {
+            clone.values.set(i, this.values.get(i).clone());
+        }
+        return clone;
     }
 }
