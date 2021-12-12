@@ -98,6 +98,11 @@ public class SudokuField implements Serializable,Comparable<SudokuField> {
         return Objects.hashCode(value);
     }
 
+    /**
+     * Method compares values of sudokuFields
+     * @param o
+     * @return int
+     */
     @Override
     public int compareTo(SudokuField o) {
         return this.value - o.value;
