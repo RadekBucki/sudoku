@@ -456,11 +456,8 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="618.0" layoutY="813.0" mnemonicParsing="false" text="Sprawdź">
-<!--         <font>-->
-<!--            <Font size="36.0" />-->
-<!--         </font>-->
-      </Button>
+      <Button layoutX="613.0" layoutY="813.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0"
+              style="-fx-font-size: 36;" text="Sprawdź" />
       <Line endX="726.0" endY="247.0" layoutX="87.0" layoutY="84.0" startX="5.9999847412109375" startY="246.99998474121094" />
       <Line endX="6.0" endY="487.0" layoutX="87.0" layoutY="84.0" startX="726.0000610351562" startY="487.0" />
       <Line endX="246.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="245.99998474121094" startY="721.0" />
