@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
-public class SudokuField implements Serializable,Comparable<SudokuField> {
+public class SudokuField implements Serializable,Comparable<SudokuField>, Cloneable {
     private int value = 0;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -106,5 +106,16 @@ public class SudokuField implements Serializable,Comparable<SudokuField> {
     @Override
     public int compareTo(SudokuField o) {
         return this.value - o.value;
+    }
+
+    /**
+     * Returns deep copy of SudokuBoard.
+     * @return SudokuField
+     */
+    @Override
+    public SudokuField clone() throws CloneNotSupportedException {
+        SudokuField clone = (SudokuField) super.clone();
+        clone.setFieldValue(this.getFieldValue());
+        return clone;
     }
 }
