@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
-public class SudokuField implements Serializable, Cloneable {
+public class SudokuField implements Serializable,Comparable<SudokuField>, Cloneable {
     private int value = 0;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -96,6 +96,16 @@ public class SudokuField implements Serializable, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    /**
+     * Method compares values of sudokuFields
+     * @param o
+     * @return int
+     */
+    @Override
+    public int compareTo(SudokuField o) {
+        return this.value - o.value;
     }
 
     /**
