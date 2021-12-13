@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -9,53 +12,53 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox fx:id="board" layoutX="94.0" layoutY="91.0" prefHeight="720.0" prefWidth="720.0">
          <children>
             <HBox fx:id="row1" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf1" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf2" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf3" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf4" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf5" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf6" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf7" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf8" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf9" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -64,47 +67,47 @@
             </HBox>
             <HBox fx:id="row2" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf10" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf11" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf12" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf13" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf14" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf15" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf16" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf17" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf18" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -113,47 +116,47 @@
             </HBox>
             <HBox fx:id="row3" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf19" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf20" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf21" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf22" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf23" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf24" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf25" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf26" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf27" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -162,47 +165,47 @@
             </HBox>
             <HBox fx:id="row4" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf28" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf29" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf30" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf31" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf32" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf33" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf34" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf35" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf36" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -211,47 +214,47 @@
             </HBox>
             <HBox fx:id="row5" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf37" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf38" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf39" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf40" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf41" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf42" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf43" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf44" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf45" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -260,47 +263,47 @@
             </HBox>
             <HBox fx:id="row6" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf46" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf47" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf48" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf49" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf50" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf51" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf52" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf53" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf54" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -309,47 +312,47 @@
             </HBox>
             <HBox fx:id="row7" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf55" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf56" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf57" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf58" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf59" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf60" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf61" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf62" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf63" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -358,47 +361,47 @@
             </HBox>
             <HBox fx:id="row8" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf64" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf65" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf66" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf67" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf68" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf69" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf70" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf71" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf72" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -407,47 +410,47 @@
             </HBox>
             <HBox fx:id="row9" prefHeight="80.0" prefWidth="717.0">
                <children>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf73" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf74" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf75" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf76" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf77" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf78" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf79" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf80" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
+                  <TextField fx:id="tf81" alignment="CENTER" prefHeight="80.0" prefWidth="80.0">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -456,8 +459,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="613.0" layoutY="813.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0"
-              style="-fx-font-size: 36;" text="Sprawdź" />
+      <Button layoutX="613.0" layoutY="813.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="Sprawdź" />
       <Line endX="726.0" endY="247.0" layoutX="87.0" layoutY="84.0" startX="5.9999847412109375" startY="246.99998474121094" />
       <Line endX="6.0" endY="487.0" layoutX="87.0" layoutY="84.0" startX="726.0000610351562" startY="487.0" />
       <Line endX="246.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="245.99998474121094" startY="721.0" />
@@ -471,5 +473,25 @@
             <Font size="72.0" />
          </font>
       </Text>
+      <MenuBar layoutX="3.0" layoutY="1.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Load" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </Pane>

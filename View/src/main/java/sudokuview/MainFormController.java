@@ -36,4 +36,9 @@ public class MainFormController {
         }
     }
 
+    public void saveToFile(ActionEvent actionEvent) {
+    }
+
+    public void loadToFile(ActionEvent actionEvent) {
+    }
 }
