@@ -12,70 +12,11 @@ import javafx.scene.layout.VBox;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class BoardController implements Initializable {
-    private String level;
-
-    public enum Level {
-        easy(15),
-        medium(25),
-        hard(30);
-
-        int fieldsToRemove;
-
-        /**
-         * Constructor.
-         *
-         * @param i number of fields to remove
-         */
-        Level(int i) {
-            this.fieldsToRemove = i;
-        }
-
-        /**
-         * Methods prepare board to game by removing some fields values.
-         *
-         * @param board which will be prepared
-         */
-        void prepare(SudokuBoard board) {
-            Random generator = new Random();
-            boolean changed;
-            for (int i = 0; i < fieldsToRemove; i++) {
-                do {
-                    changed = false;
-                    int x = generator.nextInt(0, 9);
-                    int y = generator.nextInt(0, 9);
-                    if (board.get(x, y) != 0) {
-                        board.set(x, y, 0);
-                        changed = true;
-                    }
-                } while (!changed);
-            }
-        }
-    }
-
-    /**
-     * Controller constructor.
-     *
-     * @param level of the game
-     */
-    public BoardController(String level) {
-        this.level = level;
-    }
-
+public class BoardController {
     @FXML
     private VBox board;
 
-    /**
-     * Method executed on load.
-     *
-     * @param url            link to fxml file
-     * @param resourceBundle package with regional settings
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        modelSudokuBoard.solveGame();
-        Level.valueOf(level).prepare(modelSudokuBoard);
+    public void startGame(SudokuBoard modelSudokuBoard) {
         for (int i = 0; i < board.getChildren().size(); i++) {
             HBox row = (HBox) board.getChildren().get(i);
             for (int j = 0; j < row.getChildren().size(); j++) {

@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import sudoku.SudokuBoard;
+import sudoku.solver.BacktrackingSudokuSolver;
 
 public class MainFormController {
     /**
@@ -23,10 +25,13 @@ public class MainFormController {
             FXMLLoader board = new FXMLLoader(
                     getClass().getResource("/Board.fxml")
             );
-            board.setController(new BoardController(button.getId()));
+            SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+            modelSudokuBoard.solveGame();
+            Levels.Level.valueOf(button.getId()).prepare(modelSudokuBoard);
             Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
             stage.setScene(new Scene(board.load()));
             stage.setTitle("TurboSudoku");
+            ((BoardController)board.getController()).startGame(modelSudokuBoard);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
