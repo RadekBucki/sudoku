@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MainFormController {
@@ -34,5 +36,10 @@ public class MainFormController {
     }
 
     public void loadToFile(ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open File");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin"));
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
+        chooser.showOpenDialog(((MenuItem) actionEvent.getSource()).getParentPopup().getScene().getWindow());
     }
 }
