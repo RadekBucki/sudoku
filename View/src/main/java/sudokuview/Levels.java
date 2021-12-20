@@ -1,16 +1,14 @@
 package sudokuview;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
-import sudoku.SudokuBoard;
-
 import java.util.Random;
+import sudoku.SudokuBoard;
 
 public class Levels {
     public enum Level {
         easy(15),
         medium(25),
-        hard(35);
+        hard(35),
+        turbo(45);
 
         int fieldsToRemove;
 
