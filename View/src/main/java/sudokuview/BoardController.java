@@ -1,10 +1,12 @@
 package sudokuview;
 
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import sudoku.SudokuBoard;
 
 public class BoardController {
@@ -28,6 +30,17 @@ public class BoardController {
 
     private void fieldListener(ObservableValue<? extends String> observable,
                                String oldValue, String newValue) {
+        if (newValue.isEmpty()) {
+            if (
+                newValue.length() > 1
+                || '0' >= newValue.charAt(0)
+                || newValue.charAt(0) >= '9'
+            ) {
+                StringProperty stringProperty = (StringProperty) observable;
+                stringProperty.setValue(oldValue);
+                return;
+            }
+        }
         System.out.println(oldValue + " -> " + newValue);
     }
 
