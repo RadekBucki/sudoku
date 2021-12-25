@@ -7,6 +7,7 @@ import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanLongPropertyBuilder;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.text.Text;
 import sudoku.SudokuBoard;
 import sudoku.SudokuField;
 
@@ -58,7 +60,6 @@ public class BoardController {
                     textField.setText(String.valueOf(value));
                     textField.setDisable(true);
                 }
-
                 textField.textProperty().addListener(this::fieldListener);
                 try {
                     SudokuFieldAdapter fieldAdapter =
@@ -76,6 +77,17 @@ public class BoardController {
 
     private void fieldListener(ObservableValue<? extends String> observable,
                                String oldValue, String newValue) {
+        if (newValue.isEmpty()) {
+            if (
+                newValue.length() > 1
+                || '0' >= newValue.charAt(0)
+                || newValue.charAt(0) >= '9'
+            ) {
+                StringProperty stringProperty = (StringProperty) observable;
+                stringProperty.setValue(oldValue);
+                return;
+            }
+        }
         System.out.println(oldValue + " -> " + newValue);
     }
 
