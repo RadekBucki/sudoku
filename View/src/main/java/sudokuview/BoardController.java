@@ -1,23 +1,13 @@
 package sudokuview;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.adapter.JavaBeanIntegerProperty;
-import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
-import javafx.beans.property.adapter.JavaBeanLongPropertyBuilder;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.scene.text.Text;
 import sudoku.SudokuBoard;
-import sudoku.SudokuField;
 
 public class BoardController {
     @FXML
@@ -25,28 +15,29 @@ public class BoardController {
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
-        private SimpleIntegerProperty value = new SimpleIntegerProperty();
         private int xx;
         private int yy;
 
         public SudokuFieldAdapter(SudokuBoard board, int x, int y) {
             this.sudokuBoard = board;
-            this.value.set(board.get(x, y));
             this.xx = x;
             this.yy = y;
         }
 
-        public int getValue() {
-            return this.sudokuBoard.get(xx, yy);
+        public String getValue() {
+            return String.valueOf(this.sudokuBoard.get(xx, yy));
         }
 
-        public SimpleIntegerProperty valueProperty() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.sudokuBoard.set(xx, yy, value);
-            this.value.set(value);
+        public void setValue(String value) {
+            if (value.equals("")) {
+                value = "0";
+            }
+            if (value.length() == 1
+                    && '0' <= value.charAt(0)
+                    && value.charAt(0) <= '9') {
+                this.sudokuBoard.set(xx, yy, Integer.parseInt(value));
+                System.out.println(this.sudokuBoard);
+            }
         }
     }
 
@@ -64,10 +55,9 @@ public class BoardController {
                 try {
                     SudokuFieldAdapter fieldAdapter =
                             new SudokuFieldAdapter(modelSudokuBoard, i, j);
-                    IntegerProperty fieldProperty = JavaBeanIntegerPropertyBuilder.create()
+                    StringProperty fieldProperty = JavaBeanStringPropertyBuilder.create()
                             .bean(fieldAdapter).name("value").build();
-                    textField.textProperty().bindBidirectional(fieldProperty,
-                            (StringConverter) new IntegerStringConverter());
+                    textField.textProperty().bindBidirectional(fieldProperty);
                 } catch (Exception e) {
                     throw new RuntimeException();
                 }
@@ -77,18 +67,12 @@ public class BoardController {
 
     private void fieldListener(ObservableValue<? extends String> observable,
                                String oldValue, String newValue) {
-        if (newValue.isEmpty()) {
-            if (
-                newValue.length() > 1
+        if (!newValue.isEmpty() && (newValue.length() > 1
                 || '0' >= newValue.charAt(0)
-                || newValue.charAt(0) >= '9'
-            ) {
-                StringProperty stringProperty = (StringProperty) observable;
-                stringProperty.setValue(oldValue);
-                return;
-            }
+                || newValue.charAt(0) > '9')) {
+            StringProperty stringProperty = (StringProperty) observable;
+            stringProperty.setValue(oldValue);
         }
-        System.out.println(oldValue + " -> " + newValue);
     }
 
 }

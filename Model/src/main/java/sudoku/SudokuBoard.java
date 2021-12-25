@@ -60,9 +60,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (!checkBoard()) {
-            SudokuField field = (SudokuField) evt.getSource();
-        }
+        checkBoard();
     }
 
     /**
