@@ -3,4 +3,5 @@ open module ModelProject {
     requires com.google.common;
     exports sudoku;
     exports sudoku.solver;
+    exports dao;
 }

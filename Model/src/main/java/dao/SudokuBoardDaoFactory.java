@@ -8,7 +8,7 @@ public class SudokuBoardDaoFactory {
      * @param filename name of file to read and write SudokuBoard object.
      * @return SudokuBoardDao
      */
-    public Dao<SudokuBoard> getFileDao(String filename) {
+    public static Dao<SudokuBoard> getFileDao(String filename) {
         return new FileSudokuBoardDao(filename);
     }
 }

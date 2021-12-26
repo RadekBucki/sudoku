@@ -19,12 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileSudokuBoardDaoTest {
 
-    private SudokuBoardDaoFactory factory;
     private SudokuBoard board;
 
     @BeforeEach
     void setUp() {
-        factory = new SudokuBoardDaoFactory();
         board = new SudokuBoard(new BacktrackingSudokuSolver());
     }
 
@@ -33,7 +31,7 @@ class FileSudokuBoardDaoTest {
     @DisplayName("importExportTest")
     void importExportTest() {
         SudokuBoard importedBoard = null;
-        try(Dao<SudokuBoard> dao = factory.getFileDao("dao")) {
+        try(Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("dao")) {
             dao.write(board);
             importedBoard = dao.read();
         } catch (Exception e) {
@@ -45,7 +43,7 @@ class FileSudokuBoardDaoTest {
     @Test
     @DisplayName("Write exception Test")
     void readExceptionTest() {
-        try(Dao<SudokuBoard> dao = factory.getFileDao("notexist")) {
+        try(Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("notexist")) {
             Exception exception = assertThrows(RuntimeException.class, dao::read);
             assertNotNull(exception);
         } catch (Exception e) {
@@ -56,7 +54,7 @@ class FileSudokuBoardDaoTest {
     @Test
     @DisplayName("Write exception test")
     void writeExceptionTest() {
-        try(Dao<SudokuBoard> dao = factory.getFileDao("?")) {
+        try(Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("?")) {
             Exception exception = assertThrows(
                     RuntimeException.class,
                     () -> dao.write(board)
@@ -70,7 +68,7 @@ class FileSudokuBoardDaoTest {
     @Test
     @DisplayName("constructorTest")
     void constructorTest() {
-        try(Dao<SudokuBoard> dao = factory.getFileDao("testWithExtension.bin")) {
+        try(Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("testWithExtension.bin")) {
             assertTrue(dao instanceof FileSudokuBoardDao);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,10 +1,14 @@
 package sudokuview;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.ResourceBundle;
+
+import dao.Dao;
+import dao.SudokuBoardDaoFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -65,10 +69,27 @@ public class MainFormController implements Initializable {
             new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
-        chooser.showOpenDialog(
+        File chosenFile = chooser.showOpenDialog(
                 ((MenuItem) actionEvent.getSource()).getParentPopup()
                                                     .getScene()
                                                     .getWindow()
         );
+        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
+        SudokuBoard modelSudokuBoard = dao.read();
+        try {
+            FXMLLoader board = new FXMLLoader(
+                    getClass().getResource("/Board.fxml")
+            );
+            MenuItem m = (MenuItem) actionEvent.getSource();
+            while (m.getParentPopup() == null) {
+                m = m.getParentMenu();
+            }
+            Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
+            stage.setScene(new Scene(board.load()));
+            stage.setTitle("TurboSudoku");
+            ((BoardController) board.getController()).startGame(modelSudokuBoard);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
