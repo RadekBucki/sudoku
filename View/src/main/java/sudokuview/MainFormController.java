@@ -1,14 +1,13 @@
 package sudokuview;
 
+import dao.Dao;
+import dao.SudokuBoardDaoFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.ResourceBundle;
-
-import dao.Dao;
-import dao.SudokuBoardDaoFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -59,12 +58,9 @@ public class MainFormController implements Initializable {
         }
     }
 
-    public void saveToFile(ActionEvent actionEvent) {
-    }
-
-    public void loadToFile(ActionEvent actionEvent) {
+    public void loadFromFile(ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Open File");
+        chooser.setTitle("Start Game File");
         chooser.getExtensionFilters().add(
             new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );

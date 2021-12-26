@@ -1,8 +1,8 @@
 package sudokuview;
 
 import dao.Dao;
-import dao.FileSudokuBoardDao;
 import dao.SudokuBoardDaoFactory;
+import java.io.File;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
@@ -15,8 +15,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
-
-import java.io.File;
 
 public class BoardController {
     @FXML
@@ -101,12 +99,12 @@ public class BoardController {
             HBox row = (HBox) board.getChildren().get(i);
             for (int j = 0; j < row.getChildren().size(); j++) {
                 TextField textField = (TextField) row.getChildren().get(j);
-                if(textField.getText().equals("")){
+                if (textField.getText().equals("")) {
                     int val = 0;
-                    boardToSave.set(i,j,val);
+                    boardToSave.set(i, j, val);
                 } else {
                     int val = Integer.parseInt(textField.getText());
-                    boardToSave.set(i,j,val);
+                    boardToSave.set(i, j, val);
                 }
             }
         }
@@ -131,12 +129,12 @@ public class BoardController {
             HBox row = (HBox) board.getChildren().get(i);
             for (int j = 0; j < row.getChildren().size(); j++) {
                 TextField textField = (TextField) row.getChildren().get(j);
-                if(boardFromFile.get(i,j)==0){
+                if (boardFromFile.get(i, j) == 0) {
                     String val = "";
                     textField.setText(val);
                     textField.setDisable(false);
                 } else {
-                    String val = String.valueOf(boardFromFile.get(i,j));
+                    String val = String.valueOf(boardFromFile.get(i, j));
                     textField.setText(val);
                     textField.setDisable(true);
                 }
