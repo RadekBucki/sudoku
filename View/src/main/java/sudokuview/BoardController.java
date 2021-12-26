@@ -3,7 +3,9 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+
 import java.io.File;
+
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
@@ -50,6 +52,24 @@ public class BoardController {
         }
     }
 
+    public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard) {
+        startGame(initSudokuBoard);
+        try {
+            this.initialBoard = initSudokuBoard.clone();
+            for (int i = 0; i < board.getChildren().size(); i++) {
+                HBox row = (HBox) board.getChildren().get(i);
+                for (int j = 0; j < row.getChildren().size(); j++) {
+                    TextField textField = (TextField) row.getChildren().get(j);
+                    if (this.initialBoard.get(i, j) == 0 && modelSudokuBoard.get(i, j) != 0) {
+                        textField.setText(String.valueOf(modelSudokuBoard.get(i, j)));
+                    }
+                }
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void startGame(SudokuBoard modelSudokuBoard) {
         for (int i = 0; i < board.getChildren().size(); i++) {
             HBox row = (HBox) board.getChildren().get(i);
@@ -58,6 +78,7 @@ public class BoardController {
                 int value = modelSudokuBoard.get(i, j);
                 if (value != 0) {
                     textField.setText(String.valueOf(value));
+                    textField.setDisable(true);
                 }
                 textField.textProperty().addListener(this::fieldListener);
                 try {
@@ -124,39 +145,55 @@ public class BoardController {
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Open File");
-        chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
-        );
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
-        File chosenFile = chooser.showOpenDialog(
-                ((MenuItem) actionEvent.getSource()).getParentPopup()
-                        .getScene()
-                        .getWindow()
-        );
-        if (chosenFile == null) {
+        String path = openChooser("Open current board state file", actionEvent);
+        if(path.equals("")){
             return;
         }
-        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(
-                chosenFile.getAbsolutePath())) {
+        String pathInit = openChooser("Open initial board state file", actionEvent);
+        if(pathInit.equals("")){
+            return;
+        }
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path)) {
             SudokuBoard boardFromFile = dao.read();
-            for (int i = 0; i < board.getChildren().size(); i++) {
-                HBox row = (HBox) board.getChildren().get(i);
-                for (int j = 0; j < row.getChildren().size(); j++) {
-                    TextField textField = (TextField) row.getChildren().get(j);
-                    if (boardFromFile.get(i, j) == 0) {
-                        String val = "";
-                        textField.setText(val);
-                    } else {
-                        String val = String.valueOf(boardFromFile.get(i, j));
-                        textField.setText(val);
+            try (Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)) {
+                SudokuBoard boardFromFileInit = daoInit.read();
+                initialBoard = boardFromFileInit.clone();
+                for (int i = 0; i < board.getChildren().size(); i++) {
+                    HBox row = (HBox) board.getChildren().get(i);
+                    for (int j = 0; j < row.getChildren().size(); j++) {
+                        TextField textField = (TextField) row.getChildren().get(j);
+                        if (boardFromFileInit.get(i, j) == boardFromFile.get(i, j) && boardFromFile.get(i, j) != 0) {
+                            textField.setText(String.valueOf(boardFromFileInit.get(i, j)));
+                            textField.setDisable(true);
+                        } else {
+                            if (boardFromFile.get(i, j) != 0) {
+                                textField.setText(String.valueOf(boardFromFile.get(i, j)));
+                            } else {
+                                textField.setText("");
+                            }
+                            textField.setDisable(false);
+                        }
                     }
-                    textField.setDisable(false);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void resetBoard(ActionEvent actionEvent) {
+        for (int i = 0; i < board.getChildren().size(); i++) {
+            HBox row = (HBox) board.getChildren().get(i);
+            for (int j = 0; j < row.getChildren().size(); j++) {
+                TextField textField = (TextField) row.getChildren().get(j);
+                if (initialBoard.get(i, j) == 0) {
+                    textField.setText("");
+                } else {
+                    textField.setText(String.valueOf(initialBoard.get(i, j)));
+                }
+            }
         }
     }
 
@@ -167,6 +204,23 @@ public class BoardController {
                 new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
         File chosenFile = chooser.showSaveDialog(
+                ((MenuItem) actionEvent.getSource()).getParentPopup()
+                        .getScene()
+                        .getWindow()
+        );
+        if (chosenFile == null) {
+            return "";
+        }
+        return chosenFile.getAbsolutePath();
+    }
+
+    private String openChooser(String windowTitle, ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle(windowTitle);
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
+        );
+        File chosenFile = chooser.showOpenDialog(
                 ((MenuItem) actionEvent.getSource()).getParentPopup()
                         .getScene()
                         .getWindow()

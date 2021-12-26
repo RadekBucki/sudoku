@@ -59,40 +59,55 @@ public class MainFormController implements Initializable {
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
+        String path = openChooser("Start current game file",actionEvent);
+        if(path.equals("")){
+            return;
+        }
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path)) {
+            SudokuBoard modelSudokuBoard = dao.read();
+            String pathInit = openChooser("Start initial game file",actionEvent);
+            if(pathInit.equals("")){
+                return;
+            }
+            try (Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)) {
+                SudokuBoard initSudokuBoard = daoInit.read();
+                try {
+                    FXMLLoader board = new FXMLLoader(
+                            getClass().getResource("/Board.fxml")
+                    );
+                    MenuItem m = (MenuItem) actionEvent.getSource();
+                    while (m.getParentPopup() == null) {
+                        m = m.getParentMenu();
+                    }
+                    Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
+                    stage.setScene(new Scene(board.load()));
+                    stage.setTitle("TurboSudoku");
+                    ((BoardController) board.getController()).startGame(modelSudokuBoard,initSudokuBoard);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String openChooser(String windowTitle, ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Start Game File");
+        chooser.setTitle(windowTitle);
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
         File chosenFile = chooser.showOpenDialog(
                 ((MenuItem) actionEvent.getSource()).getParentPopup()
                         .getScene()
                         .getWindow()
         );
         if (chosenFile == null) {
-            return;
+            return "";
         }
-        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(
-                chosenFile.getAbsolutePath())) {
-            SudokuBoard modelSudokuBoard = dao.read();
-            try {
-                FXMLLoader board = new FXMLLoader(
-                        getClass().getResource("/Board.fxml")
-                );
-                MenuItem m = (MenuItem) actionEvent.getSource();
-                while (m.getParentPopup() == null) {
-                    m = m.getParentMenu();
-                }
-                Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
-                stage.setScene(new Scene(board.load()));
-                stage.setTitle("TurboSudoku");
-                ((BoardController) board.getController()).startGame(modelSudokuBoard);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return chosenFile.getAbsolutePath();
     }
 }
