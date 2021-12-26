@@ -144,7 +144,7 @@ public class BoardController {
                         .getScene()
                         .getWindow()
         );
-        if(chosenFile==null){
+        if (chosenFile == null) {
             return;
         }
         Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());

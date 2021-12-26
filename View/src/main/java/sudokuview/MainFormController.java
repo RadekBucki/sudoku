@@ -62,15 +62,15 @@ public class MainFormController implements Initializable {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Start Game File");
         chooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
+                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("All Files", "*"));
         File chosenFile = chooser.showOpenDialog(
                 ((MenuItem) actionEvent.getSource()).getParentPopup()
-                                                    .getScene()
-                                                    .getWindow()
+                        .getScene()
+                        .getWindow()
         );
-        if(chosenFile==null){
+        if (chosenFile == null) {
             return;
         }
         Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
