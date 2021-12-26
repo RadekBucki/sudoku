@@ -19,6 +19,7 @@ import sudoku.solver.BacktrackingSudokuSolver;
 public class BoardController {
     @FXML
     private VBox board;
+    private SudokuBoard initialBoard;
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
@@ -70,6 +71,11 @@ public class BoardController {
                 }
             }
         }
+        try {
+            initialBoard = modelSudokuBoard.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fieldListener(ObservableValue<? extends String> observable,
@@ -84,7 +90,7 @@ public class BoardController {
 
     public void saveToFile(ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Save File");
+        chooser.setTitle("Save board to file");
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
@@ -109,6 +115,21 @@ public class BoardController {
             }
         }
         dao.write(boardToSave);
+    }
+
+    public void saveInitialToFile(ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save initial board to file");
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
+        );
+        File chosenFile = chooser.showSaveDialog(
+                ((MenuItem) actionEvent.getSource()).getParentPopup()
+                        .getScene()
+                        .getWindow()
+        );
+        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
+        dao.write(initialBoard);
     }
 
     public void loadFromFile(ActionEvent actionEvent) {

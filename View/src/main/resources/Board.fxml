@@ -478,6 +478,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#saveToFile" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveInitialToFile" text="SaveInitial" />
                   <MenuItem mnemonicParsing="false" onAction="#loadFromFile" text="Load" />
             </items>
           </Menu>
