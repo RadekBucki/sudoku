@@ -70,6 +70,9 @@ public class MainFormController implements Initializable {
                                                     .getScene()
                                                     .getWindow()
         );
+        if(chosenFile==null){
+            return;
+        }
         Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
         SudokuBoard modelSudokuBoard = dao.read();
         try {
