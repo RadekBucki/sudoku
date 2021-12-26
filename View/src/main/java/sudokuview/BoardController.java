@@ -1,6 +1,7 @@
 package sudokuview;
 
 import dao.Dao;
+import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
 import java.io.File;
 import javafx.beans.property.StringProperty;
@@ -57,7 +58,6 @@ public class BoardController {
                 int value = modelSudokuBoard.get(i, j);
                 if (value != 0) {
                     textField.setText(String.valueOf(value));
-                    textField.setDisable(true);
                 }
                 textField.textProperty().addListener(this::fieldListener);
                 try {
@@ -89,47 +89,38 @@ public class BoardController {
     }
 
     public void saveToFile(ActionEvent actionEvent) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Save board to file");
-        chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
-        );
-        File chosenFile = chooser.showSaveDialog(
-                ((MenuItem) actionEvent.getSource()).getParentPopup()
-                        .getScene()
-                        .getWindow()
-        );
-        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
-        SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
-        for (int i = 0; i < board.getChildren().size(); i++) {
-            HBox row = (HBox) board.getChildren().get(i);
-            for (int j = 0; j < row.getChildren().size(); j++) {
-                TextField textField = (TextField) row.getChildren().get(j);
-                if (textField.getText().equals("")) {
-                    int val = 0;
-                    boardToSave.set(i, j, val);
-                } else {
-                    int val = Integer.parseInt(textField.getText());
-                    boardToSave.set(i, j, val);
+        String filePath = saveChooser("Save board to file", actionEvent);
+        if (filePath.equals("")) {
+            return;
+        }
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath)) {
+            SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
+            for (int i = 0; i < board.getChildren().size(); i++) {
+                HBox row = (HBox) board.getChildren().get(i);
+                for (int j = 0; j < row.getChildren().size(); j++) {
+                    TextField textField = (TextField) row.getChildren().get(j);
+                    if (textField.getText().equals("")) {
+                        int val = 0;
+                        boardToSave.set(i, j, val);
+                    } else {
+                        int val = Integer.parseInt(textField.getText());
+                        boardToSave.set(i, j, val);
+                    }
                 }
             }
+            String filePathInitial = saveChooser("Save initial board to file", actionEvent);
+            if (filePathInitial.equals("")) {
+                return;
+            }
+            try (Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(dao,
+                    initialBoard, filePathInitial)) {
+                save(daoDecorator, boardToSave);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        dao.write(boardToSave);
-    }
-
-    public void saveInitialToFile(ActionEvent actionEvent) {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Save initial board to file");
-        chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
-        );
-        File chosenFile = chooser.showSaveDialog(
-                ((MenuItem) actionEvent.getSource()).getParentPopup()
-                        .getScene()
-                        .getWindow()
-        );
-        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
-        dao.write(initialBoard);
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
@@ -147,22 +138,46 @@ public class BoardController {
         if (chosenFile == null) {
             return;
         }
-        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
-        SudokuBoard boardFromFile = dao.read();
-        for (int i = 0; i < board.getChildren().size(); i++) {
-            HBox row = (HBox) board.getChildren().get(i);
-            for (int j = 0; j < row.getChildren().size(); j++) {
-                TextField textField = (TextField) row.getChildren().get(j);
-                if (boardFromFile.get(i, j) == 0) {
-                    String val = "";
-                    textField.setText(val);
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(
+                chosenFile.getAbsolutePath())) {
+            SudokuBoard boardFromFile = dao.read();
+            for (int i = 0; i < board.getChildren().size(); i++) {
+                HBox row = (HBox) board.getChildren().get(i);
+                for (int j = 0; j < row.getChildren().size(); j++) {
+                    TextField textField = (TextField) row.getChildren().get(j);
+                    if (boardFromFile.get(i, j) == 0) {
+                        String val = "";
+                        textField.setText(val);
+                    } else {
+                        String val = String.valueOf(boardFromFile.get(i, j));
+                        textField.setText(val);
+                    }
                     textField.setDisable(false);
-                } else {
-                    String val = String.valueOf(boardFromFile.get(i, j));
-                    textField.setText(val);
-                    textField.setDisable(true);
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private String saveChooser(String windowTitle, ActionEvent actionEvent) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle(windowTitle);
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
+        );
+        File chosenFile = chooser.showSaveDialog(
+                ((MenuItem) actionEvent.getSource()).getParentPopup()
+                        .getScene()
+                        .getWindow()
+        );
+        if (chosenFile == null) {
+            return "";
+        }
+        return chosenFile.getAbsolutePath();
+    }
+
+    private void save(Dao<SudokuBoard> dao, SudokuBoard board) {
+        dao.write(board);
     }
 }

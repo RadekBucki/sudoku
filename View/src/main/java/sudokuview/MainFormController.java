@@ -73,22 +73,26 @@ public class MainFormController implements Initializable {
         if (chosenFile == null) {
             return;
         }
-        Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(chosenFile.getAbsolutePath());
-        SudokuBoard modelSudokuBoard = dao.read();
-        try {
-            FXMLLoader board = new FXMLLoader(
-                    getClass().getResource("/Board.fxml")
-            );
-            MenuItem m = (MenuItem) actionEvent.getSource();
-            while (m.getParentPopup() == null) {
-                m = m.getParentMenu();
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(
+                chosenFile.getAbsolutePath())) {
+            SudokuBoard modelSudokuBoard = dao.read();
+            try {
+                FXMLLoader board = new FXMLLoader(
+                        getClass().getResource("/Board.fxml")
+                );
+                MenuItem m = (MenuItem) actionEvent.getSource();
+                while (m.getParentPopup() == null) {
+                    m = m.getParentMenu();
+                }
+                Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
+                stage.setScene(new Scene(board.load()));
+                stage.setTitle("TurboSudoku");
+                ((BoardController) board.getController()).startGame(modelSudokuBoard);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
-            stage.setScene(new Scene(board.load()));
-            stage.setTitle("TurboSudoku");
-            ((BoardController) board.getController()).startGame(modelSudokuBoard);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
