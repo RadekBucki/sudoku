@@ -5,9 +5,6 @@ import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
 import org.junit.jupiter.api.Test;
 import sudoku.solver.BacktrackingSudokuSolver;
-
-import java.lang.reflect.Field;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuGroupTest {

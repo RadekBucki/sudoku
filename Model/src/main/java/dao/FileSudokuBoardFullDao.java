@@ -7,8 +7,8 @@ import sudoku.SudokuBoard;
 
 public class FileSudokuBoardFullDao extends AbstractDaoDecorator<SudokuBoard> {
 
-    SudokuBoard initialBoard;
-    String path;
+    private SudokuBoard initialBoard;
+    private String path;
 
     public FileSudokuBoardFullDao(Dao<SudokuBoard> delegate, SudokuBoard initial, String path) {
         super(delegate);
