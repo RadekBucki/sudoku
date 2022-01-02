@@ -53,7 +53,7 @@ public class BoardController {
     }
 
     public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard) {
-        startGame(initSudokuBoard);
+        startGame(modelSudokuBoard);
         try {
             this.initialBoard = initSudokuBoard.clone();
             for (int i = 0; i < board.getChildren().size(); i++) {
@@ -61,7 +61,7 @@ public class BoardController {
                 for (int j = 0; j < row.getChildren().size(); j++) {
                     TextField textField = (TextField) row.getChildren().get(j);
                     if (this.initialBoard.get(i, j) == 0 && modelSudokuBoard.get(i, j) != 0) {
-                        textField.setText(String.valueOf(modelSudokuBoard.get(i, j)));
+                        textField.setDisable(false);
                     }
                 }
             }
@@ -77,7 +77,6 @@ public class BoardController {
                 TextField textField = (TextField) row.getChildren().get(j);
                 int value = modelSudokuBoard.get(i, j);
                 if (value != 0) {
-                    textField.setText(String.valueOf(value));
                     textField.setDisable(true);
                 }
                 textField.textProperty().addListener(this::fieldListener);
