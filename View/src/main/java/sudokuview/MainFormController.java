@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,15 +15,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
 public class MainFormController implements Initializable {
     private FileChoose fileChoose = new FileChoose();
+    private ResourceBundle bundle = ResourceBundle.getBundle("Language", new Locale("pl"));
+
     @FXML
     private ComboBox<Levels.Level> levelChoose;
+    public Text levelChooseText;
+    public Menu file;
+    public MenuItem save;
+    public MenuItem load;
+    public Menu language;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,7 +51,8 @@ public class MainFormController implements Initializable {
         try {
             ComboBox comboBox = (ComboBox) actionEvent.getSource();
             FXMLLoader board = new FXMLLoader(
-                    getClass().getResource("/Board.fxml")
+                    getClass().getResource("/Board.fxml"),
+                    bundle
             );
             SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
             modelSudokuBoard.solveGame();
@@ -74,7 +85,8 @@ public class MainFormController implements Initializable {
                 SudokuBoard initSudokuBoard = daoInit.read();
                 try {
                     FXMLLoader board = new FXMLLoader(
-                            getClass().getResource("/Board.fxml")
+                            getClass().getResource("/Board.fxml"),
+                            bundle
                     );
                     MenuItem m = (MenuItem) actionEvent.getSource();
                     while (m.getParentPopup() == null) {
@@ -96,5 +108,19 @@ public class MainFormController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setLanguage(ActionEvent actionEvent) {
+        bundle = ResourceBundle.getBundle(
+            "Language",
+            new Locale(
+                ((MenuItem) actionEvent.getSource()).getId()
+            )
+        );
+        levelChooseText.setText(bundle.getString(levelChooseText.getId()));
+        file.setText(bundle.getString(file.getId()));
+        save.setText(bundle.getString(save.getId()));
+        load.setText(bundle.getString(load.getId()));
+        language.setText(bundle.getString(language.getId()));
     }
 }

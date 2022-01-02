@@ -3,11 +3,16 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,6 +24,12 @@ public class BoardController {
     private FileChoose fileChoose = new FileChoose();
     @FXML
     private VBox board;
+    public Menu file;
+    public MenuItem save;
+    public MenuItem load;
+    public Menu language;
+    public Button reset;
+    public Button check;
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
@@ -192,5 +203,20 @@ public class BoardController {
 
     private void save(Dao<SudokuBoard> dao, SudokuBoard board) {
         dao.write(board);
+    }
+
+    public void setLanguage(ActionEvent actionEvent) {
+        ResourceBundle bundle = ResourceBundle.getBundle(
+            "Language",
+            new Locale(
+                    ((MenuItem) actionEvent.getSource()).getId()
+            )
+        );
+        file.setText(bundle.getString(file.getId()));
+        save.setText(bundle.getString(save.getId()));
+        load.setText(bundle.getString(load.getId()));
+        language.setText(bundle.getString(language.getId()));
+        reset.setText(bundle.getString(reset.getId()));
+        check.setText(bundle.getString(check.getId()));
     }
 }
