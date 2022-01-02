@@ -59,14 +59,14 @@ public class MainFormController implements Initializable {
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
-        String path = openChooser("Start current game file",actionEvent);
-        if(path.equals("")){
+        String path = openChooser("Start current game file", actionEvent);
+        if (path.equals("")) {
             return;
         }
         try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path)) {
             SudokuBoard modelSudokuBoard = dao.read();
-            String pathInit = openChooser("Start initial game file",actionEvent);
-            if(pathInit.equals("")){
+            String pathInit = openChooser("Start initial game file", actionEvent);
+            if (pathInit.equals("")) {
                 return;
             }
             try (Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)) {
@@ -82,7 +82,8 @@ public class MainFormController implements Initializable {
                     Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
                     stage.setScene(new Scene(board.load()));
                     stage.setTitle("TurboSudoku");
-                    ((BoardController) board.getController()).startGame(modelSudokuBoard,initSudokuBoard);
+                    ((BoardController) board.getController()).startGame(modelSudokuBoard,
+                            initSudokuBoard);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

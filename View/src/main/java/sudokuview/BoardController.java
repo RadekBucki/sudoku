@@ -3,9 +3,7 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
-
 import java.io.File;
-
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
@@ -145,11 +143,11 @@ public class BoardController {
 
     public void loadFromFile(ActionEvent actionEvent) {
         String path = openChooser("Open current board state file", actionEvent);
-        if(path.equals("")){
+        if (path.equals("")) {
             return;
         }
         String pathInit = openChooser("Open initial board state file", actionEvent);
-        if(pathInit.equals("")){
+        if (pathInit.equals("")) {
             return;
         }
         try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path)) {
@@ -161,7 +159,8 @@ public class BoardController {
                     HBox row = (HBox) board.getChildren().get(i);
                     for (int j = 0; j < row.getChildren().size(); j++) {
                         TextField textField = (TextField) row.getChildren().get(j);
-                        if (boardFromFileInit.get(i, j) == boardFromFile.get(i, j) && boardFromFile.get(i, j) != 0) {
+                        if (boardFromFileInit.get(i, j) == boardFromFile.get(i, j)
+                                && boardFromFile.get(i, j) != 0) {
                             textField.setText(String.valueOf(boardFromFileInit.get(i, j)));
                             textField.setDisable(true);
                         } else {
