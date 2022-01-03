@@ -49,11 +49,11 @@ public class BoardController {
         startGame(modelSudokuBoard);
         try {
             this.initialBoard = initSudokuBoard.clone();
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 if (
-                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
-                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                        this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                                && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(false);
                 }
@@ -65,7 +65,7 @@ public class BoardController {
 
     public void startGame(SudokuBoard modelSudokuBoard) {
         try {
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 int value = modelSudokuBoard.get(bi.getRow(), bi.getCol());
                 if (value != 0) {
@@ -106,12 +106,12 @@ public class BoardController {
             return;
         }
         try (
-            Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath);
-            Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(
-                    dao, initialBoard, filePathInitial)
+                Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath);
+                Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(
+                        dao, initialBoard, filePathInitial)
         ) {
             SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 String textFieldText = bi.next().getText();
                 int val = 0;
                 if (!textFieldText.isEmpty()) {
@@ -135,13 +135,13 @@ public class BoardController {
             return;
         }
         try (
-            Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
-            Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)
+                Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
+                Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)
         ) {
             SudokuBoard boardFromFile = dao.read();
             SudokuBoard boardFromFileInit = daoInit.read();
             initialBoard = boardFromFileInit.clone();
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 textField.setDisable(false);
                 if (boardFromFile.get(bi.getRow(), bi.getCol()) == 0) {
@@ -150,8 +150,9 @@ public class BoardController {
                     textField.setText(String.valueOf(boardFromFile.get(bi.getRow(), bi.getCol())));
                 }
                 if (
-                    boardFromFileInit.get(bi.getRow(), bi.getCol())
-                    == boardFromFile.get(bi.getRow(), bi.getCol())
+                        boardFromFileInit.get(bi.getRow(), bi.getCol())
+                                == boardFromFile.get(bi.getRow(), bi.getCol()) &&
+                                boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(true);
                 }
@@ -162,7 +163,7 @@ public class BoardController {
     }
 
     public void resetBoard(ActionEvent actionEvent) {
-        for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+        for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
             TextField textField = bi.next();
             if (initialBoard.get(bi.getRow(), bi.getCol()) == 0) {
                 textField.setText("");
