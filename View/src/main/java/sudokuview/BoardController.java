@@ -3,6 +3,9 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+
+import java.net.URL;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -10,26 +13,32 @@ import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class BoardController {
+public class BoardController implements Initializable {
     private SudokuBoard initialBoard;
     private FileChoose fileChoose = new FileChoose();
+    private ResourceBundle bundle;
     @FXML
     private VBox board;
     public Menu file;
+    public Menu about;
+    public Menu language;
     public MenuItem save;
     public MenuItem load;
-    public Menu language;
+    public MenuItem authors;
     public Button reset;
     public Button check;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
+    }
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
@@ -206,7 +215,7 @@ public class BoardController {
     }
 
     public void setLanguage(ActionEvent actionEvent) {
-        ResourceBundle bundle = ResourceBundle.getBundle(
+        bundle = ResourceBundle.getBundle(
             "Language",
             new Locale(
                     ((MenuItem) actionEvent.getSource()).getId()
@@ -218,5 +227,23 @@ public class BoardController {
         language.setText(bundle.getString(language.getId()));
         reset.setText(bundle.getString(reset.getId()));
         check.setText(bundle.getString(check.getId()));
+        authors.setText(bundle.getString(authors.getId()));
+        about.setText(bundle.getString(about.getId()));
+    }
+
+    public void getAuthors(ActionEvent actionEvent) {
+        ResourceBundle listBundle = ResourceBundle.getBundle("authors.Authors_" + bundle.getLocale().getLanguage());
+        StringBuilder authors = new StringBuilder();
+        Iterator<String> keyIterator = listBundle.getKeys().asIterator();
+        while(keyIterator.hasNext()) {
+            authors.append(listBundle.getObject(keyIterator.next()))
+                    .append("\n");
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(bundle.getString("authors"));
+        alert.setHeaderText(bundle.getString("authors"));
+        alert.setContentText(authors.toString());
+        alert.showAndWait();
     }
 }

@@ -34,6 +34,11 @@
                   <MenuItem fx:id="en" mnemonicParsing="false" onAction="#setLanguage" text="English" />
                </items>
             </Menu>
+            <Menu fx:id="about" mnemonicParsing="false" text="%about">
+               <items>
+                  <MenuItem fx:id="authors" mnemonicParsing="false" onAction="#getAuthors" text="%authors" />
+               </items>
+            </Menu>
          </menus>
       </MenuBar>
       <ComboBox fx:id="levelChoose" layoutX="100.0" layoutY="225.0" onAction="#levelGenerate" prefHeight="100.0" prefWidth="400.0" style="-fx-font-size: 36;" />

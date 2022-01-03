@@ -486,6 +486,11 @@
                   <MenuItem fx:id="en" mnemonicParsing="false" onAction="#setLanguage" text="English" />
                </items>
             </Menu>
+            <Menu fx:id="about" mnemonicParsing="false" text="%about">
+               <items>
+                  <MenuItem fx:id="authors" mnemonicParsing="false" onAction="#getAuthors" text="%authors" />
+               </items>
+            </Menu>
          </menus>
       </MenuBar>
       <Button fx:id="reset" layoutX="95.0" layoutY="812.0" mnemonicParsing="false" onAction="#resetBoard" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%reset" />

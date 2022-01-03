@@ -4,16 +4,15 @@ import dao.Dao;
 import dao.SudokuBoardDaoFactory;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -32,7 +31,9 @@ public class MainFormController implements Initializable {
     public Menu file;
     public MenuItem save;
     public MenuItem load;
+    public MenuItem authors;
     public Menu language;
+    public Menu about;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -122,5 +123,23 @@ public class MainFormController implements Initializable {
         save.setText(bundle.getString(save.getId()));
         load.setText(bundle.getString(load.getId()));
         language.setText(bundle.getString(language.getId()));
+        authors.setText(bundle.getString(authors.getId()));
+        about.setText(bundle.getString(about.getId()));
+    }
+
+    public void getAuthors(ActionEvent actionEvent) {
+        ResourceBundle listBundle = ResourceBundle.getBundle("authors.Authors_" + bundle.getLocale().getLanguage());
+        StringBuilder authors = new StringBuilder();
+        Iterator<String> keyIterator = listBundle.getKeys().asIterator();
+        while(keyIterator.hasNext()) {
+            authors.append(listBundle.getObject(keyIterator.next()))
+                   .append("\n");
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(bundle.getString("authors"));
+        alert.setHeaderText(bundle.getString("authors"));
+        alert.setContentText(authors.toString());
+        alert.showAndWait();
     }
 }
