@@ -23,10 +23,11 @@ import sudoku.solver.BacktrackingSudokuSolver;
 
 public class MainFormController implements Initializable {
     private FileChoose fileChoose = new FileChoose();
-    private ResourceBundle bundle = ResourceBundle.getBundle("Language", new Locale("pl"));
+    private ResourceBundle bundle;
+    Levels levels = new Levels();
 
     @FXML
-    private ComboBox<Levels.Level> levelChoose;
+    private ComboBox<String> levelChoose;
     public Text levelChooseText;
     public Menu file;
     public MenuItem save;
@@ -37,8 +38,9 @@ public class MainFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
         levelChoose.getItems().addAll(
-                new ArrayList<>(EnumSet.allOf(Levels.Level.class))
+            levels.getLevelFormName(resourceBundle)
         );
     }
 
@@ -57,10 +59,12 @@ public class MainFormController implements Initializable {
             );
             SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
             modelSudokuBoard.solveGame();
-            Levels.Level.valueOf(
-                    comboBox.getSelectionModel()
-                            .getSelectedItem()
-                            .toString()
+
+            levels.getEnumFromLevelName(
+                comboBox.getSelectionModel()
+                        .getSelectedItem()
+                        .toString(),
+                bundle
             ).prepare(modelSudokuBoard);
             Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
             stage.setScene(new Scene(board.load()));
