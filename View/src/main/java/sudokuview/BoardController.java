@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
@@ -65,9 +66,7 @@ public class BoardController implements Initializable {
             if (value.equals("")) {
                 value = "0";
             }
-            if (value.length() == 1
-                    && '0' <= value.charAt(0)
-                    && value.charAt(0) <= '9') {
+            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9') {
                 this.sudokuBoard.set(xx, yy, Integer.parseInt(value));
                 System.out.println(this.sudokuBoard);
             }
@@ -78,13 +77,13 @@ public class BoardController implements Initializable {
         startGame(modelSudokuBoard);
         try {
             this.initialBoard = initSudokuBoard.clone();
-            for (int i = 0; i < board.getChildren().size(); i++) {
-                HBox row = (HBox) board.getChildren().get(i);
-                for (int j = 0; j < row.getChildren().size(); j++) {
-                    TextField textField = (TextField) row.getChildren().get(j);
-                    if (this.initialBoard.get(i, j) == 0 && modelSudokuBoard.get(i, j) != 0) {
-                        textField.setDisable(false);
-                    }
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+                TextField textField = bi.next();
+                if (
+                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                ) {
+                    textField.setDisable(false);
                 }
             }
         } catch (CloneNotSupportedException e) {
@@ -93,30 +92,23 @@ public class BoardController implements Initializable {
     }
 
     public void startGame(SudokuBoard modelSudokuBoard) {
-        this.modelBoard = modelSudokuBoard;
-        for (int i = 0; i < board.getChildren().size(); i++) {
-            HBox row = (HBox) board.getChildren().get(i);
-            for (int j = 0; j < row.getChildren().size(); j++) {
-                TextField textField = (TextField) row.getChildren().get(j);
-                int value = modelSudokuBoard.get(i, j);
+        try {
+            this.modelBoard = modelSudokuBoard;
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+                TextField textField = bi.next();
+                int value = modelSudokuBoard.get(bi.getRow(), bi.getCol());
                 if (value != 0) {
                     textField.setDisable(true);
                 }
                 textField.textProperty().addListener(this::fieldListener);
-                try {
-                    SudokuFieldAdapter fieldAdapter =
-                            new SudokuFieldAdapter(modelSudokuBoard, i, j);
-                    StringProperty fieldProperty = JavaBeanStringPropertyBuilder.create()
-                            .bean(fieldAdapter).name("value").build();
-                    textField.textProperty().bindBidirectional(fieldProperty);
-                } catch (Exception e) {
-                    throw new RuntimeException();
-                }
+                SudokuFieldAdapter fieldAdapter = new SudokuFieldAdapter(
+                        modelSudokuBoard, bi.getRow(), bi.getCol());
+                StringProperty fieldProperty = JavaBeanStringPropertyBuilder.create()
+                        .bean(fieldAdapter).name("value").build();
+                textField.textProperty().bindBidirectional(fieldProperty);
             }
-        }
-        try {
             initialBoard = modelSudokuBoard.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -137,30 +129,26 @@ public class BoardController implements Initializable {
         if (filePath.isEmpty()) {
             return;
         }
-        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath)) {
+        String filePathInitial =
+                fileChoose.saveChooser("Save initial board to file", actionEvent);
+        if (filePathInitial.isEmpty()) {
+            return;
+        }
+        try (
+            Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath);
+            Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(
+                    dao, initialBoard, filePathInitial)
+        ) {
             SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
-            for (int i = 0; i < board.getChildren().size(); i++) {
-                HBox row = (HBox) board.getChildren().get(i);
-                for (int j = 0; j < row.getChildren().size(); j++) {
-                    String textFieldText = ((TextField) row.getChildren().get(j)).getText();
-                    int val = 0;
-                    if (!textFieldText.isEmpty()) {
-                        val = Integer.parseInt(textFieldText);
-                    }
-                    boardToSave.set(i, j, val);
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+                String textFieldText = bi.next().getText();
+                int val = 0;
+                if (!textFieldText.isEmpty()) {
+                    val = Integer.parseInt(textFieldText);
                 }
+                boardToSave.set(bi.getRow(), bi.getCol(), val);
             }
-            String filePathInitial =
-                    fileChoose.saveChooser("Save initial board to file", actionEvent);
-            if (filePathInitial.isEmpty()) {
-                return;
-            }
-            try (Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(dao,
-                    initialBoard, filePathInitial)) {
-                save(daoDecorator, boardToSave);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            save(daoDecorator, boardToSave);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,28 +163,27 @@ public class BoardController implements Initializable {
         if (pathInit.isEmpty()) {
             return;
         }
-        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path)) {
+        try (
+            Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
+            Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)
+        ) {
             SudokuBoard boardFromFile = dao.read();
-            try (Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)) {
-                SudokuBoard boardFromFileInit = daoInit.read();
-                initialBoard = boardFromFileInit.clone();
-                for (int i = 0; i < board.getChildren().size(); i++) {
-                    HBox row = (HBox) board.getChildren().get(i);
-                    for (int j = 0; j < row.getChildren().size(); j++) {
-                        TextField textField = (TextField) row.getChildren().get(j);
-                        textField.setDisable(false);
-                        if (boardFromFile.get(i, j) == 0) {
-                            textField.setText("");
-                        } else {
-                            textField.setText(String.valueOf(boardFromFile.get(i, j)));
-                        }
-                        if (boardFromFileInit.get(i, j) == boardFromFile.get(i, j)) {
-                            textField.setDisable(true);
-                        }
-                    }
+            SudokuBoard boardFromFileInit = daoInit.read();
+            initialBoard = boardFromFileInit.clone();
+            for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+                TextField textField = bi.next();
+                textField.setDisable(false);
+                if (boardFromFile.get(bi.getRow(), bi.getCol()) == 0) {
+                    textField.setText("");
+                } else {
+                    textField.setText(String.valueOf(boardFromFile.get(bi.getRow(), bi.getCol())));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                if (
+                    boardFromFileInit.get(bi.getRow(), bi.getCol())
+                    == boardFromFile.get(bi.getRow(), bi.getCol())
+                ) {
+                    textField.setDisable(true);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,15 +191,12 @@ public class BoardController implements Initializable {
     }
 
     public void resetBoard(ActionEvent actionEvent) {
-        for (int i = 0; i < board.getChildren().size(); i++) {
-            HBox row = (HBox) board.getChildren().get(i);
-            for (int j = 0; j < row.getChildren().size(); j++) {
-                TextField textField = (TextField) row.getChildren().get(j);
-                if (initialBoard.get(i, j) == 0) {
-                    textField.setText("");
-                } else {
-                    textField.setText(String.valueOf(initialBoard.get(i, j)));
-                }
+        for (BoardIterator bi = new BoardIterator(board); bi.hasNext();) {
+            TextField textField = bi.next();
+            if (initialBoard.get(bi.getRow(), bi.getCol()) == 0) {
+                textField.setText("");
+            } else {
+                textField.setText(String.valueOf(initialBoard.get(bi.getRow(), bi.getCol())));
             }
         }
     }
