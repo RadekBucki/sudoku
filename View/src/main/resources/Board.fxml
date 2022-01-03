@@ -476,7 +476,7 @@
          <menus>
             <Menu fx:id="file" mnemonicParsing="false" text="%file">
                <items>
-                  <MenuItem fx:id="save" disable="true" mnemonicParsing="false" text="%save" />
+                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveToFile" text="%save" />
                   <MenuItem fx:id="load" mnemonicParsing="false" onAction="#loadFromFile" text="%load" />
                </items>
             </Menu>

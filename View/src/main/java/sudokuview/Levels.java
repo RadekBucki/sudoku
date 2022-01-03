@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.ResourceBundle;
-
 import sudoku.SudokuBoard;
 
 public class Levels {
@@ -47,6 +46,11 @@ public class Levels {
         }
     }
 
+    /**
+     * Method returns list of Levels.
+     * @param resourceBundle Resource bundle
+     * @return ArrayList
+     */
     public ArrayList<String> getLevelFormName(ResourceBundle resourceBundle) {
         Level[] list = Level.values();
         ArrayList<String> arrayList = new ArrayList<>();
@@ -56,6 +60,12 @@ public class Levels {
         return arrayList;
     }
 
+    /**
+     * Method returns Level from name.
+     * @param name String
+     * @param resourceBundle Resource bundle
+     * @return Level
+     */
     public Level getEnumFromLevelName(String name, ResourceBundle resourceBundle) {
         Iterator<String> iterator = resourceBundle.getKeys().asIterator();
         while (iterator.hasNext()) {
