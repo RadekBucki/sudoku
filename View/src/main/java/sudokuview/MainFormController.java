@@ -2,61 +2,59 @@ package sudokuview;
 
 import dao.Dao;
 import dao.SudokuBoardDaoFactory;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class MainFormController implements Initializable {
+public class MainFormController extends FormController implements Initializable {
     private FileChoose fileChoose = new FileChoose();
-    @FXML
-    private ComboBox<Levels.Level> levelChoose;
+    Levels levels = new Levels();
 
+    @FXML
+    private ComboBox<String> levelChoose;
+
+    /**
+     * Method initialize controller with fxml file and bundle.
+     * @param url URL of fxml file
+     * @param resourceBundle ResourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
         levelChoose.getItems().addAll(
-                new ArrayList<>(EnumSet.allOf(Levels.Level.class))
+            levels.getLevelFormName(resourceBundle)
         );
     }
 
     /**
      * Action after click the button.
-     *
      * @param actionEvent action which executed event
      * @throws RuntimeException Runtime exception
      */
     public void levelGenerate(ActionEvent actionEvent) {
-        try {
-            ComboBox comboBox = (ComboBox) actionEvent.getSource();
-            FXMLLoader board = new FXMLLoader(
-                    getClass().getResource("/Board.fxml")
-            );
-            SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-            modelSudokuBoard.solveGame();
-            Levels.Level.valueOf(
-                    comboBox.getSelectionModel()
-                            .getSelectedItem()
-                            .toString()
-            ).prepare(modelSudokuBoard);
-            Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
-            stage.setScene(new Scene(board.load()));
-            stage.setTitle("TurboSudoku");
-            ((BoardController) board.getController()).startGame(modelSudokuBoard);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ComboBox comboBox = (ComboBox) actionEvent.getSource();
+        Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
+        final FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml",bundle);
+        SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        modelSudokuBoard.solveGame();
+        levels.getEnumFromLevelName(
+            comboBox.getSelectionModel()
+                    .getSelectedItem()
+                    .toString(),
+            bundle
+        ).prepare(modelSudokuBoard);
+        stage.setTitle("TurboSudoku");
+        ((BoardController) board.getController()).startGame(modelSudokuBoard);
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
@@ -73,22 +71,36 @@ public class MainFormController implements Initializable {
         ) {
             final SudokuBoard modelSudokuBoard = dao.read();
             final SudokuBoard initSudokuBoard = daoInit.read();
-            FXMLLoader board = new FXMLLoader(
-                    getClass().getResource("/Board.fxml")
-            );
             MenuItem m = (MenuItem) actionEvent.getSource();
             while (m.getParentPopup() == null) {
                 m = m.getParentMenu();
             }
             Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
-            stage.setScene(new Scene(board.load()));
+            FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml",bundle);
             stage.setTitle("TurboSudoku");
             ((BoardController) board.getController()).startGame(
-                modelSudokuBoard,
-                initSudokuBoard
+                    modelSudokuBoard,
+                    initSudokuBoard
             );
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Method changes language to choosen.
+     * @param actionEvent ActionEvent
+     */
+    public void setLanguage(ActionEvent actionEvent) {
+        bundle = ResourceBundle.getBundle(
+            "Language",
+            new Locale(
+                ((MenuItem) actionEvent.getSource()).getId()
+            )
+        );
+        Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
+                                                     .getParentPopup()
+                                                     .getOwnerWindow();
+        fxmlLoad.load(stage,"/MainForm.fxml",bundle);
     }
 }

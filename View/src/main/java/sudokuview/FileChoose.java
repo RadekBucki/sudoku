@@ -9,6 +9,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 public class FileChoose {
+    /**
+     * Method opens dialog to choose location to save.
+     * @param windowTitle String
+     * @param actionEvent ActionEvent
+     * @return String
+     */
     public String saveChooser(String windowTitle, ActionEvent actionEvent) {
         String choose = null;
         try {
@@ -22,6 +28,12 @@ public class FileChoose {
         return choose;
     }
 
+    /**
+     * Method opens dialog to choose file to open.
+     * @param windowTitle String
+     * @param actionEvent ActionEvent
+     * @return String
+     */
     public String openChooser(String windowTitle, ActionEvent actionEvent) {
         String choose = null;
         try {
@@ -35,14 +47,20 @@ public class FileChoose {
         return choose;
     }
 
-    private String choose(String windowTitle, ActionEvent actionEvent, Method showSaveDialog)
+    /**
+     * Method opens given type of dialog.
+     * @param windowTitle String
+     * @param actionEvent ActionEvent
+     * @return String
+     */
+    private String choose(String windowTitle, ActionEvent actionEvent, Method showDialog)
             throws InvocationTargetException, IllegalAccessException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle(windowTitle);
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
-        File chosenFile = (File) showSaveDialog.invoke(
+        File chosenFile = (File) showDialog.invoke(
                 chooser,
                 ((MenuItem) actionEvent.getSource()).getParentPopup()
                         .getScene()

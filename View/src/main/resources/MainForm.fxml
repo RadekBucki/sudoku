@@ -15,31 +15,32 @@
             <Font size="72.0" />
          </font>
       </Text>
-      <Text layoutX="2.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz poziom">
+      <Text fx:id="levelChooseText" layoutX="2.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%levelChooseText">
          <font>
             <Font size="48.0" />
          </font>
       </Text>
       <MenuBar layoutY="1.0">
          <menus>
-            <Menu mnemonicParsing="false" text="File">
+            <Menu fx:id="file" mnemonicParsing="false" text="%file">
                <items>
-                  <MenuItem fx:id="saveMenu" disable="true" mnemonicParsing="false" text="Save" />
-                  <MenuItem fx:id="loadMenu" mnemonicParsing="false" onAction="#loadFromFile" text="Load" />
+                  <MenuItem fx:id="save" disable="true" mnemonicParsing="false" text="%save" />
+                  <MenuItem fx:id="load" mnemonicParsing="false" onAction="#loadFromFile" text="%load" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
+            <Menu fx:id="language" mnemonicParsing="false" text="%language">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="pl" mnemonicParsing="false" onAction="#setLanguage" text="Polski" />
+                  <MenuItem fx:id="en" mnemonicParsing="false" onAction="#setLanguage" text="English" />
                </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Help">
+            <Menu fx:id="about" mnemonicParsing="false" text="%about">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="authors" mnemonicParsing="false" onAction="#getAuthors" text="%authors" />
                </items>
             </Menu>
          </menus>
       </MenuBar>
-      <ComboBox fx:id="levelChoose" style="-fx-font-size: 36;" layoutX="100.0" layoutY="225.0" onAction="#levelGenerate" prefHeight="100.0" prefWidth="400.0" />
+      <ComboBox fx:id="levelChoose" layoutX="100.0" layoutY="225.0" onAction="#levelGenerate" prefHeight="100.0" prefWidth="400.0" style="-fx-font-size: 36;" />
    </children>
 </Pane>

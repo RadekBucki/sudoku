@@ -3,21 +3,39 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class BoardController {
+public class BoardController extends FormController implements Initializable {
     private SudokuBoard initialBoard;
+    private SudokuBoard modelBoard;
     private FileChoose fileChoose = new FileChoose();
     @FXML
     private VBox board;
+
+    /**
+     * Method initialize controller with fxml file and bundle.
+     * @param url URL of fxml file
+     * @param resourceBundle ResourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
+    }
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
@@ -52,8 +70,8 @@ public class BoardController {
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 if (
-                        this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
-                                && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(false);
                 }
@@ -65,6 +83,7 @@ public class BoardController {
 
     public void startGame(SudokuBoard modelSudokuBoard) {
         try {
+            this.modelBoard = modelSudokuBoard;
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 int value = modelSudokuBoard.get(bi.getRow(), bi.getCol());
@@ -151,8 +170,8 @@ public class BoardController {
                 }
                 if (
                         boardFromFileInit.get(bi.getRow(), bi.getCol())
-                                == boardFromFile.get(bi.getRow(), bi.getCol()) &&
-                                boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
+                        == boardFromFile.get(bi.getRow(), bi.getCol())
+                        && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(true);
                 }
@@ -175,5 +194,24 @@ public class BoardController {
 
     private void save(Dao<SudokuBoard> dao, SudokuBoard board) {
         dao.write(board);
+    }
+
+    /**
+     * Method changes language to choosen.
+     * @param actionEvent ActionEvent
+     */
+    public void setLanguage(ActionEvent actionEvent) {
+        bundle = ResourceBundle.getBundle(
+                "Language",
+                new Locale(
+                        ((MenuItem) actionEvent.getSource()).getId()
+                )
+        );
+        Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
+                                                     .getParentPopup()
+                                                     .getOwnerWindow();
+        FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml", bundle);
+        this.board = (VBox) stage.getScene().lookup("#board");
+        ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
     }
 }
