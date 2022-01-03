@@ -70,8 +70,8 @@ public class BoardController extends FormController implements Initializable {
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 if (
-                        this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
-                                && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(false);
                 }
@@ -170,7 +170,8 @@ public class BoardController extends FormController implements Initializable {
                 }
                 if (
                         boardFromFileInit.get(bi.getRow(), bi.getCol())
-                                == boardFromFile.get(bi.getRow(), bi.getCol())
+                        == boardFromFile.get(bi.getRow(), bi.getCol())
+                        && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(true);
                 }
