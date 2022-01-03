@@ -4,6 +4,7 @@ import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
@@ -13,16 +14,21 @@ import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
 public class BoardController implements Initializable {
     private SudokuBoard initialBoard;
+    private SudokuBoard modelBoard;
     private FileChoose fileChoose = new FileChoose();
+    private FXMLLoad fxmlLoad = new FXMLLoad();
     private ResourceBundle bundle;
     @FXML
     private VBox board;
@@ -87,6 +93,7 @@ public class BoardController implements Initializable {
     }
 
     public void startGame(SudokuBoard modelSudokuBoard) {
+        this.modelBoard = modelSudokuBoard;
         for (int i = 0; i < board.getChildren().size(); i++) {
             HBox row = (HBox) board.getChildren().get(i);
             for (int j = 0; j < row.getChildren().size(); j++) {
@@ -221,14 +228,10 @@ public class BoardController implements Initializable {
                     ((MenuItem) actionEvent.getSource()).getId()
             )
         );
-        file.setText(bundle.getString(file.getId()));
-        save.setText(bundle.getString(save.getId()));
-        load.setText(bundle.getString(load.getId()));
-        language.setText(bundle.getString(language.getId()));
-        reset.setText(bundle.getString(reset.getId()));
-        check.setText(bundle.getString(check.getId()));
-        authors.setText(bundle.getString(authors.getId()));
-        about.setText(bundle.getString(about.getId()));
+        Stage stage = (Stage) ((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow();
+        FXMLLoader board = fxmlLoad.load(stage,"/Board.fxml",bundle);
+        this.board=(VBox)stage.getScene().lookup("#board");
+        ((BoardController)board.getController()).startGame(modelBoard,initialBoard);
     }
 
     public void getAuthors(ActionEvent actionEvent) {

@@ -23,6 +23,7 @@ import sudoku.solver.BacktrackingSudokuSolver;
 
 public class MainFormController implements Initializable {
     private FileChoose fileChoose = new FileChoose();
+    private FXMLLoad fxmlLoad = new FXMLLoad();
     private ResourceBundle bundle = ResourceBundle.getBundle("Language", new Locale("pl"));
 
     @FXML
@@ -49,26 +50,18 @@ public class MainFormController implements Initializable {
      * @throws RuntimeException Runtime exception
      */
     public void levelGenerate(ActionEvent actionEvent) {
-        try {
-            ComboBox comboBox = (ComboBox) actionEvent.getSource();
-            FXMLLoader board = new FXMLLoader(
-                    getClass().getResource("/Board.fxml"),
-                    bundle
-            );
-            SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-            modelSudokuBoard.solveGame();
-            Levels.Level.valueOf(
-                    comboBox.getSelectionModel()
-                            .getSelectedItem()
-                            .toString()
-            ).prepare(modelSudokuBoard);
-            Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
-            stage.setScene(new Scene(board.load()));
-            stage.setTitle("TurboSudoku");
-            ((BoardController) board.getController()).startGame(modelSudokuBoard);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ComboBox comboBox = (ComboBox) actionEvent.getSource();
+        Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
+        FXMLLoader board = fxmlLoad.load(stage,"/Board.fxml",bundle);
+        SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+        modelSudokuBoard.solveGame();
+        Levels.Level.valueOf(
+                comboBox.getSelectionModel()
+                        .getSelectedItem()
+                        .toString()
+        ).prepare(modelSudokuBoard);
+        stage.setTitle("TurboSudoku");
+        ((BoardController) board.getController()).startGame(modelSudokuBoard);
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
@@ -84,25 +77,17 @@ public class MainFormController implements Initializable {
             }
             try (Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)) {
                 SudokuBoard initSudokuBoard = daoInit.read();
-                try {
-                    FXMLLoader board = new FXMLLoader(
-                            getClass().getResource("/Board.fxml"),
-                            bundle
-                    );
-                    MenuItem m = (MenuItem) actionEvent.getSource();
-                    while (m.getParentPopup() == null) {
-                        m = m.getParentMenu();
-                    }
-                    Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
-                    stage.setScene(new Scene(board.load()));
-                    stage.setTitle("TurboSudoku");
-                    ((BoardController) board.getController()).startGame(
-                        modelSudokuBoard,
-                        initSudokuBoard
-                    );
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                MenuItem m = (MenuItem) actionEvent.getSource();
+                while (m.getParentPopup() == null) {
+                    m = m.getParentMenu();
                 }
+                Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
+                FXMLLoader board = fxmlLoad.load(stage,"/Board.fxml",bundle);
+                stage.setTitle("TurboSudoku");
+                ((BoardController) board.getController()).startGame(
+                    modelSudokuBoard,
+                    initSudokuBoard
+                );
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -118,13 +103,8 @@ public class MainFormController implements Initializable {
                 ((MenuItem) actionEvent.getSource()).getId()
             )
         );
-        levelChooseText.setText(bundle.getString(levelChooseText.getId()));
-        file.setText(bundle.getString(file.getId()));
-        save.setText(bundle.getString(save.getId()));
-        load.setText(bundle.getString(load.getId()));
-        language.setText(bundle.getString(language.getId()));
-        authors.setText(bundle.getString(authors.getId()));
-        about.setText(bundle.getString(about.getId()));
+        Stage stage = (Stage) ((MenuItem) actionEvent.getSource()).getParentPopup().getOwnerWindow();
+        fxmlLoad.load(stage,"/MainForm.fxml",bundle);
     }
 
     public void getAuthors(ActionEvent actionEvent) {
@@ -135,7 +115,6 @@ public class MainFormController implements Initializable {
             authors.append(listBundle.getObject(keyIterator.next()))
                    .append("\n");
         }
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(bundle.getString("authors"));
         alert.setHeaderText(bundle.getString("authors"));
