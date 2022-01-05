@@ -10,7 +10,7 @@ public class AlertBox {
      * @param message String
      * @param alertType AlertType
      */
-    public void alertShow(String title, String message, AlertType alertType) {
+    public static void alertShow(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(title);

@@ -17,7 +17,7 @@ public class FileChoose {
      * @param actionEvent ActionEvent
      * @return String
      */
-    public String saveChooser(String windowTitle, ActionEvent actionEvent) {
+    public static String saveChooser(String windowTitle, ActionEvent actionEvent) {
         String choose = null;
         try {
             choose = choose(
@@ -36,7 +36,7 @@ public class FileChoose {
      * @param actionEvent ActionEvent
      * @return String
      */
-    public String openChooser(String windowTitle, ActionEvent actionEvent) {
+    public static String openChooser(String windowTitle, ActionEvent actionEvent) {
         String choose = null;
         try {
             choose = choose(
@@ -55,7 +55,7 @@ public class FileChoose {
      * @param actionEvent ActionEvent
      * @return String
      */
-    private String choose(String windowTitle, ActionEvent actionEvent, Method showDialog)
+    private static String choose(String windowTitle, ActionEvent actionEvent, Method showDialog)
             throws InvocationTargetException, IllegalAccessException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle(windowTitle);

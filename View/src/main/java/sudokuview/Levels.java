@@ -51,7 +51,7 @@ public class Levels {
      * @param resourceBundle Resource bundle
      * @return ArrayList
      */
-    public ArrayList<String> getLevelFormName(ResourceBundle resourceBundle) {
+    public static ArrayList<String> getLevelFormName(ResourceBundle resourceBundle) {
         Level[] list = Level.values();
         ArrayList<String> arrayList = new ArrayList<>();
         for (Level item : list) {
@@ -66,7 +66,7 @@ public class Levels {
      * @param resourceBundle Resource bundle
      * @return Level
      */
-    public Level getEnumFromLevelName(String name, ResourceBundle resourceBundle) {
+    public static Level getEnumFromLevelName(String name, ResourceBundle resourceBundle) {
         Iterator<String> iterator = resourceBundle.getKeys().asIterator();
         while (iterator.hasNext()) {
             String key = iterator.next();

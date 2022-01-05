@@ -3,6 +3,7 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -11,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -18,12 +20,21 @@ import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class BoardController extends FormController {
+public class BoardController extends FormController implements Initializable {
     private SudokuBoard initialBoard;
     private SudokuBoard modelBoard;
-    private FileChoose fileChoose = new FileChoose();
     @FXML
     private VBox board;
+
+    /**
+     * Method initialize controller with fxml file and bundle.
+     * @param url URL of fxml file
+     * @param resourceBundle ResourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        bundle = resourceBundle;
+    }
 
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
@@ -104,12 +115,12 @@ public class BoardController extends FormController {
 
     public void saveToFile(ActionEvent actionEvent) {
         String filePath =
-                fileChoose.saveChooser(bundle.getString("current.game.save.file"), actionEvent);
+                FileChoose.saveChooser(bundle.getString("current.game.save.file"), actionEvent);
         if (filePath.isEmpty()) {
             return;
         }
         String filePathInitial =
-            fileChoose.saveChooser(bundle.getString("initial.game.save.file"), actionEvent);
+                FileChoose.saveChooser(bundle.getString("initial.game.save.file"), actionEvent);
         if (filePathInitial.isEmpty()) {
             return;
         }
@@ -135,12 +146,12 @@ public class BoardController extends FormController {
 
     public void loadFromFile(ActionEvent actionEvent) {
         String path =
-                fileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
+                FileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
         if (path.isEmpty()) {
             return;
         }
         String pathInit =
-                fileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
+                FileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
         if (pathInit.isEmpty()) {
             return;
         }
@@ -201,7 +212,7 @@ public class BoardController extends FormController {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
                                                      .getParentPopup()
                                                      .getOwnerWindow();
-        FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml", bundle);
+        FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml", bundle);
         this.board = (VBox) stage.getScene().lookup("#board");
         ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
     }

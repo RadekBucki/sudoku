@@ -13,7 +13,6 @@ import javafx.scene.control.RadioMenuItem;
 
 abstract class FormController implements Initializable {
     protected ResourceBundle bundle;
-    protected FxmlLoad fxmlLoad = new FxmlLoad();
 
     @FXML
     private Menu language;
@@ -49,7 +48,7 @@ abstract class FormController implements Initializable {
             authors.append(listBundle.getObject(keyIterator.next()))
                     .append("\n");
         }
-        (new AlertBox()).alertShow(
+        AlertBox.alertShow(
             bundle.getString("authors"),
             authors.toString(),
             Alert.AlertType.INFORMATION
