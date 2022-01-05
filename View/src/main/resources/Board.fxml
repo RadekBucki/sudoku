@@ -4,7 +4,10 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -12,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.BoardController">
+<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.BoardController">
    <children>
       <VBox fx:id="board" layoutX="94.0" layoutY="91.0" prefHeight="720.0" prefWidth="720.0">
          <children>
@@ -476,20 +479,42 @@
          <menus>
             <Menu fx:id="file" mnemonicParsing="false" text="%file">
                <items>
-                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveToFile" text="%save" />
-                  <MenuItem fx:id="load" mnemonicParsing="false" onAction="#loadFromFile" text="%load" />
+                  <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveToFile" text="%save">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="load" mnemonicParsing="false" onAction="#loadFromFile" text="%load">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
                </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%game">
+              <items>
+                <MenuItem mnemonicParsing="false" text="%check" />
+                  <MenuItem mnemonicParsing="false" onAction="#resetBoard" text="%reset" />
+              </items>
             </Menu>
             <Menu fx:id="language" mnemonicParsing="false" text="%language">
                <items>
-                  <MenuItem fx:id="pl" mnemonicParsing="false" onAction="#setLanguage" text="Polski" />
-                  <MenuItem fx:id="en" mnemonicParsing="false" onAction="#setLanguage" text="English" />
+                  <RadioMenuItem id="pl" mnemonicParsing="false" onAction="#setLanguage" text="Polski">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="languageGroup" />
+                     </toggleGroup>
+                  </RadioMenuItem>
+                  <RadioMenuItem id="en" mnemonicParsing="false" onAction="#setLanguage" text="English" toggleGroup="$languageGroup">
+                  </RadioMenuItem>
                </items>
             </Menu>
             <Menu fx:id="about" mnemonicParsing="false" text="%about">
                <items>
                   <MenuItem fx:id="authors" mnemonicParsing="false" onAction="#getAuthors" text="%authors" />
                </items>
+               <accelerator>
+                  <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
             </Menu>
          </menus>
       </MenuBar>
