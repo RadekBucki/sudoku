@@ -26,16 +26,6 @@ public class BoardController extends FormController implements Initializable {
     @FXML
     private VBox board;
 
-    /**
-     * Method initialize controller with fxml file and bundle.
-     * @param url URL of fxml file
-     * @param resourceBundle ResourceBundle
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        bundle = resourceBundle;
-    }
-
     public class SudokuFieldAdapter {
         private SudokuBoard sudokuBoard;
         private int xx;
@@ -225,6 +215,6 @@ public class BoardController extends FormController implements Initializable {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
                                                      .getParentPopup()
                                                      .getOwnerWindow();
-        fxmlLoad.load(stage, "/MainForm.fxml", bundle);
+        FxmlLoad.load(stage, "/MainForm.fxml", bundle);
     }
 }
