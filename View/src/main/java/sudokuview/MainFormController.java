@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
@@ -16,9 +15,9 @@ import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class MainFormController extends FormController implements Initializable {
+public class MainFormController extends FormController {
     private FileChoose fileChoose = new FileChoose();
-    Levels levels = new Levels();
+    private Levels levels = new Levels();
 
     @FXML
     private ComboBox<String> levelChoose;
@@ -30,7 +29,7 @@ public class MainFormController extends FormController implements Initializable 
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        bundle = resourceBundle;
+        super.initialize(url, resourceBundle);
         levelChoose.getItems().addAll(
             levels.getLevelFormName(resourceBundle)
         );
@@ -58,11 +57,13 @@ public class MainFormController extends FormController implements Initializable 
     }
 
     public void loadFromFile(ActionEvent actionEvent) {
-        String path = fileChoose.openChooser("Start current game file", actionEvent);
+        String path =
+                fileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
         if (path.isEmpty()) {
             return;
         }
-        String pathInit = fileChoose.openChooser("Start initial game file", actionEvent);
+        String pathInit =
+                fileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
         if (pathInit.isEmpty()) {
             return;
         }
