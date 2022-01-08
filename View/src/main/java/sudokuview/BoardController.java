@@ -205,4 +205,15 @@ public class BoardController extends FormController {
         this.board = (VBox) stage.getScene().lookup("#board");
         ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
     }
+
+    /**
+     * Opens MainForm.
+     * @param actionEvent ActionEvent
+     */
+    public void newGame(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
+                                                     .getParentPopup()
+                                                     .getOwnerWindow();
+        fxmlLoad.load(stage, "/MainForm.fxml", bundle);
+    }
 }
