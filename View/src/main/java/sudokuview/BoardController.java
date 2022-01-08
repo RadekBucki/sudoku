@@ -119,16 +119,7 @@ public class BoardController extends FormController implements Initializable {
                 Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(
                         dao, initialBoard, filePathInitial)
         ) {
-            SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
-                String textFieldText = bi.next().getText();
-                int val = 0;
-                if (!textFieldText.isEmpty()) {
-                    val = Integer.parseInt(textFieldText);
-                }
-                boardToSave.set(bi.getRow(), bi.getCol(), val);
-            }
-            save(daoDecorator, boardToSave);
+            save(daoDecorator, modelBoard);
         } catch (Exception e) {
             e.printStackTrace();
         }
