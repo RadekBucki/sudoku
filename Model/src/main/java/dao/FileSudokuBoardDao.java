@@ -1,5 +1,8 @@
 package dao;
 
+import exceptions.ModelDaoReadException;
+import exceptions.ModelDaoWriteException;
+import exceptions.ModelException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +38,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         ) {
             sudokuBoard = (SudokuBoard) reader.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ModelDaoReadException("dao.read.exception", e);
         }
         return sudokuBoard;
     }
@@ -53,11 +56,11 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
         ) {
             writer.writeObject(obj);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ModelDaoWriteException("dao.write.exception", e);
         }
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws ModelException {
     }
 }
