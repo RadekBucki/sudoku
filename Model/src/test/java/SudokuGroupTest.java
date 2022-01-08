@@ -1,3 +1,4 @@
+import exceptions.ModelCloneNotSupportedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import sudoku.SudokuBoard;

@@ -1,5 +1,7 @@
 package sudoku;
 
+import exceptions.ModelCloneNotSupportedException;
+
 public class Repository {
     SudokuBoard sudokuBoard;
 
@@ -8,6 +10,10 @@ public class Repository {
     }
 
     public SudokuBoard createInstance() throws CloneNotSupportedException {
-        return sudokuBoard.clone();
+        try {
+            return sudokuBoard.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new ModelCloneNotSupportedException("clone.exception");
+        }
     }
 }

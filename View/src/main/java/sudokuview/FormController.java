@@ -1,5 +1,6 @@
 package sudokuview;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -52,6 +53,14 @@ abstract class FormController implements Initializable {
             bundle.getString("authors"),
             authors.toString(),
             Alert.AlertType.INFORMATION
+        );
+    }
+
+    public String getOpenChooserPath(ActionEvent actionEvent, String key)
+            throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return FileChoose.openChooser(
+                bundle.getString(key),
+                actionEvent
         );
     }
 }

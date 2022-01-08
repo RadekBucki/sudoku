@@ -2,6 +2,7 @@ package sudoku.group;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import exceptions.ModelCloneNotSupportedException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,11 +117,15 @@ public abstract class SudokuGroup implements Serializable, Cloneable {
      */
     @Override
     public SudokuGroup clone() throws CloneNotSupportedException {
-        SudokuGroup clone = (SudokuGroup) super.clone();
-        clone.values = new ArrayList<>(values);
-        for (int i = 0; i < 9; i++) {
-            clone.values.set(i,values.get(i).clone());
+        try {
+            SudokuGroup clone = (SudokuGroup) super.clone();
+            clone.values = new ArrayList<>(values);
+            for (int i = 0; i < 9; i++) {
+                clone.values.set(i, values.get(i).clone());
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new ModelCloneNotSupportedException("clone.exception");
         }
-        return clone;
     }
 }
