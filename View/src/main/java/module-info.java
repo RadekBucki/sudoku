@@ -3,5 +3,7 @@ module ViewProject {
     requires javafx.controls;
     requires javafx.fxml;
     requires ModelProject;
+    requires slf4j.api;
+    requires log4j.api;
     opens sudokuview;
 }

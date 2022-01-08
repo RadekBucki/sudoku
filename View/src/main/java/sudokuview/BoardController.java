@@ -3,7 +3,6 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
-import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -17,6 +16,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
@@ -30,6 +31,7 @@ public class BoardController extends FormController implements Initializable {
         private SudokuBoard sudokuBoard;
         private int xx;
         private int yy;
+        private static Logger logger = LoggerFactory.getLogger(SudokuFieldAdapter.class);
 
         public SudokuFieldAdapter(SudokuBoard board, int x, int y) {
             this.sudokuBoard = board;
@@ -45,9 +47,11 @@ public class BoardController extends FormController implements Initializable {
             if (value.equals("")) {
                 value = "0";
             }
-            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9') {
+            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9'
+                    && Integer.parseInt(value) != this.sudokuBoard.get(xx, yy)) {
+                logger.info("Sudoku board changed x=" + xx + " y=" + yy + " oldValue="
+                        + this.sudokuBoard.get(xx, yy) + " newValue=" + value);
                 this.sudokuBoard.set(xx, yy, Integer.parseInt(value));
-                System.out.println(this.sudokuBoard);
             }
         }
     }
@@ -59,8 +63,8 @@ public class BoardController extends FormController implements Initializable {
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 if (
-                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
-                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                        this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                                && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(false);
                 }
@@ -162,8 +166,8 @@ public class BoardController extends FormController implements Initializable {
                 }
                 if (
                         boardFromFileInit.get(bi.getRow(), bi.getCol())
-                        == boardFromFile.get(bi.getRow(), bi.getCol())
-                        && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
+                                == boardFromFile.get(bi.getRow(), bi.getCol())
+                                && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(true);
                 }
@@ -190,6 +194,7 @@ public class BoardController extends FormController implements Initializable {
 
     /**
      * Method changes language to choosen.
+     *
      * @param actionEvent ActionEvent
      */
     public void setLanguage(ActionEvent actionEvent) {
@@ -200,8 +205,8 @@ public class BoardController extends FormController implements Initializable {
                 )
         );
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
-                                                     .getParentPopup()
-                                                     .getOwnerWindow();
+                .getParentPopup()
+                .getOwnerWindow();
         FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml", bundle);
         this.board = (VBox) stage.getScene().lookup("#board");
         ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
@@ -209,12 +214,13 @@ public class BoardController extends FormController implements Initializable {
 
     /**
      * Opens MainForm.
+     *
      * @param actionEvent ActionEvent
      */
     public void newGame(ActionEvent actionEvent) {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
-                                                     .getParentPopup()
-                                                     .getOwnerWindow();
+                .getParentPopup()
+                .getOwnerWindow();
         FxmlLoad.load(stage, "/MainForm.fxml", bundle);
     }
 }
