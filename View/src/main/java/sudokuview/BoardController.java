@@ -21,7 +21,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
-import sudoku.solver.BacktrackingSudokuSolver;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.BoardSaveException;
 import sudokuview.exception.NewGameException;
@@ -142,16 +141,7 @@ public class BoardController extends FormController implements Initializable {
                 Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(
                         dao, initialBoard, filePathInitial)
         ) {
-            SudokuBoard boardToSave = new SudokuBoard(new BacktrackingSudokuSolver());
-            for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
-                String textFieldText = bi.next().getText();
-                int val = 0;
-                if (!textFieldText.isEmpty()) {
-                    val = Integer.parseInt(textFieldText);
-                }
-                boardToSave.set(bi.getRow(), bi.getCol(), val);
-            }
-            daoDecorator.write(boardToSave);
+            daoDecorator.write(modelBoard);
         } catch (ModelDaoWriteException e) {
             throw new BoardSaveException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
