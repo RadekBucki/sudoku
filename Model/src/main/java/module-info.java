@@ -4,4 +4,5 @@ open module ModelProject {
     exports sudoku;
     exports sudoku.solver;
     exports dao;
+    exports exceptions;
 }

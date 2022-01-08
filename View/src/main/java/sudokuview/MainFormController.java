@@ -2,6 +2,7 @@ package sudokuview;
 
 import dao.Dao;
 import dao.SudokuBoardDaoFactory;
+import exceptions.ModelDaoReadException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -91,6 +92,8 @@ public class MainFormController extends FormController implements Initializable 
                     modelSudokuBoard,
                     initSudokuBoard
             );
+        } catch (ModelDaoReadException e) {
+            throw new BoardLoadException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
             throw new BoardLoadException(bundle.getString("load.exception"), e);
         }

@@ -3,6 +3,9 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
+import exceptions.ModelCloneNotSupportedException;
+import exceptions.ModelDaoReadException;
+import exceptions.ModelDaoWriteException;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -71,6 +74,8 @@ public class BoardController extends FormController implements Initializable {
                     textField.setDisable(false);
                 }
             }
+        } catch (ModelCloneNotSupportedException e) {
+            throw new StartGameException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
             throw new StartGameException(bundle.getString("start.game.exception"), e);
         }
@@ -93,6 +98,8 @@ public class BoardController extends FormController implements Initializable {
                 textField.textProperty().bindBidirectional(fieldProperty);
             }
             initialBoard = modelSudokuBoard.clone();
+        } catch (ModelCloneNotSupportedException e) {
+            throw new StartGameException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
             throw new StartGameException(bundle.getString("start.game.exception"), e);
         }
@@ -145,6 +152,8 @@ public class BoardController extends FormController implements Initializable {
                 boardToSave.set(bi.getRow(), bi.getCol(), val);
             }
             daoDecorator.write(boardToSave);
+        } catch (ModelDaoWriteException e) {
+            throw new BoardSaveException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
             throw new BoardSaveException(bundle.getString("save.exception"), e);
         }
@@ -182,6 +191,8 @@ public class BoardController extends FormController implements Initializable {
                     textField.setDisable(true);
                 }
             }
+        } catch (ModelDaoReadException | ModelCloneNotSupportedException e) {
+            throw new BoardLoadException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
             throw new BoardLoadException(bundle.getString("load.exception"), e);
         }
