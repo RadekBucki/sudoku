@@ -14,9 +14,9 @@ public class FxmlLoad {
      * @param bundle ResourceBundle
      * @return FXMLLoader
      */
-    public FXMLLoader load(Stage stage, String path, ResourceBundle bundle) {
+    public static FXMLLoader load(Stage stage, String path, ResourceBundle bundle) {
         FXMLLoader board = new FXMLLoader(
-                getClass().getResource(path),
+                FxmlLoad.class.getResource(path),
                 bundle
         );
         try {

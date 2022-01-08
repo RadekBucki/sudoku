@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
@@ -15,10 +16,7 @@ import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
-public class MainFormController extends FormController {
-    private FileChoose fileChoose = new FileChoose();
-    private Levels levels = new Levels();
-
+public class MainFormController extends FormController implements Initializable {
     @FXML
     private ComboBox<String> levelChoose;
 
@@ -31,7 +29,7 @@ public class MainFormController extends FormController {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         super.initialize(url, resourceBundle);
         levelChoose.getItems().addAll(
-            levels.getLevelFormName(resourceBundle)
+            Levels.getLevelFormName(resourceBundle)
         );
     }
 
@@ -43,10 +41,10 @@ public class MainFormController extends FormController {
     public void levelGenerate(ActionEvent actionEvent) {
         ComboBox comboBox = (ComboBox) actionEvent.getSource();
         Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
-        final FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml",bundle);
+        final FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml",bundle);
         SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         modelSudokuBoard.solveGame();
-        levels.getEnumFromLevelName(
+        Levels.getEnumFromLevelName(
             comboBox.getSelectionModel()
                     .getSelectedItem()
                     .toString(),
@@ -58,12 +56,12 @@ public class MainFormController extends FormController {
 
     public void loadFromFile(ActionEvent actionEvent) {
         String path =
-                fileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
+                FileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
         if (path.isEmpty()) {
             return;
         }
         String pathInit =
-                fileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
+                FileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
         if (pathInit.isEmpty()) {
             return;
         }
@@ -77,7 +75,7 @@ public class MainFormController extends FormController {
                 m = m.getParentMenu();
             }
             Stage stage = (Stage) m.getParentPopup().getOwnerWindow();
-            FXMLLoader board = fxmlLoad.load(stage, "/Board.fxml",bundle);
+            FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml",bundle);
             stage.setTitle("TurboSudoku");
             ((BoardController) board.getController()).startGame(
                     modelSudokuBoard,
@@ -102,6 +100,6 @@ public class MainFormController extends FormController {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
                                                      .getParentPopup()
                                                      .getOwnerWindow();
-        fxmlLoad.load(stage,"/MainForm.fxml",bundle);
+        FxmlLoad.load(stage,"/MainForm.fxml",bundle);
     }
 }
