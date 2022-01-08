@@ -9,6 +9,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 public class FileChoose {
+    private static String lastUsedDir = "";
+
     /**
      * Method opens dialog to choose location to save.
      * @param windowTitle String
@@ -57,6 +59,9 @@ public class FileChoose {
             throws InvocationTargetException, IllegalAccessException {
         FileChooser chooser = new FileChooser();
         chooser.setTitle(windowTitle);
+        if (!lastUsedDir.isEmpty()) {
+            chooser.setInitialDirectory(new File(lastUsedDir));
+        }
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Sudoku game save (*.bin)", "*.bin")
         );
@@ -69,6 +74,7 @@ public class FileChoose {
         if (chosenFile == null) {
             return "";
         }
+        lastUsedDir = chosenFile.getAbsoluteFile().getParentFile().getAbsolutePath();
         return chosenFile.getAbsolutePath();
     }
 }
