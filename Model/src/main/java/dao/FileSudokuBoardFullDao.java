@@ -1,5 +1,6 @@
 package dao;
 
+import exceptions.ModelDaoWriteException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -26,7 +27,7 @@ public class FileSudokuBoardFullDao extends AbstractDaoDecorator<SudokuBoard> {
         ) {
             writer.writeObject(initialBoard);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ModelDaoWriteException("dao.write.exception", e);
         }
     }
 }

@@ -16,17 +16,17 @@ public class FileChoose {
      * @param windowTitle String
      * @param actionEvent ActionEvent
      * @return String
+     * @throws NoSuchMethodException exception
+     * @throws InvocationTargetException exception
+     * @throws IllegalAccessException exception
      */
-    public static String saveChooser(String windowTitle, ActionEvent actionEvent) {
+    public static String saveChooser(String windowTitle, ActionEvent actionEvent)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String choose = null;
-        try {
-            choose = choose(
-                    windowTitle, actionEvent,
-                    FileChooser.class.getMethod("showSaveDialog", Window.class)
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        choose = choose(
+                windowTitle, actionEvent,
+                FileChooser.class.getMethod("showSaveDialog", Window.class)
+        );
         return choose;
     }
 
@@ -35,17 +35,17 @@ public class FileChoose {
      * @param windowTitle String
      * @param actionEvent ActionEvent
      * @return String
+     * @throws NoSuchMethodException exception
+     * @throws InvocationTargetException exception
+     * @throws IllegalAccessException exception
      */
-    public static String openChooser(String windowTitle, ActionEvent actionEvent) {
+    public static String openChooser(String windowTitle, ActionEvent actionEvent)
+            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String choose = null;
-        try {
-            choose = choose(
-                    windowTitle, actionEvent,
-                    FileChooser.class.getMethod("showOpenDialog", Window.class)
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        choose = choose(
+                windowTitle, actionEvent,
+                FileChooser.class.getMethod("showOpenDialog", Window.class)
+        );
         return choose;
     }
 
@@ -54,6 +54,8 @@ public class FileChoose {
      * @param windowTitle String
      * @param actionEvent ActionEvent
      * @return String
+     * @throws InvocationTargetException exception
+     * @throws IllegalAccessException exception
      */
     private static String choose(String windowTitle, ActionEvent actionEvent, Method showDialog)
             throws InvocationTargetException, IllegalAccessException {

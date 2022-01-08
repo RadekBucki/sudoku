@@ -7,19 +7,20 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sudokuview.exception.ApplicationStartFailed;
 
 public class MainApplication extends Application {
-    String language = "pl";
+    private String language = "pl";
 
     /**
      * Method starts first scene.
      * @param primaryStage first scene
      */
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ApplicationStartFailed {
+        Locale locale = new Locale(language);
+        ResourceBundle bundle = ResourceBundle.getBundle("Language", locale);
         try {
-            Locale locale = new Locale(language);
-            ResourceBundle bundle = ResourceBundle.getBundle("Language", locale);
             FXMLLoader main = new FXMLLoader(
                 getClass().getResource("/MainForm.fxml"),
                 bundle
@@ -28,7 +29,7 @@ public class MainApplication extends Application {
             primaryStage.setScene(new Scene(main.load()));
             primaryStage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ApplicationStartFailed(bundle.getString("application.start.error"), e);
         }
     }
 
