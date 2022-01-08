@@ -13,17 +13,15 @@ public class FxmlLoad {
      * @param path String
      * @param bundle ResourceBundle
      * @return FXMLLoader
+     * @throws IOException exception
      */
-    public static FXMLLoader load(Stage stage, String path, ResourceBundle bundle) {
+    public static FXMLLoader load(Stage stage, String path, ResourceBundle bundle)
+            throws IOException {
         FXMLLoader board = new FXMLLoader(
                 FxmlLoad.class.getResource(path),
                 bundle
         );
-        try {
-            stage.setScene(new Scene(board.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stage.setScene(new Scene(board.load()));
         return board;
     }
 }

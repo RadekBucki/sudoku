@@ -3,7 +3,7 @@ package sudokuview;
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
 import dao.SudokuBoardDaoFactory;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -19,6 +19,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
+import sudokuview.exception.BoardLoadException;
+import sudokuview.exception.BoardSaveException;
+import sudokuview.exception.NewGameException;
+import sudokuview.exception.SetLanguageException;
+import sudokuview.exception.StartGameException;
 
 public class BoardController extends FormController implements Initializable {
     private SudokuBoard initialBoard;
@@ -52,7 +57,8 @@ public class BoardController extends FormController implements Initializable {
         }
     }
 
-    public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard) {
+    public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard)
+            throws StartGameException {
         startGame(modelSudokuBoard);
         try {
             this.initialBoard = initSudokuBoard.clone();
@@ -65,12 +71,12 @@ public class BoardController extends FormController implements Initializable {
                     textField.setDisable(false);
                 }
             }
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new StartGameException(bundle.getString("start.game.exception"), e);
         }
     }
 
-    public void startGame(SudokuBoard modelSudokuBoard) {
+    public void startGame(SudokuBoard modelSudokuBoard) throws StartGameException {
         try {
             this.modelBoard = modelSudokuBoard;
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
@@ -88,7 +94,7 @@ public class BoardController extends FormController implements Initializable {
             }
             initialBoard = modelSudokuBoard.clone();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new StartGameException(bundle.getString("start.game.exception"), e);
         }
     }
 
@@ -103,16 +109,26 @@ public class BoardController extends FormController implements Initializable {
         }
     }
 
-    public void saveToFile(ActionEvent actionEvent) {
-        String filePath =
-                FileChoose.saveChooser(bundle.getString("current.game.save.file"), actionEvent);
-        if (filePath.isEmpty()) {
-            return;
-        }
-        String filePathInitial =
-                FileChoose.saveChooser(bundle.getString("initial.game.save.file"), actionEvent);
-        if (filePathInitial.isEmpty()) {
-            return;
+    public void saveToFile(ActionEvent actionEvent) throws BoardSaveException {
+        String filePath = null;
+        String filePathInitial = null;
+        try {
+            filePath = FileChoose.saveChooser(
+                    bundle.getString("current.game.save.file"),
+                    actionEvent
+            );
+            if (filePath.isEmpty()) {
+                return;
+            }
+            filePathInitial = FileChoose.saveChooser(
+                    bundle.getString("initial.game.save.file"),
+                    actionEvent
+            );
+            if (filePathInitial.isEmpty()) {
+                return;
+            }
+        } catch (Exception e) {
+            throw new BoardSaveException(bundle.getString("save.exception"), e);
         }
         try (
                 Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath);
@@ -128,22 +144,20 @@ public class BoardController extends FormController implements Initializable {
                 }
                 boardToSave.set(bi.getRow(), bi.getCol(), val);
             }
-            save(daoDecorator, boardToSave);
+            daoDecorator.write(boardToSave);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BoardSaveException(bundle.getString("save.exception"), e);
         }
     }
 
-    public void loadFromFile(ActionEvent actionEvent) {
-        String path =
-                FileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
-        if (path.isEmpty()) {
-            return;
-        }
-        String pathInit =
-                FileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
-        if (pathInit.isEmpty()) {
-            return;
+    public void loadFromFile(ActionEvent actionEvent) throws BoardLoadException {
+        String path = null;
+        String pathInit = null;
+        try {
+            path = getOpenChooserPath(actionEvent, "current.game.load.file");
+            pathInit = getOpenChooserPath(actionEvent, "initial.game.load.file");
+        } catch (Exception e) {
+            throw new BoardLoadException(bundle.getString("load.exception"), e);
         }
         try (
                 Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
@@ -169,7 +183,7 @@ public class BoardController extends FormController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BoardLoadException(bundle.getString("load.exception"), e);
         }
     }
 
@@ -184,37 +198,44 @@ public class BoardController extends FormController implements Initializable {
         }
     }
 
-    private void save(Dao<SudokuBoard> dao, SudokuBoard board) {
-        dao.write(board);
-    }
-
     /**
      * Method changes language to choosen.
      * @param actionEvent ActionEvent
+     * @throws SetLanguageException exception
      */
-    public void setLanguage(ActionEvent actionEvent) {
-        bundle = ResourceBundle.getBundle(
-                "Language",
-                new Locale(
-                        ((MenuItem) actionEvent.getSource()).getId()
-                )
-        );
-        Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
-                                                     .getParentPopup()
-                                                     .getOwnerWindow();
-        FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml", bundle);
-        this.board = (VBox) stage.getScene().lookup("#board");
-        ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
+    public void setLanguage(ActionEvent actionEvent)
+            throws SetLanguageException {
+        try {
+            bundle = ResourceBundle.getBundle(
+                    "Language",
+                    new Locale(
+                            ((MenuItem) actionEvent.getSource()).getId()
+                    )
+            );
+            Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
+                                                         .getParentPopup()
+                                                         .getOwnerWindow();
+            FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml", bundle);
+            this.board = (VBox) stage.getScene().lookup("#board");
+            ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
+        } catch (Exception e) {
+            throw new SetLanguageException(bundle.getString("set.language.exception"), e);
+        }
     }
 
     /**
      * Opens MainForm.
      * @param actionEvent ActionEvent
+     * @throws NewGameException exception
      */
-    public void newGame(ActionEvent actionEvent) {
+    public void newGame(ActionEvent actionEvent) throws NewGameException {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
                                                      .getParentPopup()
                                                      .getOwnerWindow();
-        FxmlLoad.load(stage, "/MainForm.fxml", bundle);
+        try {
+            FxmlLoad.load(stage, "/MainForm.fxml", bundle);
+        } catch (IOException e) {
+            throw new NewGameException(bundle.getString("new.game.exception"), e);
+        }
     }
 }

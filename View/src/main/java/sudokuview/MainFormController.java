@@ -2,6 +2,7 @@ package sudokuview;
 
 import dao.Dao;
 import dao.SudokuBoardDaoFactory;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -15,6 +16,10 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
+import sudokuview.exception.BoardLoadException;
+import sudokuview.exception.LevelGenerateException;
+import sudokuview.exception.SetLanguageException;
+import sudokuview.exception.StartGameException;
 
 public class MainFormController extends FormController implements Initializable {
     @FXML
@@ -36,12 +41,19 @@ public class MainFormController extends FormController implements Initializable 
     /**
      * Action after click the button.
      * @param actionEvent action which executed event
-     * @throws RuntimeException Runtime exception
+     * @throws StartGameException exception
+     * @throws LevelGenerateException exception
      */
-    public void levelGenerate(ActionEvent actionEvent) {
+    public void levelGenerate(ActionEvent actionEvent)
+            throws StartGameException, LevelGenerateException {
         ComboBox comboBox = (ComboBox) actionEvent.getSource();
         Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
-        final FXMLLoader board = FxmlLoad.load(stage, "/Board.fxml",bundle);
+        final FXMLLoader board;
+        try {
+            board = FxmlLoad.load(stage, "/Board.fxml",bundle);
+        } catch (IOException e) {
+            throw new LevelGenerateException(bundle.getString("level.generate.exception"), e);
+        }
         SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         modelSudokuBoard.solveGame();
         Levels.getEnumFromLevelName(
@@ -54,19 +66,17 @@ public class MainFormController extends FormController implements Initializable 
         ((BoardController) board.getController()).startGame(modelSudokuBoard);
     }
 
-    public void loadFromFile(ActionEvent actionEvent) {
-        String path =
-                FileChoose.openChooser(bundle.getString("current.game.load.file"), actionEvent);
-        if (path.isEmpty()) {
-            return;
+    public void loadFromFile(ActionEvent actionEvent) throws BoardLoadException {
+        String loadPath = null;
+        String loadPathInit = null;
+        try {
+            loadPath = getOpenChooserPath(actionEvent, "current.game.load.file");
+            loadPathInit = getOpenChooserPath(actionEvent, "initial.game.load.file");
+        } catch (Exception e) {
+            throw new BoardLoadException(bundle.getString("load.exception"), e);
         }
-        String pathInit =
-                FileChoose.openChooser(bundle.getString("initial.game.load.file"), actionEvent);
-        if (pathInit.isEmpty()) {
-            return;
-        }
-        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
-             Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(pathInit)
+        try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(loadPath);
+             Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(loadPathInit)
         ) {
             final SudokuBoard modelSudokuBoard = dao.read();
             final SudokuBoard initSudokuBoard = daoInit.read();
@@ -82,24 +92,30 @@ public class MainFormController extends FormController implements Initializable 
                     initSudokuBoard
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BoardLoadException(bundle.getString("load.exception"), e);
         }
     }
 
     /**
      * Method changes language to choosen.
      * @param actionEvent ActionEvent
+     * @throws SetLanguageException exception
      */
-    public void setLanguage(ActionEvent actionEvent) {
-        bundle = ResourceBundle.getBundle(
-            "Language",
-            new Locale(
-                ((MenuItem) actionEvent.getSource()).getId()
-            )
-        );
-        Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
-                                                     .getParentPopup()
-                                                     .getOwnerWindow();
-        FxmlLoad.load(stage,"/MainForm.fxml",bundle);
+    public void setLanguage(ActionEvent actionEvent)
+            throws SetLanguageException {
+        try {
+            bundle = ResourceBundle.getBundle(
+                "Language",
+                new Locale(
+                    ((MenuItem) actionEvent.getSource()).getId()
+                )
+            );
+            Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
+                                                         .getParentPopup()
+                                                         .getOwnerWindow();
+            FxmlLoad.load(stage,"/MainForm.fxml",bundle);
+        } catch (Exception e) {
+            throw new SetLanguageException(bundle.getString("set.language.exception"), e);
+        }
     }
 }
