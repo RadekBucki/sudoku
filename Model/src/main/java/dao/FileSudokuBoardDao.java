@@ -2,7 +2,6 @@ package dao;
 
 import exceptions.ModelDaoReadException;
 import exceptions.ModelDaoWriteException;
-import exceptions.ModelException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,6 +60,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public void close() throws ModelException {
+    public void close() {
     }
 }
