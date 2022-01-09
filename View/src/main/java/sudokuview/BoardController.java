@@ -20,6 +20,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.SudokuBoard;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.BoardSaveException;
@@ -37,6 +39,7 @@ public class BoardController extends FormController implements Initializable {
         private SudokuBoard sudokuBoard;
         private int xx;
         private int yy;
+        private static Logger logger = LoggerFactory.getLogger(SudokuFieldAdapter.class);
 
         public SudokuFieldAdapter(SudokuBoard board, int x, int y) {
             this.sudokuBoard = board;
@@ -52,35 +55,36 @@ public class BoardController extends FormController implements Initializable {
             if (value.equals("")) {
                 value = "0";
             }
-            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9') {
+            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9'
+                    && Integer.parseInt(value) != this.sudokuBoard.get(xx, yy)) {
+                logger.info("Sudoku board changed x=" + xx + " y=" + yy + " oldValue="
+                        + this.sudokuBoard.get(xx, yy) + " newValue=" + value);
                 this.sudokuBoard.set(xx, yy, Integer.parseInt(value));
-                System.out.println(this.sudokuBoard);
             }
         }
     }
 
-    public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard)
-            throws StartGameException {
+    public void startGame(SudokuBoard modelSudokuBoard, SudokuBoard initSudokuBoard) {
         startGame(modelSudokuBoard);
         try {
             this.initialBoard = initSudokuBoard.clone();
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
                 TextField textField = bi.next();
                 if (
-                    this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
-                    && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
+                        this.initialBoard.get(bi.getRow(), bi.getCol()) == 0
+                                && modelSudokuBoard.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(false);
                 }
             }
         } catch (ModelCloneNotSupportedException e) {
-            throw new StartGameException(bundle.getString(e.getMessage()), e);
+            new StartGameException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
-            throw new StartGameException(bundle.getString("start.game.exception"), e);
+            new StartGameException(bundle.getString("start.game.exception"), e);
         }
     }
 
-    public void startGame(SudokuBoard modelSudokuBoard) throws StartGameException {
+    public void startGame(SudokuBoard modelSudokuBoard) {
         try {
             this.modelBoard = modelSudokuBoard;
             for (BoardIterator bi = new BoardIterator(board); bi.hasNext(); ) {
@@ -98,9 +102,9 @@ public class BoardController extends FormController implements Initializable {
             }
             initialBoard = modelSudokuBoard.clone();
         } catch (ModelCloneNotSupportedException e) {
-            throw new StartGameException(bundle.getString(e.getMessage()), e);
+            new StartGameException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
-            throw new StartGameException(bundle.getString("start.game.exception"), e);
+            new StartGameException(bundle.getString("start.game.exception"), e);
         }
     }
 
@@ -115,7 +119,7 @@ public class BoardController extends FormController implements Initializable {
         }
     }
 
-    public void saveToFile(ActionEvent actionEvent) throws BoardSaveException {
+    public void saveToFile(ActionEvent actionEvent) {
         String filePath = null;
         String filePathInitial = null;
         try {
@@ -134,7 +138,7 @@ public class BoardController extends FormController implements Initializable {
                 return;
             }
         } catch (Exception e) {
-            throw new BoardSaveException(bundle.getString("save.exception"), e);
+            new BoardSaveException(bundle.getString("save.exception"), e);
         }
         try (
                 Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(filePath);
@@ -143,20 +147,26 @@ public class BoardController extends FormController implements Initializable {
         ) {
             daoDecorator.write(modelBoard);
         } catch (ModelDaoWriteException e) {
-            throw new BoardSaveException(bundle.getString(e.getMessage()), e);
+            new BoardSaveException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
-            throw new BoardSaveException(bundle.getString("save.exception"), e);
+            new BoardSaveException(bundle.getString("save.exception"), e);
         }
     }
 
-    public void loadFromFile(ActionEvent actionEvent) throws BoardLoadException {
+    public void loadFromFile(ActionEvent actionEvent) {
         String path = null;
         String pathInit = null;
         try {
             path = getOpenChooserPath(actionEvent, "current.game.load.file");
+            if (path.isEmpty()) {
+                return;
+            }
             pathInit = getOpenChooserPath(actionEvent, "initial.game.load.file");
+            if (pathInit.isEmpty()) {
+                return;
+            }
         } catch (Exception e) {
-            throw new BoardLoadException(bundle.getString("load.exception"), e);
+            new BoardLoadException(bundle.getString("load.exception"), e);
         }
         try (
                 Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(path);
@@ -175,16 +185,16 @@ public class BoardController extends FormController implements Initializable {
                 }
                 if (
                         boardFromFileInit.get(bi.getRow(), bi.getCol())
-                        == boardFromFile.get(bi.getRow(), bi.getCol())
-                        && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
+                                == boardFromFile.get(bi.getRow(), bi.getCol())
+                                && boardFromFileInit.get(bi.getRow(), bi.getCol()) != 0
                 ) {
                     textField.setDisable(true);
                 }
             }
         } catch (ModelDaoReadException | ModelCloneNotSupportedException e) {
-            throw new BoardLoadException(bundle.getString(e.getMessage()), e);
+            new BoardLoadException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
-            throw new BoardLoadException(bundle.getString("load.exception"), e);
+            new BoardLoadException(bundle.getString("load.exception"), e);
         }
     }
 
@@ -201,11 +211,10 @@ public class BoardController extends FormController implements Initializable {
 
     /**
      * Method changes language to choosen.
+     *
      * @param actionEvent ActionEvent
-     * @throws SetLanguageException exception
      */
-    public void setLanguage(ActionEvent actionEvent)
-            throws SetLanguageException {
+    public void setLanguage(ActionEvent actionEvent) {
         try {
             bundle = ResourceBundle.getBundle(
                     "Language",
@@ -220,23 +229,23 @@ public class BoardController extends FormController implements Initializable {
             this.board = (VBox) stage.getScene().lookup("#board");
             ((BoardController) board.getController()).startGame(modelBoard, initialBoard);
         } catch (Exception e) {
-            throw new SetLanguageException(bundle.getString("set.language.exception"), e);
+            new SetLanguageException(bundle.getString("set.language.exception"), e);
         }
     }
 
     /**
      * Opens MainForm.
+     *
      * @param actionEvent ActionEvent
-     * @throws NewGameException exception
      */
-    public void newGame(ActionEvent actionEvent) throws NewGameException {
+    public void newGame(ActionEvent actionEvent) {
         Stage stage = (Stage) ((MenuItem) actionEvent.getSource())
                                                      .getParentPopup()
                                                      .getOwnerWindow();
         try {
             FxmlLoad.load(stage, "/MainForm.fxml", bundle);
         } catch (IOException e) {
-            throw new NewGameException(bundle.getString("new.game.exception"), e);
+            new NewGameException(bundle.getString("new.game.exception"), e);
         }
     }
 }

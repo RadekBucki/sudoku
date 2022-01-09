@@ -1,0 +1,19 @@
+<Configuration debug="false">
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n}{ERROR=bright red bold, WARN=bright yellow bold, INFO=green, DEBUG=normal}"/>
+        </Console>
+        <File name="fileout" fileName="logs.log" append="true">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef ref="stdout"/>
+            <AppenderRef ref="fileout"/>
+        </Root>
+    </Loggers>
+</Configuration>
+
