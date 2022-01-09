@@ -2,6 +2,7 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import exceptions.ModelCloneNotSupportedException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Constructor.
+     *
      * @param solver implementation of interface SudokuSolver
      */
     public SudokuBoard(SudokuSolver solver) {
@@ -49,25 +51,24 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
                     box[j++] = board[k][l];
                 }
             }
-            boxes.set(i,new SudokuBox(box));
+            boxes.set(i, new SudokuBox(box));
         }
         sudokuSolver = solver;
     }
 
     /**
      * Implementation of Listener pattern.
+     *
      * @param evt event get from listened objects
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (!checkBoard()) {
-            SudokuField field = (SudokuField) evt.getSource();
-            field.setFieldValue((Integer) evt.getOldValue());
-        }
+        checkBoard();
     }
 
     /**
      * Getter of concrete field value in board.
+     *
      * @param x row coordinate in board 2D array
      * @param y column coordinate in board 2D array
      * @return int field value
@@ -81,8 +82,9 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Setter of concrete field value in board.
-     * @param x row coordinate in board 2D array
-     * @param y column coordinate in board 2D array
+     *
+     * @param x     row coordinate in board 2D array
+     * @param y     column coordinate in board 2D array
      * @param value value which should be set
      */
     public void set(int x, int y, int value) {
@@ -100,6 +102,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Method checks unique of values in rows, boxes and columns.
+     *
      * @return boolean
      */
     private boolean checkBoard() {
@@ -113,6 +116,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Method returns SudokuRow with concrete coordinate.
+     *
      * @param y row coordinate
      * @return SudokuRow
      */
@@ -122,6 +126,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Getter of SudokuColumn with concrete coordinate.
+     *
      * @param x column coordinate
      * @return SudokuColumn
      */
@@ -131,6 +136,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Getter of SudokuBox with concrete coordinates.
+     *
      * @param x row coordinate
      * @param y column coordinate
      * @return SudokuBox
@@ -141,19 +147,21 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Method checks if a value can be inserted into a given coordinates.
-     * @param row row coordinate
-     * @param col column coordinate
+     *
+     * @param row       row coordinate
+     * @param col       column coordinate
      * @param generated tested value
      * @return boolean
      */
     public boolean check(int row, int col, int generated) {
         return !getListOfIntegersFromSudokuGroup(rows.get(row)).contains(generated)
                 && !getListOfIntegersFromSudokuGroup(columns.get(col)).contains(generated)
-                && !getListOfIntegersFromSudokuGroup(getBox(row / 3,col / 3)).contains(generated);
+                && !getListOfIntegersFromSudokuGroup(getBox(row / 3, col / 3)).contains(generated);
     }
 
     /**
      * Method returns List of SudokuGroup SudokuFields values.
+     *
      * @param group SudokuGroup which values should be returned
      * @return List of Integers
      */
@@ -163,6 +171,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Override of method returns string representation of this object.
+     *
      * @return string
      */
     @Override
@@ -174,6 +183,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Method returns information whether the objects are the same.
+     *
      * @param o tested object
      * @return boolean
      */
@@ -191,6 +201,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Method returns the hash code.
+     *
      * @return int
      */
     @Override
@@ -200,37 +211,42 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
 
     /**
      * Returns deep copy of SudokuBoard.
+     *
      * @return SudokuBoard
      */
     @Override
     public SudokuBoard clone() throws CloneNotSupportedException {
-        SudokuBoard clone = (SudokuBoard) super.clone();
-        clone.board = new SudokuField[9][9];
-        clone.rows = new ArrayList<>(rows);
-        clone.columns = new ArrayList<>(columns);
-        clone.boxes = new ArrayList<>(boxes);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                clone.board[i][j] = board[i][j].clone();
-            }
-        }
-        for (int i = 0; i < 9; i++) {
-            SudokuField[] column = new SudokuField[9];
-            for (int j = 0; j < 9; j++) {
-                column[j] = clone.board[j][i];
-            }
-            clone.rows.set(i, new SudokuRow(clone.board[i]));
-            clone.columns.set(i, new SudokuColumn(column));
-
-            SudokuField[] box = new SudokuField[9];
-            int j = 0;
-            for (int k = (i / 3) * 3; k < (i / 3) * 3 + 3; k++) {
-                for (int l = (i % 3) * 3; l < (i % 3) * 3 + 3; l++) {
-                    box[j++] = clone.board[k][l].clone();
+        try {
+            SudokuBoard clone = (SudokuBoard) super.clone();
+            clone.board = new SudokuField[9][9];
+            clone.rows = new ArrayList<>(rows);
+            clone.columns = new ArrayList<>(columns);
+            clone.boxes = new ArrayList<>(boxes);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    clone.board[i][j] = board[i][j].clone();
                 }
             }
-            clone.boxes.set(i,new SudokuBox(box));
+            for (int i = 0; i < 9; i++) {
+                SudokuField[] column = new SudokuField[9];
+                for (int j = 0; j < 9; j++) {
+                    column[j] = clone.board[j][i];
+                }
+                clone.rows.set(i, new SudokuRow(clone.board[i]));
+                clone.columns.set(i, new SudokuColumn(column));
+
+                SudokuField[] box = new SudokuField[9];
+                int j = 0;
+                for (int k = (i / 3) * 3; k < (i / 3) * 3 + 3; k++) {
+                    for (int l = (i % 3) * 3; l < (i % 3) * 3 + 3; l++) {
+                        box[j++] = clone.board[k][l].clone();
+                    }
+                }
+                clone.boxes.set(i, new SudokuBox(box));
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new ModelCloneNotSupportedException("clone.exception");
         }
-        return clone;
     }
 }

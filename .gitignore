@@ -10,3 +10,4 @@ Model/site/
 /View/ViewProject.iml
 /Model/ModelProject.iml
 /Aggregation/AggregationModule.iml
+*.log

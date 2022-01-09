@@ -2,6 +2,8 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import exceptions.ModelCloneNotSupportedException;
+import exceptions.ModelNullPointerException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -115,7 +117,7 @@ public class SudokuField implements Serializable, Comparable<SudokuField>, Clone
     @Override
     public int compareTo(SudokuField o) {
         if (o == null) {
-            throw new NullPointerException("Cannot compare with null");
+            throw new ModelNullPointerException("null.exception");
         }
         return this.value - o.value;
     }
@@ -127,6 +129,10 @@ public class SudokuField implements Serializable, Comparable<SudokuField>, Clone
      */
     @Override
     public SudokuField clone() throws CloneNotSupportedException {
-        return (SudokuField) super.clone();
+        try {
+            return (SudokuField) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new ModelCloneNotSupportedException("clone.exception");
+        }
     }
 }

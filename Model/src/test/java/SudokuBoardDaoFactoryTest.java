@@ -11,5 +11,6 @@ class SudokuBoardDaoFactoryTest {
     void getFileDaoTest() {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         assertTrue(factory.getFileDao("test") instanceof FileSudokuBoardDao);
+        assertTrue(SudokuBoardDaoFactory.getFileDao("test") instanceof FileSudokuBoardDao);
     }
 }
