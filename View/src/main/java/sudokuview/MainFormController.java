@@ -20,7 +20,6 @@ import sudoku.solver.BacktrackingSudokuSolver;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.LevelGenerateException;
 import sudokuview.exception.SetLanguageException;
-import sudokuview.exception.StartGameException;
 
 public class MainFormController extends FormController implements Initializable {
     @FXML
@@ -42,18 +41,16 @@ public class MainFormController extends FormController implements Initializable 
     /**
      * Action after click the button.
      * @param actionEvent action which executed event
-     * @throws StartGameException exception
      * @throws LevelGenerateException exception
      */
-    public void levelGenerate(ActionEvent actionEvent)
-            throws StartGameException, LevelGenerateException {
+    public void levelGenerate(ActionEvent actionEvent) {
         ComboBox comboBox = (ComboBox) actionEvent.getSource();
         Stage stage = (Stage) (((Node) actionEvent.getSource()).getScene().getWindow());
-        final FXMLLoader board;
+        FXMLLoader board = null;
         try {
             board = FxmlLoad.load(stage, "/Board.fxml",bundle);
         } catch (IOException e) {
-            throw new LevelGenerateException(bundle.getString("level.generate.exception"), e);
+            new LevelGenerateException(bundle.getString("level.generate.exception"), e);
         }
         SudokuBoard modelSudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         modelSudokuBoard.solveGame();
@@ -67,14 +64,20 @@ public class MainFormController extends FormController implements Initializable 
         ((BoardController) board.getController()).startGame(modelSudokuBoard);
     }
 
-    public void loadFromFile(ActionEvent actionEvent) throws BoardLoadException {
+    public void loadFromFile(ActionEvent actionEvent) {
         String loadPath = null;
         String loadPathInit = null;
         try {
             loadPath = getOpenChooserPath(actionEvent, "current.game.load.file");
+            if (loadPath.isEmpty()) {
+                return;
+            }
             loadPathInit = getOpenChooserPath(actionEvent, "initial.game.load.file");
+            if (loadPathInit.isEmpty()) {
+                return;
+            }
         } catch (Exception e) {
-            throw new BoardLoadException(bundle.getString("load.exception"), e);
+            new BoardLoadException(bundle.getString("load.exception"), e);
         }
         try (Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao(loadPath);
              Dao<SudokuBoard> daoInit = SudokuBoardDaoFactory.getFileDao(loadPathInit)
@@ -93,9 +96,9 @@ public class MainFormController extends FormController implements Initializable 
                     initSudokuBoard
             );
         } catch (ModelDaoReadException e) {
-            throw new BoardLoadException(bundle.getString(e.getMessage()), e);
+            new BoardLoadException(bundle.getString(e.getMessage()), e);
         } catch (Exception e) {
-            throw new BoardLoadException(bundle.getString("load.exception"), e);
+            new BoardLoadException(bundle.getString("load.exception"), e);
         }
     }
 
@@ -104,8 +107,7 @@ public class MainFormController extends FormController implements Initializable 
      * @param actionEvent ActionEvent
      * @throws SetLanguageException exception
      */
-    public void setLanguage(ActionEvent actionEvent)
-            throws SetLanguageException {
+    public void setLanguage(ActionEvent actionEvent) {
         try {
             bundle = ResourceBundle.getBundle(
                 "Language",
@@ -118,7 +120,7 @@ public class MainFormController extends FormController implements Initializable 
                                                          .getOwnerWindow();
             FxmlLoad.load(stage,"/MainForm.fxml",bundle);
         } catch (Exception e) {
-            throw new SetLanguageException(bundle.getString("set.language.exception"), e);
+            new SetLanguageException(bundle.getString("set.language.exception"), e);
         }
     }
 }
