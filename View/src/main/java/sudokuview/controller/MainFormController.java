@@ -1,4 +1,4 @@
-package sudokuview;
+package sudokuview.controller;
 
 import dao.Dao;
 import dao.SudokuBoardDaoFactory;
@@ -17,6 +17,8 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
+import sudokuview.FxmlLoad;
+import sudokuview.Levels;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.LevelGenerateException;
 import sudokuview.exception.SetLanguageException;

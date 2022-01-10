@@ -1,4 +1,4 @@
-package sudokuview;
+package sudokuview.controller;
 
 import dao.Dao;
 import dao.FileSudokuBoardFullDao;
@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -23,9 +24,14 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.SudokuBoard;
+import sudokuview.AlertBox;
+import sudokuview.BoardIterator;
+import sudokuview.FileChoose;
+import sudokuview.FxmlLoad;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.BoardSaveException;
 import sudokuview.exception.NewGameException;
+import sudokuview.exception.SaveToDatabaseException;
 import sudokuview.exception.SetLanguageException;
 import sudokuview.exception.StartGameException;
 
@@ -246,6 +252,24 @@ public class BoardController extends FormController implements Initializable {
             FxmlLoad.load(stage, "/MainForm.fxml", bundle);
         } catch (IOException e) {
             new NewGameException(bundle.getString("new.game.exception"), e);
+        }
+    }
+
+    /**
+     * Method saves board to database.
+     * @param actionEvent ActionEvent
+     */
+    public void saveToDatabase(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = FxmlLoad.loadNewWindow(
+                    "/SaveToDatabase.fxml",
+                    bundle.getString("choose.board.name.to.save"),
+                    bundle
+            );
+            ((SaveToDatabaseController) fxmlLoader.getController())
+                    .setBoards(modelBoard, initialBoard);
+        } catch (IOException e) {
+            new SaveToDatabaseException(bundle.getString("save.exception"), e);
         }
     }
 }
