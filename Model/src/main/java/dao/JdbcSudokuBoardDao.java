@@ -31,7 +31,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             statement = con.createStatement();
             con.setAutoCommit(false);
         } catch (SQLException e) {
-            throw new ModelDatabaseCreateException("databasecreate.exception",new Throwable());
+            throw new ModelDatabaseCreateException("databasecreate.exception", new Throwable());
         }
         try {
             execute("CREATE TABLE boards "
@@ -44,7 +44,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            return;
         }
         try {
             execute("CREATE TABLE fields "
@@ -57,7 +56,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            return;
         }
     }
 
@@ -90,8 +88,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             if (id.equals("")) {
                 throw new ModelDaoReadException("databasenoinfo.exception", new Throwable());
             }
-            ResultSet rs2 = executeQuery("SELECT * FROM fields "
-                    + "WHERE boardId=" + id);
+            ResultSet rs2 = executeQuery("SELECT * FROM fields WHERE boardId=" + id);
             while (rs2.next()) {
                 databaseBoard.set(Integer.parseInt(rs2.getString("x")),
                         Integer.parseInt(rs2.getString("y")),
