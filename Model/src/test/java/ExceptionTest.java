@@ -1,5 +1,3 @@
-package dao;
-
 import exceptions.ModelCloneNotSupportedException;
 import exceptions.ModelDaoReadException;
 import exceptions.ModelDaoWriteException;
