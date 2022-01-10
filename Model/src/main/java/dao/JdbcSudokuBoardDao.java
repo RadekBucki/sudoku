@@ -1,6 +1,8 @@
 package dao;
 
 import exceptions.ModelDaoReadException;
+import exceptions.ModelDaoWriteException;
+import exceptions.ModelDatabaseCreateException;
 import exceptions.ModelioException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +29,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             Connection con = DriverManager.getConnection(urlConnection);
             statement = con.createStatement();
         } catch (SQLException e) {
-            return;
+            throw new ModelDatabaseCreateException("databasecreate.exception",new Throwable());
         }
         try {
             statement.execute("CREATE TABLE boards "
@@ -48,6 +50,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     public List<SudokuBoard> read(String boardName) {
+        this.initialBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         this.boardName = boardName;
         ArrayList<SudokuBoard> list = new ArrayList<>();
         list.add(read());
@@ -66,24 +69,30 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             SudokuBoard databaseBoard = new SudokuBoard(new BacktrackingSudokuSolver());
             ResultSet rs = statement.executeQuery("SELECT * FROM boards "
                     + "WHERE boardName='" + this.boardName + "'");
-            if (rs.next()) {
-                String id = rs.getString("id");
-                ResultSet rs2 = statement.executeQuery("SELECT * FROM fields "
-                        + "WHERE boardId=" + id);
-                while (rs2.next()) {
-                    databaseBoard.set(Integer.parseInt(rs2.getString("x")),
+            String id = "";
+            while (rs.next()) {
+                if (rs.getString("boardName").equals(this.boardName)) {
+                    id = rs.getString("id");
+                }
+            }
+            if (id.equals("")) {
+                throw new ModelDaoReadException("databasenoinfo.exception", new Throwable());
+            }
+            ResultSet rs2 = statement.executeQuery("SELECT * FROM fields "
+                    + "WHERE boardId=" + id);
+            while (rs2.next()) {
+                databaseBoard.set(Integer.parseInt(rs2.getString("x")),
+                        Integer.parseInt(rs2.getString("y")),
+                        Integer.parseInt(rs2.getString("fvalue")));
+                if (rs2.getString("disabled").equals("true")) {
+                    this.initialBoard.set(Integer.parseInt(rs2.getString("x")),
                             Integer.parseInt(rs2.getString("y")),
                             Integer.parseInt(rs2.getString("fvalue")));
-                    if (Boolean.getBoolean(rs2.getString("disabled"))) {
-                        this.initialBoard.set(Integer.parseInt(rs2.getString("x")),
-                                Integer.parseInt(rs2.getString("y")),
-                                Integer.parseInt(rs2.getString("fvalue")));
-                    }
                 }
             }
             return databaseBoard;
         } catch (SQLException e) {
-            throw new ModelDaoReadException("Cannot read from database", e);
+            throw new ModelDaoReadException("databaseread.exception", e);
         }
     }
 
@@ -102,6 +111,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     public void write(SudokuBoard obj) {
         try {
             String id = "";
+            ResultSet exists = statement.executeQuery("SELECT * FROM boards "
+                    + "WHERE boardName='" + this.boardName + "'");
+            if (exists.next()) {
+                throw new ModelDaoWriteException("databasename.exception", new Throwable());
+            }
             statement.execute("INSERT INTO boards(boardName) VALUES ('" + this.boardName + "')");
             ResultSet rs = statement.executeQuery("SELECT * FROM boards "
                     + "WHERE boardName='" + this.boardName + "'");
@@ -117,7 +131,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 }
             }
         } catch (SQLException e) {
-            throw new ModelDaoReadException("Cannot write to database", e);
+            throw new ModelDaoWriteException("databasewrite.exception", e);
         }
     }
 
