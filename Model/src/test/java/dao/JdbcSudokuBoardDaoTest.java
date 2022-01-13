@@ -19,12 +19,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JdbcSudokuBoardDaoTest {
-    JdbcSudokuBoardDao dao;
     SudokuBoard board;
     SudokuBoard boardCurrent;
     @BeforeEach
     void setUp() throws CloneNotSupportedException {
-        dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase");
         board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         board.set(0,0,0);
@@ -40,51 +38,67 @@ class JdbcSudokuBoardDaoTest {
     @Test
     @DisplayName("Jdbc write/read test")
     void jdbcWriteReadTest() throws IOException {
-        dao.write(boardCurrent,board,"testTable");
-        List<SudokuBoard> boards = dao.read("testTable");
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                assertEquals(board.get(i,j),boards.get(1).get(i,j));
-                assertEquals(boardCurrent.get(i,j),boards.get(0).get(i,j));
+        try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")){
+            dao.write(boardCurrent,board,"testTable");
+            List<SudokuBoard> boards = dao.read("testTable");
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    assertEquals(board.get(i,j),boards.get(1).get(i,j));
+                    assertEquals(boardCurrent.get(i,j),boards.get(0).get(i,j));
+                }
             }
+            assertNotSame(boardCurrent,boards.get(0));
+            assertNotSame(board,boards.get(1));
+        } catch(Exception e) {
+            e.printStackTrace();
         }
-        assertNotSame(boardCurrent,boards.get(0));
-        assertNotSame(board,boards.get(1));
     }
 
     @Test
     @DisplayName("Jdbc check if not binary test")
     void jdbcCheckIfNotBinaryTest() throws SQLException {
         String urlConnection = "jdbc:derby:./target/testDatabase";
-        Connection con = DriverManager.getConnection(urlConnection);
-        Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM boards "
-                + "WHERE boardName='testTable'");
-        if (rs.next()) {
-            assertEquals("1",rs.getString("id"));
-            assertEquals("testTable",rs.getString("boardName"));
-        }
-        rs = statement.executeQuery("SELECT * FROM fields");
-        if (rs.next()) {
-            assertEquals("1",rs.getString("id"));
-            assertEquals("1",rs.getString("boardId"));
-            assertEquals("0",rs.getString("x"));
-            assertEquals("0",rs.getString("y"));
-            assertEquals(String.valueOf(board.get(0,0)),rs.getString("fvalue"));
-            assertEquals(String.valueOf(true),rs.getString("disabled"));
+        try(Connection con = DriverManager.getConnection(urlConnection)){
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM boards "
+                    + "WHERE boardName='testTable'");
+            if (rs.next()) {
+                assertEquals("1",rs.getString("id"));
+                assertEquals("testTable",rs.getString("boardName"));
+            }
+            rs = statement.executeQuery("SELECT * FROM fields");
+            if (rs.next()) {
+                assertEquals("1",rs.getString("id"));
+                assertEquals("1",rs.getString("boardId"));
+                assertEquals("0",rs.getString("x"));
+                assertEquals("0",rs.getString("y"));
+                assertEquals(String.valueOf(board.get(0,0)),rs.getString("fvalue"));
+                assertEquals(String.valueOf(true),rs.getString("disabled"));
+            }
+            rs.close();
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Test
     @DisplayName("Write negative test")
     void writeNegativeTest() {
-        assertThrows(ModelDaoWriteException.class,() -> dao.write(boardCurrent,board,"testTable"));
+        try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
+            assertThrows(ModelDaoWriteException.class, () -> dao.write(boardCurrent, board, "testTable"));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @DisplayName("Read negative test")
     void readNegativeTest() {
-        assertThrows(ModelDaoReadException.class,() -> dao.read("notExist"));
+        try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
+            assertThrows(ModelDaoReadException.class,() -> dao.read("notExist"));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
