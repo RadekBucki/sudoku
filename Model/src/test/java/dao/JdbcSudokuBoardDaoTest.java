@@ -3,12 +3,17 @@ package dao;
 import exceptions.ModelDaoReadException;
 import exceptions.ModelDaoWriteException;
 import exceptions.ModelioException;
+import org.apache.logging.log4j.core.util.FileUtils;
 import org.junit.jupiter.api.*;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileLock;
+import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +54,7 @@ class JdbcSudokuBoardDaoTest {
             }
             assertNotSame(boardCurrent,boards.get(0));
             assertNotSame(board,boards.get(1));
+            assertTrue(dao.isConnectionClosed());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -60,22 +66,23 @@ class JdbcSudokuBoardDaoTest {
         String urlConnection = "jdbc:derby:./target/testDatabase";
         try(Connection con = DriverManager.getConnection(urlConnection)){
             Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM boards "
-                    + "WHERE boardName='testTable'");
-            if (rs.next()) {
-                assertEquals("1",rs.getString("id"));
-                assertEquals("testTable",rs.getString("boardName"));
+            try(ResultSet rs = statement.executeQuery("SELECT * FROM boards "
+                    + "WHERE boardName='testTable'")){
+                if (rs.next()) {
+                    assertEquals("1",rs.getString("id"));
+                    assertEquals("testTable",rs.getString("boardName"));
+                }
             }
-            rs = statement.executeQuery("SELECT * FROM fields");
-            if (rs.next()) {
-                assertEquals("1",rs.getString("id"));
-                assertEquals("1",rs.getString("boardId"));
-                assertEquals("0",rs.getString("x"));
-                assertEquals("0",rs.getString("y"));
-                assertEquals(String.valueOf(board.get(0,0)),rs.getString("fvalue"));
-                assertEquals(String.valueOf(true),rs.getString("disabled"));
+            try(ResultSet rs2 = statement.executeQuery("SELECT * FROM fields")){
+                if (rs2.next()) {
+                    assertEquals("1",rs2.getString("id"));
+                    assertEquals("1",rs2.getString("boardId"));
+                    assertEquals("0",rs2.getString("x"));
+                    assertEquals("0",rs2.getString("y"));
+                    assertEquals(String.valueOf(board.get(0,0)),rs2.getString("fvalue"));
+                    assertEquals(String.valueOf(true),rs2.getString("disabled"));
+                }
             }
-            rs.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -86,6 +93,7 @@ class JdbcSudokuBoardDaoTest {
     void writeNegativeTest() {
         try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
             assertThrows(ModelDaoWriteException.class, () -> dao.write(boardCurrent, board, "testTable"));
+            assertTrue(dao.isConnectionClosed());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -96,6 +104,7 @@ class JdbcSudokuBoardDaoTest {
     void readNegativeTest() {
         try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
             assertThrows(ModelDaoReadException.class,() -> dao.read("notExist"));
+            assertTrue(dao.isConnectionClosed());
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -105,6 +114,18 @@ class JdbcSudokuBoardDaoTest {
     @DisplayName("createDatabaseException")
     void createDatabaseException() {
         assertThrows(ModelioException.class,() -> SudokuBoardDaoFactory.getJdbcDao("//?//"));
+    }
+
+    @Test
+    @DisplayName("Connection blocked")
+    void connectionNotEstablished() {
+        try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
+            assertThrows(ModelioException.class, () -> dao.write(boardCurrent));
+            assertThrows(ModelioException.class, dao::read);
+            assertTrue(dao.isConnectionClosed());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @BeforeAll
