@@ -49,12 +49,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                         + "disabled BOOLEAN)");
                 finalizeConnection(con);
             } catch (SQLException e) {
-                try {
-                    con.rollback();
-                    con.close();
-                } catch (SQLException throwables) {
-                    throw new ModelioException("databaserollback.exception", throwables);
-                }
+                rollbackAndClose();
             }
         } catch (SQLException e) {
             throw new ModelDatabaseCreateException("databasecreate.exception", new Throwable());
@@ -80,12 +75,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             finalizeConnection(con);
             return list;
         } catch (SQLException e) {
-            try {
-                con.rollback();
-                con.close();
-            } catch (SQLException throwables) {
-                throw new ModelioException("databaserollback.exception", throwables);
-            }
+            rollbackAndClose();
             throw new ModelDaoReadException("databaseread.exception", new Throwable());
         }
     }
@@ -128,12 +118,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
             return databaseBoard;
         } catch (SQLException e) {
-            try {
-                con.rollback();
-                con.close();
-            } catch (SQLException throwables) {
-                throw new ModelioException("databaserollback.exception", throwables);
-            }
+            rollbackAndClose();
             throw new ModelDaoReadException("databaseread.exception", e);
         }
     }
@@ -155,12 +140,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             write(current);
             finalizeConnection(con);
         } catch (SQLException e) {
-            try {
-                con.rollback();
-                con.close();
-            } catch (SQLException throwables) {
-                throw new ModelDaoWriteException("databaserollback.exception", throwables);
-            }
+            rollbackAndClose();
             throw new ModelDaoWriteException("databasewrite.exception", new Throwable());
         }
     }
@@ -200,12 +180,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 }
             }
         } catch (SQLException e) {
-            try {
-                con.rollback();
-                con.close();
-            } catch (SQLException throwables) {
-                throw new ModelioException("databaserollback.exception", throwables);
-            }
+            rollbackAndClose();
             throw new ModelDaoWriteException("databasewrite.exception", e);
         }
     }
@@ -232,12 +207,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             finalizeConnection(con);
             return list;
         } catch (SQLException e) {
-            try {
-                con.rollback();
-                con.close();
-            } catch (SQLException throwables) {
-                throw new ModelDaoWriteException("databaserollback.exception", throwables);
-            }
+            rollbackAndClose();
             throw new ModelDatabaseCreateException("databasecreate.exception", new Throwable());
         }
     }
@@ -270,5 +240,17 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
      */
     public boolean isConnectionClosed() throws SQLException {
         return con.isClosed();
+    }
+
+    /**
+     * Method rollback transaction and close connection.
+     */
+    private void rollbackAndClose() throws ModelioException {
+        try {
+            con.rollback();
+            con.close();
+        } catch (SQLException throwables) {
+            throw new ModelioException("databaserollback.exception", throwables);
+        }
     }
 }

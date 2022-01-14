@@ -3,17 +3,11 @@ package dao;
 import exceptions.ModelDaoReadException;
 import exceptions.ModelDaoWriteException;
 import exceptions.ModelioException;
-import org.apache.logging.log4j.core.util.FileUtils;
 import org.junit.jupiter.api.*;
 import sudoku.SudokuBoard;
 import sudoku.solver.BacktrackingSudokuSolver;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileLock;
-import java.nio.file.FileSystemException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -1,7 +1,4 @@
-import exceptions.ModelCloneNotSupportedException;
-import exceptions.ModelDaoReadException;
-import exceptions.ModelDaoWriteException;
-import exceptions.ModelNullPointerException;
+import exceptions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,5 +17,8 @@ public class ExceptionTest {
             throw new ModelCloneNotSupportedException("testModelCloneNotSupportedException");});
         assertThrows(ModelNullPointerException.class,() -> {
             throw new ModelNullPointerException("testModelNullPointerException");});
+        assertThrows(ModelJdbcException.class,() -> {
+            Exception exception = new Exception();
+            throw new ModelJdbcException("testModelJdbcException", exception);});
     }
 }

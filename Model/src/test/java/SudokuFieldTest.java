@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuFieldTest {
