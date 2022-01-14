@@ -11,9 +11,7 @@ import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuRow;
 import sudoku.solver.BacktrackingSudokuSolver;
-
 import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuBoardTest {

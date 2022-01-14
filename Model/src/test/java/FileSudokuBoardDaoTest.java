@@ -6,21 +6,9 @@ import exceptions.ModelDaoWriteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import sudoku.SudokuBoard;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
-import java.util.Random;
-import java.util.function.BiFunction;
-import java.util.stream.Stream;
-
 import sudoku.solver.BacktrackingSudokuSolver;
-import sudoku.solver.SudokuSolver;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileSudokuBoardDaoTest {
