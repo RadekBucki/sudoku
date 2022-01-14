@@ -1,8 +1,9 @@
 package sudokuview.controller;
 
+import exceptions.ModelioException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,15 +12,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
-import sudoku.solver.BacktrackingSudokuSolver;
 import sudokuview.FxmlLoad;
+import sudokuview.exception.LoadFromDatabaseException;
+import sudokuview.exception.SudokuViewException;
 
-public class LoadFromDatabaseController implements Initializable {
-    private ResourceBundle bundle;
+public class LoadFromDatabaseController extends DatabaseController implements Initializable {
     private Stage mainWindowStage;
 
     @FXML
-    public ComboBox comboBox;
+    public ComboBox<String> comboBox;
+
+    public LoadFromDatabaseController() throws SudokuViewException {
+    }
 
     /**
      * Method initialize controller with fxml file and bundle.
@@ -28,13 +32,10 @@ public class LoadFromDatabaseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.bundle = resourceBundle;
-
-        // section for add existing Board to load
+        super.initialize(url, resourceBundle);
         comboBox.getItems().addAll(
-                (new ArrayList<>()).add("test")
+                database.allSudokuBoardsSaved()
         );
-        // enf of section for add existing Board to load
     }
 
     /**
@@ -57,22 +58,24 @@ public class LoadFromDatabaseController implements Initializable {
                     bundle
             );
 
-            // load section
+            Iterator<SudokuBoard> boardsIterator = database.read(
+                    comboBox.getSelectionModel().getSelectedItem()
+            ).iterator();
 
-            SudokuBoard currentBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-            SudokuBoard initBoard = new SudokuBoard(new BacktrackingSudokuSolver());
+            SudokuBoard currentBoard = boardsIterator.next();
+            SudokuBoard initBoard = boardsIterator.next();
             ((BoardController) board.getController()).startGame(currentBoard, initBoard);
-
-            // end of load section
 
             if (mainWindowStage != null) {
                 mainWindowStage.close();
             }
 
-            Stage stage = (Stage) ((ComboBox)actionEvent.getTarget()).getScene().getWindow();
+            Stage stage = (Stage) ((ComboBox<?>)actionEvent.getTarget()).getScene().getWindow();
             stage.close();
+        } catch (ModelioException e) {
+            new LoadFromDatabaseException(bundle.getString(e.getMessage()), e);
         } catch (IOException e) {
-            e.printStackTrace();
+            new LoadFromDatabaseException(bundle.getString("databasewrite.exception"), e);
         }
     }
 }

@@ -1,5 +1,6 @@
 package sudokuview.controller;
 
+import exceptions.ModelioException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -13,14 +14,18 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sudoku.SudokuBoard;
 import sudokuview.AlertBox;
+import sudokuview.exception.SaveToDatabaseException;
+import sudokuview.exception.SudokuViewException;
 
-public class SaveToDatabaseController implements Initializable {
+public class SaveToDatabaseController extends DatabaseController implements Initializable {
     private SudokuBoard currentBoard;
     private SudokuBoard initBoard;
-    private ResourceBundle bundle;
 
     @FXML
     public TextField name;
+
+    public SaveToDatabaseController() throws SudokuViewException {
+    }
 
     /**
      * Method initialize controller with fxml file and bundle.
@@ -29,8 +34,8 @@ public class SaveToDatabaseController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        super.initialize(url, resourceBundle);
         name.textProperty().addListener(this::nameListener);
-        this.bundle = resourceBundle;
     }
 
     /**
@@ -76,7 +81,11 @@ public class SaveToDatabaseController implements Initializable {
             );
             return;
         }
-        // Call to database from model
+        try {
+            database.write(currentBoard, initBoard, boardName);
+        } catch (ModelioException e) {
+            new SaveToDatabaseException(bundle.getString(e.getMessage()), e);
+        }
         Stage stage = (Stage) ((Button)actionEvent.getTarget()).getScene().getWindow();
         stage.close();
     }
