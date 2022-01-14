@@ -494,8 +494,8 @@
             </Menu>
             <Menu mnemonicParsing="false" text="%game">
               <items>
-                <MenuItem mnemonicParsing="false" text="%check" />
-                  <MenuItem mnemonicParsing="false" onAction="#resetBoard" text="%reset" />
+                <MenuItem mnemonicParsing="false" text="%check" onAction="#check"/>
+                <MenuItem mnemonicParsing="false" onAction="#resetBoard" text="%reset"/>
               </items>
             </Menu>
             <Menu fx:id="language" mnemonicParsing="false" text="%language">
@@ -520,6 +520,6 @@
          </menus>
       </MenuBar>
       <Button fx:id="reset" layoutX="95.0" layoutY="812.0" mnemonicParsing="false" onAction="#resetBoard" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%reset" />
-      <Button fx:id="check" layoutX="614.0" layoutY="812.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%check" />
+      <Button fx:id="check" layoutX="614.0" layoutY="812.0" mnemonicParsing="false" onAction="#check" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%check" />
    </children>
 </Pane>

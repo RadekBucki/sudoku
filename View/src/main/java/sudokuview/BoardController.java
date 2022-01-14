@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -247,5 +248,50 @@ public class BoardController extends FormController implements Initializable {
         } catch (IOException e) {
             new NewGameException(bundle.getString("new.game.exception"), e);
         }
+    }
+
+    /**
+     * Check board.
+     * @param actionEvent ActionEvent
+     */
+    public void check(ActionEvent actionEvent) {
+        if (checkBoard(modelBoard)) {
+            AlertBox.alertShow(
+                    bundle.getString("win"),
+                    bundle.getString("win.congratulations"),
+                    Alert.AlertType.CONFIRMATION
+            );
+        } else {
+            AlertBox.alertShow(
+                    bundle.getString("lose"),
+                    bundle.getString("lose.consolation"),
+                    Alert.AlertType.CONFIRMATION
+            );
+        }
+    }
+
+    /**
+     * Method returns status of solving board.
+     * @param board SudokuBoard
+     * @return boolean
+     */
+    private boolean checkBoard(SudokuBoard board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.get(i, j) == 0) {
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if (
+                    !(board.getRow(i).verify()
+                    && board.getColumn(i).verify()
+                    && board.getBox(i / 3, i % 3).verify())
+            ) {
+                return false;
+            }
+        }
+        return true;
     }
 }
