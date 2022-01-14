@@ -21,11 +21,18 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     private SudokuBoard initialBoard;
     private String urlConnection;
 
+    /**
+     * Constructor of dbDao.
+     * @param dbname name of database.
+     */
     public JdbcSudokuBoardDao(String dbname) {
         urlConnection = "jdbc:derby:./target/" + dbname + ";create=true";
         createDatabase();
     }
 
+    /**
+     * Creates database.
+     */
     private void createDatabase() {
         try (Connection con = DriverManager.getConnection(urlConnection)) {
             initializeConnection(con);
@@ -54,6 +61,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         }
     }
 
+    /**
+     * Reads two boards from database.
+     * @param boardName name of baord to save.
+     * @return list of current and initial boards
+     * @throws ModelioException Database rollback exception.
+     * @throws ModelDaoReadException Database read exception.
+     */
     public List<SudokuBoard> read(String boardName) {
         try (Connection con = DriverManager.getConnection(urlConnection)) {
             this.boardName = boardName;
@@ -72,7 +86,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             } catch (SQLException throwables) {
                 throw new ModelioException("databaserollback.exception", throwables);
             }
-            throw new ModelDaoReadException("databasecreate.exception", new Throwable());
+            throw new ModelDaoReadException("databaseread.exception", new Throwable());
         }
     }
 
@@ -124,6 +138,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         }
     }
 
+    /**
+     * Writes two boards to database.
+     * @param current current sudokuboard obj.
+     * @param initial initial sudokuboard obj.
+     * @param boardName name of baord to save.
+     * @throws ModelioException Database rollback error exception.
+     * @throws ModelDaoWriteException Database write exception.
+     */
     public void write(SudokuBoard current, SudokuBoard initial, String boardName) {
         try (Connection con = DriverManager.getConnection(urlConnection)) {
             this.boardName = boardName;
@@ -139,7 +161,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             } catch (SQLException throwables) {
                 throw new ModelDaoWriteException("databaserollback.exception", throwables);
             }
-            throw new ModelDatabaseCreateException("databasecreate.exception", new Throwable());
+            throw new ModelDaoWriteException("databasewrite.exception", new Throwable());
         }
     }
 
@@ -147,6 +169,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
      * Write (save) T object to file.
      *
      * @param obj object type T which should be saved to file
+     * @throws ModelioException Database rollback error exception.
+     * @throws ModelDaoWriteException Database write exception.
      */
     @Override
     public void write(SudokuBoard obj) {
@@ -187,20 +211,63 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     }
 
     @Override
-    public void close() throws ModelioException, SQLException {
+    public void close() throws ModelioException {
     }
 
+    /**
+     * Lists all saved sudokuboard names.
+     *
+     * @return List names of all saved sudokuboards.
+     */
+    public List<String> allSudokuBoardsSaved() {
+        List<String> list = new ArrayList<>();
+        try (Connection con = DriverManager.getConnection(urlConnection)) {
+            initializeConnection(con);
+            con.beginRequest();
+            try (ResultSet rs = statement.executeQuery("SELECT boardName FROM boards")) {
+                while (rs.next()) {
+                    list.add(rs.getString("boardName"));
+                }
+            }
+            finalizeConnection(con);
+            return list;
+        } catch (SQLException e) {
+            try {
+                con.rollback();
+                con.close();
+            } catch (SQLException throwables) {
+                throw new ModelDaoWriteException("databaserollback.exception", throwables);
+            }
+            throw new ModelDatabaseCreateException("databasecreate.exception", new Throwable());
+        }
+    }
+
+    /**
+     * Initialize connection with database.
+     * @param con established connection.
+     * @throws SQLException sqlexception.
+     */
     private void initializeConnection(Connection con) throws SQLException {
         this.con = con;
         statement = con.createStatement();
         con.setAutoCommit(false);
     }
 
+    /**
+     * Closes connection with database.
+     * @param con established connection.
+     * @throws SQLException sqlexception.
+     */
     private void finalizeConnection(Connection con) throws SQLException {
         con.commit();
         con.endRequest();
     }
 
+    /**
+     * Check if connection is closed.
+     * @return conEstablishment
+     * @throws SQLException sqlexception.
+     */
     public boolean isConnectionClosed() throws SQLException {
         return con.isClosed();
     }

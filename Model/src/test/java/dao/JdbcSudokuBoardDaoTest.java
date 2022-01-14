@@ -128,6 +128,18 @@ class JdbcSudokuBoardDaoTest {
         }
     }
 
+    @Test
+    @DisplayName("List all sudokuboard names test")
+    void listAllSudokuboardNamesTest() {
+        try(JdbcSudokuBoardDao dao = (JdbcSudokuBoardDao)SudokuBoardDaoFactory.getJdbcDao("testDatabase")) {
+            assertEquals(1,dao.allSudokuBoardsSaved().size());
+            dao.write(boardCurrent,board,"testTable2");
+            assertEquals(2,dao.allSudokuBoardsSaved().size());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @BeforeAll
     static void clean() throws IOException {
         File file = new File("target/testDatabase");
