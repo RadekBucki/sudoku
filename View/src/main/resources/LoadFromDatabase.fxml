@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="289.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.controller.LoadFromDatabaseController">
    <children>
-      <ComboBox fx:id="comboBox" onAction="#loadBoard" layoutX="47.0" layoutY="123.0" prefHeight="132.0" prefWidth="418.0" />
+      <ComboBox fx:id="comboBox" onAction="#loadBoard" layoutX="47.0" layoutY="123.0" prefHeight="132.0" prefWidth="418.0" style="-fx-font-size: 36;" />
       <Text layoutX="48.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="%choose.board.to.load" />
    </children>
 </AnchorPane>
