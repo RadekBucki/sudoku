@@ -7,4 +7,5 @@ open module ModelProject {
     exports sudoku.solver;
     exports dao;
     exports exceptions;
+    exports sudoku.group;
 }
