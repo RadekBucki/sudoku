@@ -10,18 +10,20 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
+import javafx.beans.property.adapter.JavaBeanIntegerProperty;
+import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.util.StringConverter;
 import sudoku.SudokuBoard;
 import sudokuview.exception.BoardLoadException;
 import sudokuview.exception.BoardSaveException;
@@ -32,6 +34,7 @@ import sudokuview.exception.StartGameException;
 public class BoardController extends FormController implements Initializable {
     private SudokuBoard initialBoard;
     private SudokuBoard modelBoard;
+    private JavaBeanIntegerProperty[][] integerProperties = new JavaBeanIntegerProperty[9][9];
     @FXML
     private VBox board;
 
@@ -39,7 +42,6 @@ public class BoardController extends FormController implements Initializable {
         private SudokuBoard sudokuBoard;
         private int xx;
         private int yy;
-        private static Logger logger = LoggerFactory.getLogger(SudokuFieldAdapter.class);
 
         public SudokuFieldAdapter(SudokuBoard board, int x, int y) {
             this.sudokuBoard = board;
@@ -47,19 +49,13 @@ public class BoardController extends FormController implements Initializable {
             this.yy = y;
         }
 
-        public String getValue() {
-            return String.valueOf(this.sudokuBoard.get(xx, yy));
+        public int getValue() {
+            return this.sudokuBoard.get(xx, yy);
         }
 
-        public void setValue(String value) {
-            if (value.equals("")) {
-                value = "0";
-            }
-            if (value.length() == 1 && '0' <= value.charAt(0) && value.charAt(0) <= '9'
-                    && Integer.parseInt(value) != this.sudokuBoard.get(xx, yy)) {
-                logger.info("Sudoku board changed x=" + xx + " y=" + yy + " oldValue="
-                        + this.sudokuBoard.get(xx, yy) + " newValue=" + value);
-                this.sudokuBoard.set(xx, yy, Integer.parseInt(value));
+        public void setValue(int value) {
+            if (value >= 0 && value <= 9 && value != this.sudokuBoard.get(xx, yy)) {
+                this.sudokuBoard.set(xx, yy, value);
             }
         }
     }
@@ -96,9 +92,13 @@ public class BoardController extends FormController implements Initializable {
                 textField.textProperty().addListener(this::fieldListener);
                 SudokuFieldAdapter fieldAdapter = new SudokuFieldAdapter(
                         modelSudokuBoard, bi.getRow(), bi.getCol());
-                StringProperty fieldProperty = JavaBeanStringPropertyBuilder.create()
-                        .bean(fieldAdapter).name("value").build();
-                textField.textProperty().bindBidirectional(fieldProperty);
+                integerProperties[bi.getCol()][bi.getRow()] =
+                        JavaBeanIntegerPropertyBuilder.create()
+                                .bean(fieldAdapter).name("value").build();
+                textField.textProperty().bindBidirectional(
+                        integerProperties[bi.getCol()][bi.getRow()],
+                        (StringConverter) new Converter()
+                );
             }
             initialBoard = modelSudokuBoard.clone();
         } catch (ModelCloneNotSupportedException e) {
@@ -247,5 +247,61 @@ public class BoardController extends FormController implements Initializable {
         } catch (IOException e) {
             new NewGameException(bundle.getString("new.game.exception"), e);
         }
+    }
+
+    /**
+     * Check board.
+     * @param actionEvent ActionEvent
+     */
+    public void check(ActionEvent actionEvent) {
+        if (checkBoard(modelBoard)) {
+            AlertBox.alertShow(
+                    bundle.getString("win"),
+                    bundle.getString("win.congratulations"),
+                    Alert.AlertType.CONFIRMATION
+            );
+            if (actionEvent.getSource() instanceof MenuItem) {
+                newGame(actionEvent);
+            } else {
+                Stage stage = (Stage) ((Button) actionEvent.getSource())
+                        .getScene().getWindow();
+                try {
+                    FxmlLoad.load(stage, "/MainForm.fxml", bundle);
+                } catch (IOException e) {
+                    new NewGameException(bundle.getString("new.game.exception"), e);
+                }
+            }
+        } else {
+            AlertBox.alertShow(
+                    bundle.getString("lose"),
+                    bundle.getString("lose.consolation"),
+                    Alert.AlertType.CONFIRMATION
+            );
+        }
+    }
+
+    /**
+     * Method returns status of solving board.
+     * @param board SudokuBoard
+     * @return boolean
+     */
+    private boolean checkBoard(SudokuBoard board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.get(i, j) == 0) {
+                    return false;
+                }
+            }
+        }
+        for (int i = 0; i < 9; i++) {
+            if (
+                    !(board.getRow(i).verify()
+                    && board.getColumn(i).verify()
+                    && board.getBox(i / 3, i % 3).verify())
+            ) {
+                return false;
+            }
+        }
+        return true;
     }
 }
