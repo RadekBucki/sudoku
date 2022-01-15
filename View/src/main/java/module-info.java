@@ -6,4 +6,5 @@ module ViewProject {
     requires slf4j.api;
     requires log4j.api;
     opens sudokuview;
+    opens sudokuview.controller;
 }

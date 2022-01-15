@@ -29,7 +29,7 @@ public class Levels {
          *
          * @param board which will be prepared
          */
-        void prepare(SudokuBoard board) {
+        public void prepare(SudokuBoard board) {
             Random generator = new Random();
             boolean changed;
             for (int i = 0; i < fieldsToRemove; i++) {
