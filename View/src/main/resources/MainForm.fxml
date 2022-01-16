@@ -4,26 +4,26 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.RadioMenuItem?>
-<?import javafx.scene.control.ToggleGroup?>
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.MainFormController">
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.controller.MainFormController">
    <children>
-      <Text layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TurboSudoku" textAlignment="CENTER" wrappingWidth="600.0">
+      <Text layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TurboSudoku" textAlignment="CENTER" wrappingWidth="600.0">
          <font>
             <Font size="72.0" />
          </font>
       </Text>
-      <Text fx:id="levelChooseText" layoutX="2.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%levelChooseText">
+      <Text fx:id="levelChooseText" layoutX="2.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%level.choose.text">
          <font>
             <Font size="48.0" />
          </font>
       </Text>
-      <MenuBar layoutY="1.0">
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
          <menus>
             <Menu fx:id="file" mnemonicParsing="false" text="%file">
                <items>
@@ -35,6 +35,11 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="%database">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadFromDatabase" text="%load" />
                </items>
             </Menu>
             <Menu fx:id="language" mnemonicParsing="false" text="%language">

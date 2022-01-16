@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.BoardController">
+<Pane prefHeight="900.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudokuview.controller.BoardController">
    <children>
       <VBox fx:id="board" layoutX="94.0" layoutY="91.0" prefHeight="720.0" prefWidth="720.0">
          <children>
@@ -470,16 +470,16 @@
       <Line endX="6.0" endY="7.0" layoutX="88.0" layoutY="85.0" startX="6.5" startY="726.5" />
       <Line endX="7.0" endY="726.0" layoutX="87.0" layoutY="85.0" startX="727.0" startY="726.0" />
       <Line endX="726.0" endY="7.0" layoutX="87.0" layoutY="85.0" startX="726.0" startY="726.5" />
-      <Text layoutX="3.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TurboSudoku" textAlignment="CENTER" wrappingWidth="873.0">
+      <Text layoutX="3.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TurboSudoku" textAlignment="CENTER" wrappingWidth="873.0">
          <font>
             <Font size="72.0" />
          </font>
       </Text>
-      <MenuBar layoutY="1.0">
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="900.0">
          <menus>
             <Menu fx:id="file" mnemonicParsing="false" text="%file">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#newGame" text="%newGame" />
+                  <MenuItem mnemonicParsing="false" onAction="#newGame" text="%new.game" />
                   <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveToFile" text="%save">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -492,10 +492,16 @@
                   </MenuItem>
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="%database">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#loadFromDatabase" text="%load" />
+                <MenuItem mnemonicParsing="false" onAction="#saveToDatabase" text="%save" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="%game">
               <items>
-                <MenuItem mnemonicParsing="false" text="%check" />
-                  <MenuItem mnemonicParsing="false" onAction="#resetBoard" text="%reset" />
+                <MenuItem mnemonicParsing="false" text="%check" onAction="#check"/>
+                <MenuItem mnemonicParsing="false" onAction="#resetBoard" text="%reset"/>
               </items>
             </Menu>
             <Menu fx:id="language" mnemonicParsing="false" text="%language">
@@ -520,6 +526,6 @@
          </menus>
       </MenuBar>
       <Button fx:id="reset" layoutX="95.0" layoutY="812.0" mnemonicParsing="false" onAction="#resetBoard" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%reset" />
-      <Button fx:id="check" layoutX="614.0" layoutY="812.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%check" />
+      <Button fx:id="check" layoutX="614.0" layoutY="812.0" mnemonicParsing="false" onAction="#check" prefHeight="68.0" prefWidth="200.0" style="-fx-font-size: 36;" text="%check" />
    </children>
 </Pane>

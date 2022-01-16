@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sudoku.group.SudokuBox;
 import sudoku.group.SudokuColumn;
 import sudoku.group.SudokuGroup;
@@ -22,6 +24,7 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
     private List<SudokuColumn> columns = Arrays.asList(new SudokuColumn[9]);
     private List<SudokuBox> boxes = Arrays.asList(new SudokuBox[9]);
     private SudokuSolver sudokuSolver;
+    private static Logger logger = LoggerFactory.getLogger(SudokuBoard.class);
 
     /**
      * Constructor.
@@ -89,6 +92,8 @@ public class SudokuBoard implements PropertyChangeListener, Serializable, Clonea
      */
     public void set(int x, int y, int value) {
         if (x >= 0 && x <= 8 && y >= 0 && y <= 8 && value >= 0 && value <= 9) {
+            logger.info("Sudoku board changed x=" + x + " y=" + y + " oldValue="
+                    + get(x, y) + " newValue=" + value);
             (board[x][y]).setFieldValue(value);
         }
     }

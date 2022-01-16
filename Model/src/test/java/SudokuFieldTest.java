@@ -1,9 +1,9 @@
+import exceptions.ModelNullPointerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sudoku.SudokuField;
 import sudoku.group.SudokuRow;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SudokuFieldTest {
@@ -62,7 +62,7 @@ public class SudokuFieldTest {
         field1.setFieldValue(4);
         assertEquals(field1.compareTo(field2),2);
         assertEquals(field2.compareTo(field1),-2);
-        assertThrows(NullPointerException.class,()->{field1.compareTo(null);});
+        assertThrows(ModelNullPointerException.class,()->{field1.compareTo(null);});
     }
 
     @Test

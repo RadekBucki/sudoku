@@ -1,5 +1,7 @@
-package dao;
-
+import dao.Dao;
+import dao.FileSudokuBoardFullDao;
+import dao.SudokuBoardDaoFactory;
+import exceptions.ModelDaoWriteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +43,7 @@ class DaoDecoratorTest {
         try(Dao<SudokuBoard> dao = SudokuBoardDaoFactory.getFileDao("test")) {
             try(Dao<SudokuBoard> daoDecorator = new FileSudokuBoardFullDao(dao,board1,"?")) {
                 Exception exception = assertThrows(
-                        RuntimeException.class,
+                        ModelDaoWriteException.class,
                         () -> daoDecorator.write(board1)
                 );
                 assertNotNull(exception);
