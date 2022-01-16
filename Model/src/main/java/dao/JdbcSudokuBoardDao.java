@@ -174,9 +174,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             int idNum = Integer.parseInt(id);
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
+                    boolean disabled = this.initialBoard.get(i, j) == obj.get(i, j);
+                    if (obj.get(i, j) == 0) {
+                        disabled = false;
+                    }
                     statement.execute("INSERT INTO fields(boardId,x,y,fvalue,disabled) VALUES "
                             + "(" + idNum + "," + i + "," + j + "," + obj.get(i, j) + ","
-                            + (this.initialBoard.get(i, j) == obj.get(i, j)) + ")");
+                            + disabled + ")");
                 }
             }
         } catch (SQLException e) {

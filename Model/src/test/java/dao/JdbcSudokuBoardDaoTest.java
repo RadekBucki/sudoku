@@ -74,7 +74,6 @@ class JdbcSudokuBoardDaoTest {
                     assertEquals("0",rs2.getString("x"));
                     assertEquals("0",rs2.getString("y"));
                     assertEquals(String.valueOf(board.get(0,0)),rs2.getString("fvalue"));
-                    assertEquals(String.valueOf(true),rs2.getString("disabled"));
                 }
             }
         } catch(Exception e) {
