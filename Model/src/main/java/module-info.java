@@ -3,6 +3,7 @@ open module ModelProject {
     requires com.google.common;
     requires slf4j.api;
     requires java.sql;
+    requires derby;
     exports sudoku;
     exports sudoku.solver;
     exports dao;
